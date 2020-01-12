@@ -1,0 +1,17 @@
+{
+  "name": "cris-tasor",
+  "version": "1.0.0",
+  "description": "A simplistic task management app",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -c-1 -p 8081"
+  },
+  "keywords": [
+    "pwa"
+  ],
+  "author": "Cristian Mihaita",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.10.0"
+  }
+}
