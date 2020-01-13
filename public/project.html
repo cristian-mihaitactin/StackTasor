@@ -12,7 +12,7 @@
   <title>An Example PWA</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
   <link rel="stylesheet" href="/src/css/app.css">
-  <link rel="stylesheet" href="/src/css/index.css">
+  <link rel="stylesheet" href="/src/css/project.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -41,48 +41,79 @@
   </div>
 </nav>
 
-<article class="card" id="pwa">
+<article class="card">
   <div class="card__content">
-    <h3>Projects:</h3>
-    <div class="row">
-        <div class="col-lg-12">
-          <p>
-            <a href="#" class="btn btn-square btn-primary">
-                <i class="fa fa-user fa-5x"></i><br/>
-                Demo Primary <br>Button
-            </a>
-            <a href="#" class="btn btn-square btn-success">
-              <i class="fa fa-user fa-5x"></i><br/>
-              Demo Success <br>Button
-            </a>
-            <a href="#" class="btn btn-square btn-info">
-              <i class="fa fa-user fa-5x"></i><br/>
-              Demo Info <br>Button
-            </a>
-            <a href="#" class="btn btn-square btn-warning">
-              <i class="fa fa-user fa-5x"></i><br/>
-              Demo Warning <br>Button
-            </a>
-            <a href="#" class="btn btn-square btn-danger">
-              <i class="fa fa-user fa-5x"></i><br/>
-              Demo Danger <br>Button
-            </a>
-            <a href="#" class="btn btn-square btn-info btn-addproject">
-              <i class="fa fa-user fa-5x"></i><br/>
-              Click to <br>Add Project
-            </a>
-          </p>
+    <button type="button" class="collapsible"><strong>Title</strong></button>
+    <div class="content">
+        <p>Lorem ipsum...</p>
+        <div class="row">
+            <strong>Created: </strong> <span>Created datetime</span>
         </div>
-	</div>
+
+        <hr>
+
+        <div class="row">
+            <strong>Updated: </strong> <span>Update datetime</span>
+        </div>
+        <div class="row">
+            <strong>Is working: </strong> <span>Show if someone working on the item</span>
+        </div>
+        <div class="row">
+            <strong>Status: </strong> <span>This is a status. Colored text status</span>
+        </div>
+        <div class="row">
+            <strong>Evidence of Done: </strong> <span>Link to evidence of done. is hidden</span>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <strong>Type: </strong> <span>Type of task</span>
+        </div>
+        <div class="row">
+            <strong>Estimation: </strong> <span>Estimation ints</span>
+        </div>
+        <div class="row">
+            <strong>Work domain: </strong> <span>Work domain</span>
+        </div>
+        <div class="row">
+            <strong>Geographical zone: </strong> <span>Geo domain</span>
+        </div>
+        <div class="row">
+            <strong>Client timezone: </strong> <span>Client timezone</span>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <button>Edit - only for client</button>
+            <button>Finish</button>
+            <button>Abandon</button>
+
+            <button>Cancel - only for client</button> 
+        </div>
+    </div>
   </div>
-  <div class="card__details">
-    <p>PWAs really are awesome. And you can turn any application into a PWA.</p>
-    <p>Or simply start using some of the features that make up a complete PWA. That process is called "progressive enhancement" and what the "progressive" in "Progressive Web App" stands for.</p>
-    <p>Don't hesitate, dive into PWAs!</p>
+  <div class="card__content">
+    <a href="#">Add new Task ...</a>
   </div>
 </article>
-
-
 <script src="/src/js/app.js"></script>
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight){
+        content.style.maxHeight = null;
+        } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+        }
+    });
+    }
+</script>
 </body>
 </html>
