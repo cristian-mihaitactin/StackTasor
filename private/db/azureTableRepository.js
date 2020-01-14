@@ -1,37 +1,29 @@
 var azure = require('azure-storage');
+const dotenv = require('dotenv');
+dotenv.config();
 
 class AzureTableRepository {
-    constructor(tableName){
-      if (typeof myVar !== 'string' && !(myVar instanceof String)) {
-        throw "Table name must be a string!"
+    //Inject tableService for testing purposes
+    constructor(tableName, tableService){
+
+      if (typeof tableName !== 'string' && !(tableName instanceof String)) {
+        throw new Error("Table name must be a string!");
         }
 
       this._tableName = tableName;
-
-      this._tableService = azure.createTableService();
+      if (tableService === undefined || tableService === null){
+        this._tableService = azure.createTableService();
+      }else {
+        this._tableService = tableService;
+      }
       this._tableService.createTableIfNotExists(tableName, function(error, result, response) {
         if (error) {
           // result contains true if created; false if already exists
-          throw "Table \"" + tableName  + "\" could not be created."
+          throw new Error("Table \"" + tableName  + "\" could not be created.");
         }
       });
     }
 
-    //Inject tableService for testing purposes
-    constructor(tableName, tableService){
-      if (typeof myVar !== 'string' && !(myVar instanceof String)) {
-        throw "Table name must be a string!"
-      }
-
-      this._tableName = tableName;
-      this._tableService = tableService;
-      this._tableService.createTableIfNotExists(tableName, function(error, result, response) {
-        if (error) {
-          // result contains true if created; false if already exists
-          throw "Table \"" + tableName  + "\" could not be created."
-        }
-      });
-  }
 
     get(partitionKey, rowKey){
         this._tableService.retrieveEntity(this._tableName, partitionKey, rowKey, function(error, result, response) {
@@ -39,7 +31,7 @@ class AzureTableRepository {
               // result contains the entity
               return result;
             }else{
-              throw "Unable to retrieve entity: PartitionKey: " + partitionKey + ", RowKey: " + rowKey + ".";
+              throw new Error("Unable to retrieve entity: PartitionKey: " + partitionKey + ", RowKey: " + rowKey + ".");
             }
           });
     }
@@ -49,7 +41,7 @@ class AzureTableRepository {
           // result.entries contains entities matching the query
           return result.entries;
         }else{
-          throw "Unable to retrieve entity: Query: " + query + ".";
+          throw new Error("Unable to retrieve entity: Query: " + query + ".");
         }
       });
     }
@@ -58,7 +50,7 @@ class AzureTableRepository {
             if (!error) {
               // result contains the entity with field 'taskDone' set to `true`
             }else{
-              throw "Unable to upsert entity: PartitionKey: " + entity + ".";
+              throw new Error("Unable to upsert entity: PartitionKey: " + entity + ".");
             }
           });
     }
@@ -73,7 +65,7 @@ class AzureTableRepository {
                 // Entity deleted
                 return response;
             }else{
-              throw "Unable to remove entity: PartitionKey: " + partitionKey + ", RowKey: " + rowKey + ".";
+              throw new Error("Unable to remove entity: PartitionKey: " + partitionKey + ", RowKey: " + rowKey + ".");
             }
         });
     }
