@@ -23,6 +23,14 @@ class AzureTableRepository {
             }
           });
     }
+    getByQuery(query){
+      this..queryEntities(this._tableName, query, null, function(error, result, response) {
+        if (!error) {
+          // result.entries contains entities matching the query
+          return result.entries;
+        }
+      });
+    }
     upsert(entity) {
         this.tableService.insertOrReplaceEntity(this._tableName, entity, function(error, result, response) {
             if (!error) {
