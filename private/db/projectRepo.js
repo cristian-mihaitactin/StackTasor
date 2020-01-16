@@ -1,10 +1,9 @@
 const azure = require('azure-storage');
 const AzureTableRepository = require('./azureTableRepository');
-const User = require('../../models/user');
+const Project = require('../../models/project');
 const entGen = azure.TableUtilities.entityGenerator;
 
-const tableName = 'Users';
-const latestUserVersion = 'user-v1';
+const tableName = 'Projects';
 
 class UserRepository {
     //Inject tableService for testing purposes
@@ -16,8 +15,8 @@ class UserRepository {
       }
     }
 
-    get(userId){
-        var entity = this._azureRepository.get(latestUserVersion, userId);
+    get(accountId, ){
+        var entity = this._azureRepository.get(accountId, id);
         var model = this.entityToModel(entity);
         return model;
     }
@@ -33,31 +32,34 @@ class UserRepository {
         var newModel = this.entityToModel(newEntity);
         return newModel;
     }
-    remove(id){
-        var response = this._azureRepository.remove(latestUserVersion, id);
+    remove(accountId, id){
+        var response = this._azureRepository.remove(accountId, id);
         return response;
     }
+    
     modelToEntity(model){
         var entity = {
-            PartitionKey: entGen.String(this.latestUserVersion),
+            PartitionKey: entGen.String(model.accountId),
             RowKey: entGen.String(model.id),
+            AccountId: entGen.String(model.accountId),
+
+            Name: entGen.String(model.name),
+            Color: entGen.String(model.color),
+
             CreatedDate: entGen.DateTime(model.createdDate),
-            UpdateDate: entGen.DateTime(model.updateDate),
-            AccountType: entGen.String(model.accountType),
-            UserName: entGen.String(model.username),
-            Password: entGen.String(model.password),
-            Email: entGen.String(model.email),
+            UpdateDate: entGen.DateTime(model.updateDate)
           };
         return entity;
     }
     entityToModel(entity){
         var model = new User(entity.RowKey);
+        model.accountId = entity.AccountId;
+
+        model.name = entity.Name;
+        model.color = entity.Color;
+
         model.createdDate = entity.CreatedDate;
         model.updateDate = entity.UpdateDate;
-        model.accountType = entity.AccountType;
-        model.username = entity.UserName;
-        model.password = entity.Password;
-        model.email = entity.Email;
 
         return model;
     }
