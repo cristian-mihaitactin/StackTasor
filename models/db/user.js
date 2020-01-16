@@ -1,13 +1,13 @@
 const DbModel = require('./dbmodel');
 
-class User extends DbModel{
-    constructor(id){
+class User extends DbModel {
+    constructor(id) {
         super(id);
     }
 
     get accountType() {
         return this._accountType;
-        }
+    }
     set accountType(value) {
         this._accountType = value;
     }
@@ -32,5 +32,5 @@ class User extends DbModel{
     set email(value) {
         this._email = value;
     }
-} 
+}
 module.exports = User;

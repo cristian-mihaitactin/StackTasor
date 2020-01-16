@@ -1,7 +1,7 @@
 const Component = require('./component');
 
-class Task extends Component{
-    constructor(id){
+class Task extends Component {
+    constructor(id) {
         super(id);
     }
 
@@ -63,7 +63,7 @@ class Task extends Component{
 
     get attachedAccountId() {
         return this._attachedAccountId;
-        }
+    }
     set attachedAccountId(value) {
         this._attachedAccountId = value;
     }
