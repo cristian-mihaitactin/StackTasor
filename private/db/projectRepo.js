@@ -5,7 +5,7 @@ const entGen = azure.TableUtilities.entityGenerator;
 
 const tableName = 'Projects';
 
-class UserRepository {
+class ProjectRepository {
     //Inject tableService for testing purposes
     constructor(azureRepository){
       if (azureRepository === undefined || azureRepository === null){
@@ -36,7 +36,7 @@ class UserRepository {
         var response = this._azureRepository.remove(accountId, id);
         return response;
     }
-    
+
     modelToEntity(model){
         var entity = {
             PartitionKey: entGen.String(model.accountId),
@@ -52,7 +52,7 @@ class UserRepository {
         return entity;
     }
     entityToModel(entity){
-        var model = new User(entity.RowKey);
+        var model = new Project(entity.RowKey);
         model.accountId = entity.AccountId;
 
         model.name = entity.Name;
@@ -65,4 +65,4 @@ class UserRepository {
     }
 }
 
-module.exports = UserRepository;
+module.exports = ProjectRepository;
