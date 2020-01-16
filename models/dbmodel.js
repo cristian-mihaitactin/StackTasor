@@ -22,6 +22,13 @@ class DbModel{
         this._createdDate = value;
     }
 
+    get updateDate() {
+        return this._updateDate;
+    }
+    set updateDate(value) {
+        this._updateDate = value;
+    }
+
     update(){
         this._updateDate = new Date(new Date().toUTCString());
     }

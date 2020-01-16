@@ -1,8 +1,8 @@
+const DbModel = require('./dbmodel');
+
 class User extends DbModel{
     constructor(id){
-        if(id == null){
-            this._id = uuidv1();
-        }
+        super(id);
     }
 
     get accountType() {
