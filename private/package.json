@@ -1,0 +1,23 @@
+{
+  "name": "private",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -c-1 -p 8081",
+    "start_local": "node -r dotenv/config server.js"
+  },
+  "keywords": [],
+  "author": "Cristian Mihaita",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "http-server": "^0.10.0"
+  },
+  "dependencies": {
+    "azure-storage": "^2.10.3",
+    "jasmine": "^3.5.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "uuid": "^3.3.3"
+  }
+}
