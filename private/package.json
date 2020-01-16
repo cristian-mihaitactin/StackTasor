@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test_repotest": "jasmine spec/db_tests/AzureTableRepositorySpec.js",
+    "test_userrepotest": "jasmine spec/db_tests/UserRepoSpec.js",
     "start": "http-server -c-1 -p 8081",
     "start_local": "node -r dotenv/config server.js"
   },
