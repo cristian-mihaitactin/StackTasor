@@ -1,3 +1,5 @@
+const DbModel = require('./dbmodel');
+
 class Component extends DbModel{
     constructor(id){
         super(id);

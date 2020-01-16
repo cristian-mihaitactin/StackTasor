@@ -53,6 +53,9 @@ class AzureTableRepository {
               throw new Error("Unable to upsert entity: PartitionKey: " + entity + ".");
             }
           });
+
+          var newEntity = this.get(entity.PartitionKey, entity.RowKey);
+          return newEntity;
     }
     remove(partitionKey, rowKey){
         var task = {

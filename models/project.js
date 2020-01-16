@@ -1,3 +1,5 @@
+const Component = require('./component');
+
 class Project extends Component{
     constructor(id){
         super(id);

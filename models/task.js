@@ -1,3 +1,5 @@
+const Component = require('./component');
+
 class Task extends Component{
     constructor(id){
         super(id);
