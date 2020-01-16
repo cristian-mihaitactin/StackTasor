@@ -1,17 +1,19 @@
 const uuidv1 = require('uuid/v1');
 
-class DbModel{
-    constructor(id){
-        if(id == null){
+class DbModel {
+    constructor(id) {
+        if (id == null) {
             this._id = uuidv1();
             this._createdDate = new Date(new Date().toUTCString());
             this._updateDate = new Date(new Date().toUTCString());
+        } else {
+            this._id = id;
         }
     }
-    get id(){
+    get id() {
         return this._id;
     }
-    set id(value){
+    set id(value) {
         this._id = value;
     }
 
@@ -29,7 +31,7 @@ class DbModel{
         this._updateDate = value;
     }
 
-    update(){
+    update() {
         this._updateDate = new Date(new Date().toUTCString());
     }
 }

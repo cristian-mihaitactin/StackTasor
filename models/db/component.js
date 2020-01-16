@@ -1,9 +1,9 @@
 const DbModel = require('./dbmodel');
 
-class Component extends DbModel{
-    constructor(id){
+class Component extends DbModel {
+    constructor(id) {
         super(id);
-        if(id == null){
+        if (id == null) {
             this._name = "Empty"
             this._color = "#808080"
         }
