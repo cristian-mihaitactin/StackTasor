@@ -1,35 +1,34 @@
-
 var azure = require('azure-storage');
 
-describe("AzureTableRepository", function() {
+describe("AzureTableRepository", function () {
   var AzureTableRepository = require('../../private/db/azureTableRepository');
   var repo;
-  var tableStorage;//zurestorage.services.table.TableService();
+  var tableStorage; //zurestorage.services.table.TableService();
   var tableCreated = false;
-  beforeEach(function() {
+  beforeEach(function () {
     tableCreated = false;
 
     tableStorage = new azure.TableService();
-    spyOn(tableStorage, "createTableIfNotExists").and.callFake(function(tableName) {
-        tableCreated = true;
-        return {
-            error: false,
-            result: "",
-            response: ""
-        }
-      });
+    spyOn(tableStorage, "createTableIfNotExists").and.callFake(function (tableName) {
+      tableCreated = true;
+      return {
+        error: false,
+        result: "",
+        response: ""
+      }
+    });
   });
 
-  it("should create table if it does not exist", function() {
+  it("should create table if it does not exist", function () {
     tableStorage = new azure.TableService();
-    spyOn(tableStorage, "createTableIfNotExists").and.callFake(function(tableName) {
-        tableCreated = true;
-        return {
-            error: false,
-            result: "",
-            response: ""
-        }
-      });
+    spyOn(tableStorage, "createTableIfNotExists").and.callFake(function (tableName) {
+      tableCreated = true;
+      return {
+        error: false,
+        result: "",
+        response: ""
+      }
+    });
     repo = new AzureTableRepository('SpecTable', tableStorage);
 
     expect(tableStorage.createTableIfNotExists).toHaveBeenCalled();
@@ -37,8 +36,8 @@ describe("AzureTableRepository", function() {
     expect(repo._tableName).toEqual('SpecTable');
   });
 
-  it("should NOT create table if no name is given", function() {
-    
+  it("should NOT create table if no name is given", function () {
+
 
     expect(() => {
       repo = new AzureTableRepository(undefined, tableStorage)
