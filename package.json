@@ -4,11 +4,8 @@
   "description": "A simplistic task management app",
   "main": "index.js",
   "scripts": {
-    "start_local_experiment": "node -r dotenv/config && http-server -c-1 -p 8081",
     "start": "http-server -c-1 -p 8081",
-    "start_local": "node -r dotenv/config server.js",
-    "test_repotest": "jasmine spec/db_tests/AzureTableRepositorySpec.js",
-    "test_userrepotest": "jasmine spec/db_tests/UserRepoSpec.js"
+    "start_local": "node -r dotenv/config server.js"
   },
   "keywords": [
     "pwa"
