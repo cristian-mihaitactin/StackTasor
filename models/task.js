@@ -4,6 +4,14 @@ class Task extends Component{
     constructor(id){
         super(id);
     }
+
+    get projectId() {
+        return this._projectId;
+    }
+    set projectId(value) {
+        this._projectId = value;
+    }
+
     get decription() {
         return this._decription;
     }
