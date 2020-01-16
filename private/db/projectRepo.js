@@ -15,7 +15,7 @@ class ProjectRepository {
       }
     }
 
-    get(accountId, ){
+    get(accountId, id){
         var entity = this._azureRepository.get(accountId, id);
         var model = this.entityToModel(entity);
         return model;
@@ -39,9 +39,9 @@ class ProjectRepository {
 
     modelToEntity(model){
         var entity = {
-            PartitionKey: entGen.String(model.accountId),
-            RowKey: entGen.String(model.id),
-            AccountId: entGen.String(model.accountId),
+            PartitionKey: entGen.Guid(model.accountId),
+            RowKey: entGen.Guid(model.id),
+            AccountId: entGen.Guid(model.accountId),
 
             Name: entGen.String(model.name),
             Color: entGen.String(model.color),

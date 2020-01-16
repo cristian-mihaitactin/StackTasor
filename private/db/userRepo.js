@@ -40,7 +40,7 @@ class UserRepository {
     modelToEntity(model){
         var entity = {
             PartitionKey: entGen.String(this.latestUserVersion),
-            RowKey: entGen.String(model.id),
+            RowKey: entGen.Guid(model.id),
             CreatedDate: entGen.DateTime(model.createdDate),
             UpdateDate: entGen.DateTime(model.updateDate),
             AccountType: entGen.String(model.accountType),
