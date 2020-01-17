@@ -42,14 +42,12 @@ class UserController {
     }
   };
 
-  remove(req, res) {
-    try{
-      var repoResponse = this._repo.remove(req.params.id);
-      res.json(repoResponse);
-    } catch (e) {
-      console.log('UserControler error: ' + e);
+  async remove(req, res) {
+    await this._repo.remove(req.params.id).then((value) => {
+      res.json(value);
+    }).catch((e) =>{
       res.send(e);
-    }
+    });
   };
 
   jsonToObject(jsonString){
