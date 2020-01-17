@@ -16,30 +16,56 @@ class UserRepository {
     }
   }
 
-  get(userId) {
-    var entity = this._azureRepository.get(latestUserVersion, userId);
-    var model = this.entityToModel(entity);
+  async get(userId) {
+    var model = '';
+    await this._azureRepository.get(latestUserVersion, userId).then((value) => {
+      model = this.entityToModel(value);
+    }).catch(
+     (reason) => {
+          console.log('Get handle rejected promise ('+reason+') here.');
+          throw new Error(reason);
+      });
+
     return model;
   }
-  getByQuery(query) {
-    var entity = this._azureRepository.getByQuery(query);
-    var model = this.entityToModel(entity);
-    return model;
+  async getByQuery(query) {
+    var modelArray = new Array();
+    await this._azureRepository.getByQuery(query).then((value) => {
+      value.forEach((item, index) => {
+        var model = this.entityToModel(item);
+        modelArray.push(model);
+      });
+    }).catch(
+      (reason) => {
+           console.log('GetByQuery handle rejected promise ('+reason+') here.');
+           throw new Error(reason);
+       });
+    return modelArray;
   }
-  upsert(model) {
+  async upsert(model) {
     model.update();
     var entity = this.modelToEntity(model);
-    var newEntity = this._azureRepository.upsert(entity);
-    var newModel = this.entityToModel(newEntity);
-    return newModel;
+
+    this._azureRepository.upsert(entity).then((value) => {
+      this.entityToModel(value);
+    }).catch((e) => {
+      console.log('Upsert handle rejected promise ('+e+') here.');
+      throw new Error(e);
+    });
   }
-  remove(id) {
-    var response = this._azureRepository.remove(latestUserVersion, id);
-    return response;
+  async remove(id) {
+    await this._azureRepository.remove(latestUserVersion, id).then(
+      (value) => {
+
+      }).catch(
+        (reason) => {
+             console.log('Remove handle rejected promise ('+reason+') here.');
+             throw new Error(reason);
+         });
   }
   modelToEntity(model) {
     var entity = {
-      PartitionKey: entGen.String(this.latestUserVersion),
+      PartitionKey: entGen.String(latestUserVersion),
       RowKey: entGen.Guid(model.id),
       CreatedDate: entGen.DateTime(model.createdDate),
       UpdateDate: entGen.DateTime(model.updateDate),
@@ -52,9 +78,6 @@ class UserRepository {
   }
   entityToModel(entity) {
     var model = new User(entity.RowKey);
-    console.log("entityToModel: ")
-
-    console.log(model)
     model.createdDate = entity.CreatedDate;
     model.updateDate = entity.UpdateDate;
     model.accountType = entity.AccountType;
