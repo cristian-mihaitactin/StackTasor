@@ -37,4 +37,24 @@ module.exports = function(app) {
       .delete((req, res) => {
         _userController.remove(req, res);
       });
+
+      // Task section
+    const TaskController = require('./controller/taskController');
+    var _taskController = new TaskController();
+
+    app.route('/users/:userid/projects/:projectid/tasks')
+      .get((req, res) => {
+        _taskController.getAll(req, res);
+      })
+      .post((req, res) => {
+        _taskController.upsert(req, res);
+      });
+  
+      app.route('/users/:userid/projects/:projectid/tasks/:id')
+      .get((req, res) => {
+        _taskController.get(req, res);
+      })
+      .delete((req, res) => {
+        _taskController.remove(req, res);
+      });
   };
