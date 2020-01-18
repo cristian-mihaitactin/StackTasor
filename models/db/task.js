@@ -12,6 +12,13 @@ class Task extends Component{
         this._projectId = value;
     }
 
+    get accountId() {
+        return this._accountId;
+    }
+    set accountId(value) {
+        this._accountId = value;
+    }
+
     get decription() {
         return this._decription;
     }
@@ -68,9 +75,17 @@ class Task extends Component{
         this._attachedAccountId = value;
     }
 
+    get linkToEvidence() {
+        return this._linkToEvidence;
+        }
+    set linkToEvidence(value) {
+        this._linkToEvidence = value;
+    }
+
     toJSON() {
         var jsonObj = super.toJSON();
         jsonObj.projectId= this.projectId;
+        jsonObj.accountId= this.accountId;
         jsonObj.decription= this.decription;
         jsonObj.taskType= this.taskType;
         jsonObj.estimation= this.estimation;
@@ -79,6 +94,7 @@ class Task extends Component{
         jsonObj.timeZone= this.timeZone;
         jsonObj.workDomain= this.workDomain;
         jsonObj.attachedAccountId= this.attachedAccountId
+        jsonObj.linkToEvidence= this.linkToEvidence
 
         return jsonObj;
     }

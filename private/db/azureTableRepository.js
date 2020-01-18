@@ -19,7 +19,7 @@ class AzureTableRepository { // Inject tableService for testing purposes
             if (error) { // result contains true if created; false if already exists
                 console.log(error);
                 throw new Error("Table \"" + tableName + "\" could not be created.");
-            }
+            } else console.log('Table \"' + tableName + "\" was created.");
         });
     }
 
@@ -66,12 +66,15 @@ class AzureTableRepository { // Inject tableService for testing purposes
         return repoResponse;
     }
     upsert(entity) {
+        console.log('Upserting: ' + JSON.stringify(entity));
         return new Promise((resolve, reject) => {
-
+            console.log('In promise');
             this._tableService.insertOrReplaceEntity(this._tableName, entity, function (error, result, response) {
                 if (! error) { // result contains the entity with field 'taskDone' set to `true`
+                    console.log('Table entity upsert failed/');
                     resolve(result);
                 } else {
+                    console.log('Table entity upserted');
                     reject("Unable to upsert entity: PartitionKey: " + entity + ". Error: " + error);
                 }
             });

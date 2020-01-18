@@ -22,25 +22,35 @@ class TaskController {
         try{
           var obj = req.body;
           var task = new Task(obj.id);
-          usr.createdDate = obj.createdDate;
-          usr.updateDate = obj.updateDate;
+          task.createdDate = obj.createdDate;
+          task.updateDate = obj.updateDate;
 
-          usr.name = obj.name;
-          usr.color = obj.color;
+          task.name = obj.name;
+          task.color = obj.color;
 
-          usr.decription = obj.decription;
-          usr.taskType = obj.taskType;
-          usr.estimation = obj.estimation;
-          usr.status = obj.status;
-          usr.geographicZone = obj.geographicZone;
-          usr.timeZone = obj.timeZone;
-          usr.workDomain = obj.workDomain;
-          usr.attachedAccountId = obj.attachedAccountId;
+          task.projectId = obj.projectId;
+          task.accountId = obj.accountId;
+
+          task.decription = obj.decription;
+          task.taskType = obj.taskType;
+          task.estimation = obj.estimation;
+          task.status = obj.status;
+          task.geographicZone = obj.geographicZone;
+          task.timeZone = obj.timeZone;
+          task.workDomain = obj.workDomain;
+          task.attachedAccountId = obj.attachedAccountId;
+          task.linkToEvidence = obj.linkToEvidence;
           
           await this._repo.upsert(task);
+          setTimeout(async () => {
+            req.params['id'] = task.id;
+            req.params['projectid'] = task.projectId;
+            console.log('Task getting with: Id = ' + req.params['id'] + ', ProjectId: ' + req.params['projectid'])
+            await this.get(req, res);
+              }, 1000);
           res.json();
         } catch (e) {
-          console.log('ProjectControler error: ' + e);
+          console.log('TaskControler error: ' + e);
           res.send(e);
         }
       };

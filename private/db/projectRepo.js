@@ -15,12 +15,19 @@ class ProjectRepository {
     }
   }
   
-  async removeTable(tableName) {
-    await this._repo.removeTable(tableName);
+  async removeTable(removeTableName) {
+    if (removeTableName === undefined || removeTableName === null) {
+      await this._azureRepository.removeTable(removeTableName);
+    } else {
+      this._azureRepository.removeTable(tableName);
+    }
   }
 
   async get(accountId, id) {
     var model = '';
+    console.log('accountId: ' + accountId);
+    console.log('id: ' + id);
+
     await this._azureRepository.get(accountId, id).then((value) => {
       model = this.entityToModel(value);
     }).catch(

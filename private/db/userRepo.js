@@ -17,7 +17,6 @@ class UserRepository {
   }
 
   async removeTable(removeTableName) {
-    console.log('here')
     if (removeTableName === undefined || removeTableName === null) {
       await this._azureRepository.removeTable(removeTableName);
     } else {

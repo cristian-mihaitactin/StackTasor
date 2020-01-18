@@ -15,8 +15,12 @@ class TaskRepository {
     }
   }
 
-  async removeTable(tableName) {
-    await this._repo.removeTable(tableName);
+  async removeTable(removeTableName) {
+    if (removeTableName === undefined || removeTableName === null) {
+      await this._azureRepository.removeTable(removeTableName);
+    } else {
+      this._azureRepository.removeTable(tableName);
+    }
   }
   
   async get(projectId, id) {
@@ -48,9 +52,10 @@ class TaskRepository {
   async upsert(model) {
     model.update();
     var entity = this.modelToEntity(model);
-
-    this._azureRepository.upsert(entity).then((value) => {
-      this.entityToModel(value);
+    console.log('Task repo upserting.')
+    this._azureRepository.upsert(entity).then(() => {//(value) => {
+      console.log('Task repo upserted.')
+      // this.entityToModel(value);
     }).catch((e) => {
       console.log('Upsert handle rejected promise ('+e+') here.');
       throw new Error(e);
@@ -71,6 +76,7 @@ class TaskRepository {
       PartitionKey: entGen.Guid(model.projectId),
       RowKey: entGen.Guid(model.id),
       ProjectId: entGen.Guid(model.projectId),
+      AccountId: entGen.Guid(model.accountId),
       Decription: entGen.String(model.decription),
       TaskType: entGen.String(model.taskType),
       Estimation: entGen.Double(model.estimation),
@@ -79,6 +85,8 @@ class TaskRepository {
       TimeZone: entGen.String(model.timeZone),
       WorkDomain: entGen.String(model.workDomain),
       AttachedAccountId: entGen.Guid(model.attachedAccountId),
+      LinkToEvidence: entGen.Guid(model.linkToEvidence),
+
 
       Name: entGen.String(model.name),
       Color: entGen.String(model.color),
@@ -91,6 +99,7 @@ class TaskRepository {
   entityToModel(entity) {
     var model = new Task(entity.RowKey);
     model.projectId = entity.ProjectId;
+    model.accountId = entity.AccountId;
     model.decription = entity.Decription;
     model.taskType = entity.TaskType;
     model.estimation = entity.Estimation;
@@ -99,7 +108,7 @@ class TaskRepository {
     model.timeZone = entity.TimeZone;
     model.workDomain = entity.WorkDomain;
     model.attachedAccountId = entity.AttachedAccountId;
-
+    model.linkToEvidence = entity.linkToEvidence;
 
     model.name = entity.Name;
     model.color = entity.Color;

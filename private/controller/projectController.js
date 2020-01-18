@@ -22,16 +22,22 @@ class ProjectController {
         try{
           var obj = req.body;
           var proj = new Project(obj.id);
-          usr.createdDate = obj.createdDate;
-          usr.updateDate = obj.updateDate;
-          usr.name = obj.name;
-          usr.color = obj.color;
-          usr.accountId = obj.accountId;
+          proj.createdDate = obj.createdDate;
+          proj.updateDate = obj.updateDate;
+          proj.name = obj.name;
+          proj.color = obj.color;
+          proj.accountId = obj.accountId;
           
           await this._repo.upsert(proj);
+          setTimeout(async () => {
+            req.params['id'] = usr.id;
+            req.params['userid'] = usr.accountId;
+            await this.get(req, res);
+              }, 1000);
+
           res.json();
         } catch (e) {
-          console.log('UserControler error: ' + e);
+          console.log('ProjectController error: ' + e);
           res.send(e);
         }
       };
