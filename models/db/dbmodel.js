@@ -2,7 +2,6 @@ const uuidv1 = require('uuid/v1');
 
 class DbModel {
     constructor(id) {
-        console.log('DbModel.id= ' + id);
         if (typeof id !== 'undefined' || id == null) {
             this._id = uuidv1();
             this._createdDate = new Date(new Date().toUTCString());

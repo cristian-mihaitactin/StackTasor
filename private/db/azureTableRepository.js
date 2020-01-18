@@ -23,14 +23,14 @@ class AzureTableRepository { // Inject tableService for testing purposes
         });
     }
 
-    removeTable(tableName) {
-        let toRemoveName = tableName;
-        if (tableName === undefined || repo === tableName) {
+    removeTable(removeTableName) {
+        let toRemoveName = removeTableName;
+        if (removeTableName === undefined || removeTableName === null) {
             toRemoveName = this._tableName;
         }
 
         return new Promise((resolve, reject) => {
-            this._tableService = azure.deleteTable(toRemoveName, function(error, response){
+            this._tableService.deleteTableIfExists (toRemoveName, function(error, response){
                 if(!error){
                     // Table deleted
                     resolve(response);

@@ -35,8 +35,19 @@ class UserController {
       usr.password = obj.password;
       usr.email = obj.email;
       
+    //   await this._repo.upsert(usr).then(() => {
+    //     req.params['id'] = usr.id;
+    //     setTimeout(function(){
+    //       this.get(req, res);
+    //   }, 1000);
+    // });
+
       await this._repo.upsert(usr);
-      res.json();
+
+      setTimeout(async () => {
+        req.params['id'] = usr.id;
+        await this.get(req, res);
+          }, 1000);
     } catch (e) {
       console.log('UserControler error: ' + e);
       res.send(e);
