@@ -1,10 +1,11 @@
 const UserRepository = require('../db/userRepo');
 const User = require('../../models/db/user');
+const tableName = 'Users';
 
 class UserController {
   constructor(repo){
     if (repo === undefined || repo === null) {
-      this._repo = new UserRepository(repo);
+      this._repo = new UserRepository();
     } else {
       this._repo = repo;
     }

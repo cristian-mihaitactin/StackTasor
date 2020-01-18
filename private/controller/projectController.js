@@ -4,7 +4,7 @@ const Project = require('../../models/db/project');
 class ProjectController {
     constructor(repo){
         if (repo === undefined || repo === null) {
-          this._repo = new ProjectRepository(repo);
+          this._repo = new ProjectRepository();
         } else {
           this._repo = repo;
         }

@@ -16,6 +16,10 @@ class UserRepository {
     }
   }
 
+  async removeTable(tableName) {
+    await this._repo.removeTable(tableName);
+  }
+  
   async get(userId) {
     var model = '';
     await this._azureRepository.get(latestUserVersion, userId).then((value) => {
