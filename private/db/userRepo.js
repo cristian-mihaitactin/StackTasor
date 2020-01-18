@@ -16,9 +16,19 @@ class UserRepository {
     }
   }
 
+  async removeTable(removeTableName) {
+    console.log('here')
+    if (removeTableName === undefined || removeTableName === null) {
+      await this._azureRepository.removeTable(removeTableName);
+    } else {
+      this._azureRepository.removeTable(tableName);
+    }
+  }
+  
   async get(userId) {
     var model = '';
     await this._azureRepository.get(latestUserVersion, userId).then((value) => {
+      console.log('Get value = ' + value)
       model = this.entityToModel(value);
     }).catch(
      (reason) => {

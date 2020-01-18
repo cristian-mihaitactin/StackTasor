@@ -67,6 +67,21 @@ class Task extends Component{
     set attachedAccountId(value) {
         this._attachedAccountId = value;
     }
+
+    toJSON() {
+        var jsonObj = super.toJSON();
+        jsonObj.projectId= this.projectId;
+        jsonObj.decription= this.decription;
+        jsonObj.taskType= this.taskType;
+        jsonObj.estimation= this.estimation;
+        jsonObj.status= this.status;
+        jsonObj.geographicZone= this.geographicZone;
+        jsonObj.timeZone= this.timeZone;
+        jsonObj.workDomain= this.workDomain;
+        jsonObj.attachedAccountId= this.attachedAccountId
+
+        return jsonObj;
+    }
 }
 
 module.exports = Task;

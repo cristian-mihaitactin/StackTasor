@@ -4,7 +4,7 @@ const Task = require('../../models/db/task');
 class TaskController {
     constructor(repo){
         if (repo === undefined || repo === null) {
-          this._repo = new TaskRepository(repo);
+          this._repo = new TaskRepository();
         } else {
           this._repo = repo;
         }

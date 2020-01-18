@@ -23,7 +23,23 @@ class AzureTableRepository { // Inject tableService for testing purposes
         });
     }
 
+    removeTable(removeTableName) {
+        let toRemoveName = removeTableName;
+        if (removeTableName === undefined || removeTableName === null) {
+            toRemoveName = this._tableName;
+        }
 
+        return new Promise((resolve, reject) => {
+            this._tableService.deleteTableIfExists (toRemoveName, function(error, response){
+                if(!error){
+                    // Table deleted
+                    resolve(response);
+                } else {
+                    reject(error);
+                }
+            });
+        })
+    }
     get(partitionKey, rowKey) {
         return new Promise((resolve, reject) => {
             this._tableService.retrieveEntity(this._tableName, partitionKey, rowKey, function (error, result, response) {

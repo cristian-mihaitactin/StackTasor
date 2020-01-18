@@ -15,6 +15,10 @@ class TaskRepository {
     }
   }
 
+  async removeTable(tableName) {
+    await this._repo.removeTable(tableName);
+  }
+  
   async get(projectId, id) {
     var model = '';
     await this._azureRepository.get(projectId, id).then((value) => {

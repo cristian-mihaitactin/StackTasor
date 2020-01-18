@@ -14,6 +14,10 @@ class ProjectRepository {
       this._azureRepository = azureRepository;
     }
   }
+  
+  async removeTable(tableName) {
+    await this._repo.removeTable(tableName);
+  }
 
   async get(accountId, id) {
     var model = '';
