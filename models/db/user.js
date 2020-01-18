@@ -32,5 +32,15 @@ class User extends DbModel{
     set email(value) {
         this._email = value;
     }
+
+    toJSON() {
+        var jsonObj = super.toJSON();
+        jsonObj.accountType = this.accountType;
+        jsonObj.username = this.username;
+        jsonObj.password = this.password;
+        jsonObj.email = this.email;
+
+        return jsonObj;
+    }
 } 
 module.exports = User;

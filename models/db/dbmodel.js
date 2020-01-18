@@ -38,6 +38,16 @@ class DbModel {
         }
         this._updateDate = new Date(new Date().toUTCString());
     }
+
+    toJSON() {
+        return {
+            id: {
+                _: this.id
+            },
+            createdDate: this.createdDate,
+            updateDate: this.updateDate
+        }
+      }
 }
 
 module.exports = DbModel;

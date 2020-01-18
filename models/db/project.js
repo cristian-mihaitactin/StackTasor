@@ -11,6 +11,13 @@ class Project extends Component{
     set accountId(value) {
         this._accountId = value;
     }
+
+    toJSON() {
+        var jsonObj = super.toJSON();
+        jsonObj.accountId = this.accountId;
+
+        return jsonObj;
+    }
 }
 
 module.exports = Project;

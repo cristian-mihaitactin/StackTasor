@@ -22,6 +22,14 @@ class Component extends DbModel {
     set color(value) {
         this._color = value;
     }
+
+    toJSON() {
+        var jsonObj = super.toJSON();
+        jsonObj.name = this.name;
+        jsonObj.color = this.color;
+
+        return jsonObj;
+      }
 }
 
 module.exports = Component;
