@@ -29,13 +29,13 @@ module.exports = function(app) {
       .post((req, res) => {
         _projectController.upsert(req, res);
       });
-  
-    app.route('/users/:userid/users/:id')
+
+    app.route('/users/:userid/projects/:id')
       .get((req, res) => {
-        _userController.get(req, res);
+        _projectController.get(req, res);
       })
       .delete((req, res) => {
-        _userController.remove(req, res);
+        _projectController.remove(req, res);
       });
 
       // Task section
