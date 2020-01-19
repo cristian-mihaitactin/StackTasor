@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server -c-1 -p 8081",
-    "start_local": "node -r dotenv/config server.js"
+    "start_local_http": "node -r dotenv/config server-http.js",
+    "start_local_express": "node -r dotenv/config server-express.js",
+    "start_local": "npm run start_local_express"
   },
   "keywords": [
     "pwa"
@@ -18,8 +20,11 @@
   },
   "dependencies": {
     "azure-storage": "^2.10.3",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "jasmine": "^3.5.0",
     "jasmine-spec-reporter": "^4.2.1",
+    "ssl-root-cas": "^1.3.1",
     "uuid": "^3.3.3"
   }
 }

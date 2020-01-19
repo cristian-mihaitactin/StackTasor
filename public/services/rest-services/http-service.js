@@ -1,29 +1,48 @@
 const https = require('https');
+https.globalAgent.options.ca = require('ssl-root-cas/latest').create();
 
 const rest_api_url = process.env.RESTAPI_URL;
 const rest_api_port = process.env.RESTAPI_PORT;
 
 exports.restapi_get = function(path) {
     return new Promise((resolve, reject) => {
-        var url = rest_api_url + ':' + rest_api_port + path;
-        https.get(url, (resp) => {
-        let data = '';
+        const options = {
+            hostname: rest_api_url,
+            port: rest_api_port,
+            path: path,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': data.length
+            },
+            agent: new https.Agent({
+                rejectUnauthorized: false,
+              }),
+        }
 
-        // A chunk of data has been recieved.
-        resp.on('data', (chunk) => {
-            data += chunk;
+        const req = https.request(options, (res) => {
+            console.log(`Http-service GET: StatusCode: ${res.statusCode}`);
+
+            var postResponseString = '';
+            res.on('data', (d) => {
+                // console.log('Http-service Post: Data received: ' + d);
+                // resolve(JSON.parse(d))
+                postResponseString += d;
+            });
+
+            res.on('end', () => {
+                console.log('Http-service GET end: Data received: ' + postResponseString);
+                resolve(JSON.parse(d));
+            });
         });
 
-        // The whole response has been received. Print out the result.
-        resp.on('end', () => {
-            console.log('Http-service Get: Data received: ' + data);
-            resolve(JSON.parse(data));
-        });
+        req.on('error', (error) => {
+            console.log("Http-service GET: Error: " + error.message);
+            reject(error);
+        })
 
-        }).on("error", (err) => {
-            console.log("Http-service Get: Error: " + err.message);
-            reject(err);
-        });
+        req.write(data)
+        req.end()
     });
 }
 
@@ -39,7 +58,10 @@ exports.restapi_post = function(path, bodyObject) {
             headers: {
                 'Content-Type': 'application/json',
                 'Content-Length': data.length
-            }
+            },
+            agent: new https.Agent({
+                rejectUnauthorized: false,
+              }),
         }
 
         const req = https.request(options, (res) => {
@@ -75,7 +97,10 @@ exports.restapi_delete = function(path) {
             hostname: rest_api_url,
             port: rest_api_port,
             path: path,
-            method: 'DELETE'
+            method: 'DELETE',
+            agent: new https.Agent({
+                rejectUnauthorized: false,
+              }),
         }
 
         const req = https.request(options, (res) => {
@@ -96,6 +121,50 @@ exports.restapi_delete = function(path) {
 
         req.on('error', (error) => {
             console.log("Http-service Delete: Error: " + error.message);
+            reject(error);
+        })
+
+        req.write(data)
+        req.end()
+    });
+}
+
+exports.restapi_query = function(path, bodyObject) {
+    return new Promise((resolve, reject) => {
+        const data = JSON.stringify(bodyObject);
+
+        const options = {
+            hostname: rest_api_url,
+            port: rest_api_port,
+            path: path,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': data.length
+            },
+            agent: new https.Agent({
+                rejectUnauthorized: false,
+              }),
+        }
+
+        const req = https.request(options, (res) => {
+            console.log(`Http-service Post: StatusCode: ${res.statusCode}`);
+
+            var postResponseString = '';
+            res.on('data', (d) => {
+                // console.log('Http-service Post: Data received: ' + d);
+                // resolve(JSON.parse(d))
+                postResponseString += d;
+            });
+
+            res.on('end', () => {
+                console.log('Http-service Post end: Data received: ' + postResponseString);
+                resolve(JSON.parse(postResponseString));
+            });
+        });
+
+        req.on('error', (error) => {
+            console.log("Http-service Post: Error: " + error.message);
             reject(error);
         })
 

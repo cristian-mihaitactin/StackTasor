@@ -1,5 +1,5 @@
 const https_serivce = require('./http-service');
-
+const User = require('../../../models/db/user');
 
 const rest_api_users_path = '/users';
 
@@ -41,6 +41,26 @@ exports.deleteUserById = async (userId) => {
     }).catch(
         (reason) => {
              console.log('RestApi-User.Delete rejected promise ('+reason+') here.');
+             throw new Error(reason);
+         }
+    );
+
+    return returnValue;
+}
+
+exports.getUserLogin = async (username, password) => {
+    var usersPath = rest_api_users_path;
+    var returnValue = '';
+    var loginUser = new User();
+    loginUser.id = '';
+    loginUser.username = username;
+    loginUser.password = password;
+
+    await https_serivce.restapi_query(usersPath, loginUser).then((value) => {
+        returnValue =  value;
+    }).catch(
+        (reason) => {
+             console.log('RestApi-User.GetQuery rejected promise ('+reason+') here.');
              throw new Error(reason);
          }
     );

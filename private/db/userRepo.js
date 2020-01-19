@@ -38,11 +38,31 @@ class UserRepository {
 
     return model;
   }
-  async getByQuery(query) {
+  async getByQuery(queryObject) {
+    //compose query
+    var query = new azure.TableQuery()
+    .where("PartitionKey eq ?", latestUserVersion);
+    // TODO For some reason, and does not work
+    // .top(1);
+    if (queryObject.accountType !== undefined || queryObject.accountType != null) {
+      query.and('AccountType eq ?', queryObject.accountType);
+    }
+    if (queryObject.username !== undefined || queryObject.username != null) {
+      query.and('UserName eq ?', queryObject.username);
+    }
+
+    if (queryObject.password !== undefined || queryObject.password != null) {
+      query.and('Password eq ?', queryObject.password);
+    }
+    if (queryObject.email !== undefined || queryObject.email != null) {
+      query.and('Email eq ?', queryObject.email);
+    }
     var modelArray = new Array();
     await this._azureRepository.getByQuery(query).then((value) => {
       value.forEach((item, index) => {
         var model = this.entityToModel(item);
+        console.log('UserRepo ENTITY return: ' + JSON.stringify(model));
+
         modelArray.push(model);
       });
     }).catch(
@@ -87,13 +107,13 @@ class UserRepository {
     return entity;
   }
   entityToModel(entity) {
-    var model = new User(entity.RowKey);
-    model.createdDate = entity.CreatedDate;
-    model.updateDate = entity.UpdateDate;
-    model.accountType = entity.AccountType;
-    model.username = entity.UserName;
-    model.password = entity.Password;
-    model.email = entity.Email;
+    var model = new User(entity.RowKey._);
+    model.createdDate = entity.CreatedDate._;
+    model.updateDate = entity.UpdateDate._;
+    model.accountType = entity.AccountType._;
+    model.username = entity.UserName._;
+    model.password = entity.Password._;
+    model.email = entity.Email._;
 
     return model;
   }

@@ -82,14 +82,14 @@ class ProjectRepository {
     return entity;
   }
   entityToModel(entity) {
-    var model = new Project(entity.RowKey);
-    model.accountId = entity.AccountId;
+    var model = new Project(entity.RowKey._);
+    model.accountId = entity.AccountId._;
 
-    model.name = entity.Name;
-    model.color = entity.Color;
+    model.name = entity.Name._;
+    model.color = entity.Color._;
 
-    model.createdDate = entity.CreatedDate;
-    model.updateDate = entity.UpdateDate;
+    model.createdDate = entity.CreatedDate._;
+    model.updateDate = entity.UpdateDate._;
 
     return model;
   }
