@@ -17,7 +17,7 @@ const server = http.createServer((req, res) => {
        pathname = '/index.html';
     }
  
-    fs.readFile('public/' + pathname.substr(1), (err, data) => {
+    fs.readFile(pathname.substr(1), (err, data) => {
        if (err) {
  
           console.error(err);
