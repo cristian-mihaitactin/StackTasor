@@ -7,8 +7,10 @@ module.exports = function(app) {
     app.route('/users')
       .post((req, res) => {
         _userController.upsert(req, res);
+      })
+      .get((req, res) => {
+        _userController.getQuery(req, res);
       });
-      // .get(_userController.getAll)
   
     app.route('/users/:id')
       .get((req, res) => {

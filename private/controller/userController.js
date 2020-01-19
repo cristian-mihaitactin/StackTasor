@@ -18,6 +18,18 @@ class UserController {
         res.send(e);
       });
     };
+    // getQuery
+
+    async getQuery(req, res) {
+      console.log('UserController.getQuery: req.body=' + JSON.stringify(req.body));
+      var usr = this.jsonToObject(req.body);
+      await this._repo.getByQuery(usr).then((value) => {
+        console.log('UserController.getQuery: RETURN=' + JSON.stringify(value));
+        res.json(value);
+      }).catch((e) =>{
+        res.send(e);
+      });
+    };
 
   async upsert(req, res) {
     try{
@@ -26,14 +38,16 @@ class UserController {
       var obj = JSON.parse(req.body);
       console.log(obj);
 */
-      var obj = req.body;
-      var usr = new User(obj.id);
-      usr.createdDate = obj.createdDate;
-      usr.updateDate = obj.updateDate;
-      usr.accountType = obj.accountType;
-      usr.username = obj.username;
-      usr.password = obj.password;
-      usr.email = obj.email;
+      // var obj = req.body;
+      // var usr = new User(obj.id);
+      // usr.createdDate = obj.createdDate;
+      // usr.updateDate = obj.updateDate;
+      // usr.accountType = obj.accountType;
+      // usr.username = obj.username;
+      // usr.password = obj.password;
+      // usr.email = obj.email;
+
+      var usr = this.jsonToObject(req.body);
       
     //   await this._repo.upsert(usr).then(() => {
     //     req.params['id'] = usr.id;
@@ -62,8 +76,7 @@ class UserController {
     });
   };
 
-  jsonToObject(jsonString){
-    var obj = JSON.parse(jsonString);
+  jsonToObject(obj){
     var usr = new User(obj.id);
     usr.createdDate = obj.createdDate;
     usr.updateDate = obj.updateDate;

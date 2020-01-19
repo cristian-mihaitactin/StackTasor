@@ -89,23 +89,23 @@ class TaskRepository {
     return entity;
   }
   entityToModel(entity) {
-    var model = new Task(entity.RowKey);
-    model.projectId = entity.ProjectId;
-    model.decription = entity.Decription;
-    model.taskType = entity.TaskType;
-    model.estimation = entity.Estimation;
-    model.status = entity.Status;
-    model.geographicZone = entity.GeographicZone;
-    model.timeZone = entity.TimeZone;
-    model.workDomain = entity.WorkDomain;
-    model.attachedAccountId = entity.AttachedAccountId;
+    var model = new Task(entity.RowKey._);
+    model.projectId = entity.ProjectId._;
+    model.decription = entity.Decription._;
+    model.taskType = entity.TaskType._;
+    model.estimation = entity.Estimation._;
+    model.status = entity.Status._;
+    model.geographicZone = entity.GeographicZone._;
+    model.timeZone = entity.TimeZone._;
+    model.workDomain = entity.WorkDomain._;
+    model.attachedAccountId = entity.AttachedAccountId._;
 
 
-    model.name = entity.Name;
-    model.color = entity.Color;
+    model.name = entity.Name._;
+    model.color = entity.Color._;
 
-    model.createdDate = entity.CreatedDate;
-    model.updateDate = entity.UpdateDate;
+    model.createdDate = entity.CreatedDate._;
+    model.updateDate = entity.UpdateDate._;
 
     return model;
   }

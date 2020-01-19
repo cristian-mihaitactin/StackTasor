@@ -1,4 +1,3 @@
-var azure = require('azure-storage');
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
@@ -11,10 +10,11 @@ const server = http.createServer((req, res) => {
     let pathname = url.parse(req.url).pathname;
 
     console.log(`Request for ${pathname} received`);
- 
+    // TODO get user id here
+
     if (pathname == '/') {
- 
-       pathname = '/index.html';
+    //    pathname = '/index.html';
+        pathname = '/login.html'
     }
  
     fs.readFile(pathname.substr(1), (err, data) => {
