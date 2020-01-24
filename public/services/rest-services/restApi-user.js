@@ -18,9 +18,16 @@ exports.getUserById = async (userId) => {
     return returnValue;
 }
 
-exports.upsertUser = async (userObj) => {
+exports.upsertUser = async (username, password, email) => {
     var usersPath = rest_api_users_path;
     var returnValue = '';
+    
+    var userObj = new User();
+    userObj.id = '';
+    userObj.username = username;
+    userObj.password = password;
+    userObj.email = email;
+
     await https_serivce.restapi_post(usersPath, userObj).then((value) => {
         returnValue =  value;
     }).catch(
@@ -64,6 +71,23 @@ exports.getUserLogin = async (username, password) => {
              throw new Error(reason);
          }
     );
+    return returnValue;
+}
 
+exports.userExists = async (username) => {
+    var usersPath = rest_api_users_path;
+    var returnValue = '';
+    var loginUser = new User();
+    loginUser.id = '';
+    loginUser.username = username;
+
+    await https_serivce.restapi_query(usersPath, loginUser).then((value) => {
+        returnValue =  value;
+    }).catch(
+        (reason) => {
+             console.log('RestApi-User.GetQuery rejected promise ('+reason+') here.');
+             throw new Error(reason);
+         }
+    );
     return returnValue;
 }

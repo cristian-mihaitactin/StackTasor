@@ -76,7 +76,7 @@ exports.restapi_post = function(path, bodyObject) {
 
             res.on('end', () => {
                 console.log('Http-service Post end: Data received: ' + postResponseString);
-                resolve(JSON.parse(d));
+                resolve(JSON.parse(postResponseString));
             });
         });
 
