@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+  		<link rel="stylesheet" href="/css/login.css">
+		<meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<script src="/js/formHandling.js"></script>
+		<title>Login Tasor</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="login-form">
+				<h1>Signup Form</h1>
+				<form action="createUser" method="POST" name="userForm">
+					<input type="text" name="username" placeholder="Username" required oninvalid="this.setCustomValidity('* Required')"
+    					oninput="this.setCustomValidity('')">
+					<input pattern=".{8,}" type="password" name="password" placeholder="Password" required oninvalid="this.setCustomValidity('*Min 8 characters required')"
+    					oninput="this.setCustomValidity('')">
+					<input type="password" name="repeatPassword" placeholder="Repeat Password" required oninvalid="this.setCustomValidity('* Required')"
+    					oninput="this.setCustomValidity('')">
+					<input pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="text" name="email" placeholder="email@test.com" required oninvalid="this.setCustomValidity('* Email required')"
+    					oninput="this.setCustomValidity('')">
+					<span id="error-label" style="display:none;"></span>
+					<!-- <input type="submit" onsubmit='return false;' onclick="sendForm('signUpForm')"> -->
+					<input type="submit"> 
+				</form>
+				<br>
+				<a href="/">Already have an account?</a>
+			</div>
+		</div>
+	</body>
+</html>
