@@ -18,6 +18,17 @@ class TaskController {
         });
       };
 
+      async getByProjectId(req, res) {
+        var queryObj = new Task();
+        queryObj.id = '';
+        queryObj.projectId = req.params.projectid;
+        await this._repo.getByQuery(queryObj).then((value) => {
+          res.json(value);
+        }).catch((e) =>{
+          res.send(e);
+        });
+      };
+
       async upsert(req, res) {
         try{
           var obj = req.body;
@@ -28,7 +39,7 @@ class TaskController {
           usr.name = obj.name;
           usr.color = obj.color;
 
-          usr.decription = obj.decription;
+          usr.description = obj.description;
           usr.taskType = obj.taskType;
           usr.estimation = obj.estimation;
           usr.status = obj.status;

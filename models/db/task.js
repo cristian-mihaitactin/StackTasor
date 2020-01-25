@@ -12,11 +12,11 @@ class Task extends Component{
         this._projectId = value;
     }
 
-    get decription() {
-        return this._decription;
+    get description() {
+        return this._description;
     }
-    set decription(value) {
-        this._decription = value;
+    set description(value) {
+        this._description = value;
     }
 
     get taskType() {
@@ -71,7 +71,7 @@ class Task extends Component{
     toJSON() {
         var jsonObj = super.toJSON();
         jsonObj.projectId= this.projectId;
-        jsonObj.decription= this.decription;
+        jsonObj.description= this.description;
         jsonObj.taskType= this.taskType;
         jsonObj.estimation= this.estimation;
         jsonObj.status= this.status;

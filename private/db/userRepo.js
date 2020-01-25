@@ -72,6 +72,7 @@ class UserRepository {
        });
     return modelArray;
   }
+  
   async upsert(model) {
     model.update();
     var entity = this.modelToEntity(model);
