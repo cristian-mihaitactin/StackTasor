@@ -1,19 +1,23 @@
-/*
-// Validating Empty Field
-function check_empty() {
-    if (document.getElementById('name').value == "" || document.getElementById('email').value == "" || document.getElementById('msg').value == "") {
-    alert("Fill All Fields !");
-    } else {
-    document.getElementById('form').submit();
-    alert("Form Submitted Successfully...");
-    }
-    }
-    //Function To Display Popup
-    function div_show() {
-    document.getElementById('abc').style.display = "block";
-    }
-    //Function to Hide Popup
-    function div_hide(){
-    document.getElementById('abc').style.display = "none";
-    }
-    */
+var overlayEl = document.getElementById('overlay');
+
+function div_show() {
+    // var popupContact = document.getElementById('popupContact').style.display = "block";
+    document.getElementById('popupContact').style.display = "block";
+
+    $('#overlay').fadeIn(200, function() {
+    $('#popupContact').animate({
+        'top': '20px'
+    }, 200);
+    });
+    return false;
+
+}
+function div_hide(){
+    $('#popupContact').animate({
+    'top': '-200px'
+    }, 500, function() {
+    $('#overlay').fadeOut('fast', function() {
+        document.getElementById('popupContact').style.display = "none";
+    });
+    });
+}
