@@ -17,7 +17,6 @@ class UserRepository {
   }
 
   async removeTable(removeTableName) {
-    console.log('here')
     if (removeTableName === undefined || removeTableName === null) {
       await this._azureRepository.removeTable(removeTableName);
     } else {
@@ -108,6 +107,7 @@ class UserRepository {
     return entity;
   }
   entityToModel(entity) {
+    console.log('UserRepo. entityToModel: ' + JSON.stringify(entity));
     var model = new User(entity.RowKey._);
     model.createdDate = entity.CreatedDate._;
     model.updateDate = entity.UpdateDate._;

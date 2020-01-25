@@ -1,6 +1,8 @@
 const UserRepository = require('../db/userRepo');
 const User = require('../../models/db/user');
 const tableName = 'Users';
+const uuidv1 = require('uuid/v1');
+
 
 class UserController {
   constructor(repo){
@@ -48,7 +50,14 @@ class UserController {
       // usr.email = obj.email;
 
       var usr = this.jsonToObject(req.body);
-      
+      console.log('UserController BEFORE reqBody: ' + JSON.stringify(usr));
+
+      if (usr.id == '') {
+        usr = uuidv1();
+      } else {
+        usr.id = usr.id._;
+      }
+      console.log('UserController reqBody: ' + JSON.stringify(usr));
     //   await this._repo.upsert(usr).then(() => {
     //     req.params['id'] = usr.id;
     //     setTimeout(function(){
