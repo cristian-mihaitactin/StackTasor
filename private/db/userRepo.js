@@ -17,7 +17,6 @@ class UserRepository {
   }
 
   async removeTable(removeTableName) {
-    console.log('here')
     if (removeTableName === undefined || removeTableName === null) {
       await this._azureRepository.removeTable(removeTableName);
     } else {
@@ -61,7 +60,6 @@ class UserRepository {
     await this._azureRepository.getByQuery(query).then((value) => {
       value.forEach((item, index) => {
         var model = this.entityToModel(item);
-        console.log('UserRepo ENTITY return: ' + JSON.stringify(model));
 
         modelArray.push(model);
       });

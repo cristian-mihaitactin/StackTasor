@@ -12,7 +12,7 @@
 		<div class="container">
 			<div class="login-form">
 				<h1>Signup Form</h1>
-				<form action="createUser" method="POST" name="userForm">
+				<form action="createUser" method="POST" name="sendForm">
 					<input type="text" name="username" placeholder="Username" required oninvalid="this.setCustomValidity('* Required')"
     					oninput="this.setCustomValidity('')">
 					<input pattern=".{8,}" type="password" name="password" placeholder="Password" required oninvalid="this.setCustomValidity('*Min 8 characters required')"

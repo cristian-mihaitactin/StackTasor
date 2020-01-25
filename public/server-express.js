@@ -9,6 +9,7 @@ var multiparty = require('multiparty');
 const router = express.Router();
 
 var authManager = require('./services/managers/authManager');
+var projectManager = require('./services/managers/projectManager');
 
 port = process.env.PORT || 3000;
 
@@ -45,6 +46,8 @@ router.post('/auth', async function(request, response) {
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
+                request.session.userId = results[0].id;
+
                 response.status(200).send({
                     RedirectLink: '/home',
                     Error: false
@@ -73,10 +76,7 @@ router.get('/home', function(request, response) {
     console.log(path.join(__dirname + '/index.html'));
 
 	if (request.session.loggedin) {
-        console.log('sending file?');
-
         response.sendFile(path.join(__dirname + '/index.html'));
-        console.log('send file?');
 	} else {
         response.redirect('/');
 	}
@@ -86,11 +86,9 @@ router.get('/signUp', function(request, response) {
     console.log(path.join(__dirname + '/signUp.html'));
 
 	if (!request.session.loggedin) {
-        console.log('sending file?');
 
         response.sendFile(path.join(__dirname + '/signUp.html'));
         // response.render(path.join(__dirname + '/index.html'));
-        console.log('send file?');
         // response.send('Welcome back, ' + request.session.username + '!');
         // response.end();
 
@@ -133,10 +131,13 @@ router.post('/createUser', async function(request, response) {
                 response.end();
             } else {
                 // create user
-                var userExists = await authManager.userCreate(username, password, email);
-                if (userExists) {
+                var userCreated = await authManager.userCreate(username, password, email);
+                if (userCreated) {
+                    console.log('user created: ' + JSON.stringify(userCreated));
                     request.session.loggedin = true;
                     request.session.username = username;
+                    request.session.userId = userCreated.id;
+
                     response.status(200).send({
                         RedirectLink: '/home',
                         Error: false
@@ -152,7 +153,67 @@ router.post('/createUser', async function(request, response) {
         }
     });
 });
+router.post('/project', async function(request, response) {
+    var form = new multiparty.Form();
+ 
+    if (!request.session.loggedin) {
+        response.status(401).send( {
+            Message: 'Please login to view this page!',
+            Error: true
+        });
+        response.end();
+	} else {
+        form.parse(request, async function(err, fields, files) {
+            var projectName = '' + fields.name;
+            var projectColor = '' + fields.projectColor;
+            var projectId = '' + files.id;
+            var accountId = request.session.userId._;
 
+            var createdProject = await projectManager.createProject(projectId, accountId, projectName, projectColor);
+
+            if (createdProject) {
+                response.status(200).send({
+                    RedirectLink: '/home',
+                    Error: false
+                });
+            } else {
+                response.status(500).send( {
+                    Message: 'Something went wrong when creating project. Please try again.',
+                    Error: true
+                });
+                response.end();
+            }
+        });
+    }
+});
+
+router.get('/project', async function(request, response) {
+    var form = new multiparty.Form();
+ 
+    if (!request.session.loggedin) {
+        response.status(401).send( {
+            Message: 'Please login to view this page!',
+            Error: true
+        });
+        response.end();
+	} else {
+        form.parse(request, async function(err, fields, files) {
+            var accountId = request.session.userId._;
+
+            var createdProject = await projectManager.getProjectsByUserId(accountId);
+
+            if (createdProject) {
+                response.status(200).send(createdProject);
+            } else {
+                response.status(500).send( {
+                    Message: 'Something went wrong when creating project. Please try again.',
+                    Error: true
+                });
+                response.end();
+            }
+        });
+    }
+});
 app.use(express.static(__dirname + '/src'));
 
 app.use('/', router);

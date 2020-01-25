@@ -8,6 +8,7 @@
     width: 100px;
     height: 100px;
     font-size: 10px;
+    margin: 10px 10px 10px 10px
   }
   /* 
   .btn-sq-sm {
@@ -26,4 +27,8 @@
     background-color: white;
     color: blue;
     font-size: 90%;
+  }
+
+  .btn-project {
+    white-space: normal;
   }

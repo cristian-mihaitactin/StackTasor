@@ -23,10 +23,10 @@ exports.upsertUser = async (username, password, email) => {
     var returnValue = '';
     
     var userObj = new User();
-    userObj.id = '';
-    userObj.username = username;
-    userObj.password = password;
-    userObj.email = email;
+    userObj.username = '' + username;
+    userObj.password = '' + password;
+    userObj.email = '' + email;
+    userObj.accountType = '' + 1;
 
     await https_serivce.restapi_post(usersPath, userObj).then((value) => {
         returnValue =  value;

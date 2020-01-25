@@ -1,7 +1,6 @@
 var azure = require('azure-storage');
 const dotenv = require('dotenv');
 dotenv.config();
-
 class AzureTableRepository { // Inject tableService for testing purposes
     constructor(tableName, tableService) {
 
@@ -53,6 +52,7 @@ class AzureTableRepository { // Inject tableService for testing purposes
         });
     }
     getByQuery(query) {
+        console.log('AzyreTable.getByQuery: query=' + JSON.stringify(query))
         return new Promise((resolve, reject) => {
             this._tableService.queryEntities(this._tableName, query, null, function (error, result, response) {
                 if (! error) { // result.entries contains entities matching the query
@@ -67,8 +67,10 @@ class AzureTableRepository { // Inject tableService for testing purposes
     }
     upsert(entity) {
         return new Promise((resolve, reject) => {
-
-            this._tableService.insertOrReplaceEntity(this._tableName, entity, function (error, result, response) {
+            
+            // this._tableService.doesTableExist(this._tableName, null, function(error, result, response) {
+            // });
+            this._tableService.insertOrMergeEntity(this._tableName, entity, function (error, result, response) {
                 if (! error) { // result contains the entity with field 'taskDone' set to `true`
                     resolve(result);
                 } else {

@@ -2,7 +2,7 @@
     var errorLabel = document.getElementById('error-label');
     errorLabel.style.display = 'none';
 
-    var form = document.forms.namedItem("userForm");
+    var form = document.forms.namedItem("sendForm");
     form.addEventListener('submit', function(ev) {
     var oData = new FormData(form);
     ev.preventDefault();

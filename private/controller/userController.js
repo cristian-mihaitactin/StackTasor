@@ -1,6 +1,8 @@
 const UserRepository = require('../db/userRepo');
 const User = require('../../models/db/user');
 const tableName = 'Users';
+const uuidv1 = require('uuid/v1');
+
 
 class UserController {
   constructor(repo){
@@ -21,10 +23,8 @@ class UserController {
     // getQuery
 
     async getQuery(req, res) {
-      console.log('UserController.getQuery: req.body=' + JSON.stringify(req.body));
       var usr = this.jsonToObject(req.body);
       await this._repo.getByQuery(usr).then((value) => {
-        console.log('UserController.getQuery: RETURN=' + JSON.stringify(value));
         res.json(value);
       }).catch((e) =>{
         res.send(e);
@@ -48,7 +48,14 @@ class UserController {
       // usr.email = obj.email;
 
       var usr = this.jsonToObject(req.body);
-      
+      console.log('UserController BEFORE reqBody: ' + JSON.stringify(usr));
+
+      if (usr.id == '') {
+        usr = uuidv1();
+      } else {
+        usr.id = usr.id._;
+      }
+      console.log('UserController reqBody: ' + JSON.stringify(usr));
     //   await this._repo.upsert(usr).then(() => {
     //     req.params['id'] = usr.id;
     //     setTimeout(function(){
