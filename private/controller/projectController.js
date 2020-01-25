@@ -12,10 +12,15 @@ class ProjectController {
       }
       // getByUserId
       async getByUserId(req, res) {
+        console.log('ProjectController.getByUserId: userId=' + req.params.userid);
         var queryObj = new Project();
-        queryObj.id = '';
+        queryObj.id = undefined;
+        queryObj.name = undefined;
+        queryObj.color = undefined;
         queryObj._accountId = req.params.userid;
         await this._repo.getByQuery(queryObj).then((value) => {
+          console.log('ProjectController.getByUserId: value=' + JSON.stringify(value));
+
           res.json(value);
         }).catch((e) =>{
           res.send(e);

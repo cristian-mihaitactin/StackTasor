@@ -52,6 +52,7 @@ class AzureTableRepository { // Inject tableService for testing purposes
         });
     }
     getByQuery(query) {
+        console.log('AzyreTable.getByQuery: query=' + JSON.stringify(query))
         return new Promise((resolve, reject) => {
             this._tableService.queryEntities(this._tableName, query, null, function (error, result, response) {
                 if (! error) { // result.entries contains entities matching the query

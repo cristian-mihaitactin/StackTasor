@@ -11,10 +11,10 @@ exports.restapi_get = function(path) {
             port: rest_api_port,
             path: path,
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': data.length
-            },
+            // headers: {
+            //     'Content-Type': 'application/json',
+            //     'Content-Length': data.length
+            // },
             agent: new https.Agent({
                 rejectUnauthorized: false,
               }),
@@ -25,14 +25,14 @@ exports.restapi_get = function(path) {
 
             var postResponseString = '';
             res.on('data', (d) => {
-                // console.log('Http-service Post: Data received: ' + d);
+                console.log('Http-service Post: Data received: ' + d);
                 // resolve(JSON.parse(d))
                 postResponseString += d;
             });
 
             res.on('end', () => {
                 console.log('Http-service GET end: Data received: ' + postResponseString);
-                resolve(JSON.parse(d));
+                resolve(JSON.parse(postResponseString));
             });
         });
 
@@ -41,7 +41,7 @@ exports.restapi_get = function(path) {
             reject(error);
         })
 
-        req.write(data)
+        // req.write(data)
         req.end()
     });
 }
@@ -131,7 +131,7 @@ exports.restapi_delete = function(path) {
             reject(error);
         })
 
-        req.write(data)
+        // req.write(data)
         req.end()
     });
 }

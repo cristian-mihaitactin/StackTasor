@@ -186,6 +186,34 @@ router.post('/project', async function(request, response) {
         });
     }
 });
+
+router.get('/project', async function(request, response) {
+    var form = new multiparty.Form();
+ 
+    if (!request.session.loggedin) {
+        response.status(401).send( {
+            Message: 'Please login to view this page!',
+            Error: true
+        });
+        response.end();
+	} else {
+        form.parse(request, async function(err, fields, files) {
+            var accountId = request.session.userId._;
+
+            var createdProject = await projectManager.getProjectsByUserId(accountId);
+
+            if (createdProject) {
+                response.status(200).send(createdProject);
+            } else {
+                response.status(500).send( {
+                    Message: 'Something went wrong when creating project. Please try again.',
+                    Error: true
+                });
+                response.end();
+            }
+        });
+    }
+});
 app.use(express.static(__dirname + '/src'));
 
 app.use('/', router);

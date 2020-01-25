@@ -17,3 +17,15 @@ exports.createProject = async (projectId, accountId, name, color) => {
     })
     return result;
 }
+
+exports.getProjectsByUserId = async (accountId) => {
+    var usr = '';
+    await restapi_projects.getProjectByUserId(accountId).then((value) => {
+        if (value === undefined || value === null){
+            throw Error('No projects found. AccountId: ' + accountId);
+        }else {
+            usr = value;
+        }
+    })
+    return usr;
+}

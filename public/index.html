@@ -39,7 +39,7 @@
         <a class="nav-link disabled" href="#">Disabled</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <form class="form -inline my-2 my-lg-0">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log Out</button>
     </form>
   </div>
@@ -49,8 +49,8 @@
   <div class="card__content">
     <h3>Projects:</h3>
     <div class="row">
-        <div class="col-lg-12">
-            <!--  <a href="#" class="btn btn-square btn-primary">
+        <div id="projectList" class="col-lg-12">
+             <!-- <a href="#" class="btn btn-square btn-primary">
                 <i class="fa fa-user fa-5x"></i><br/>
                 Demo` Primary <br>Button
             </a>
@@ -82,6 +82,10 @@
               <i class="fa fa-user fa-5x"></i><br/>
               Demo Danger <br>Button
             </a>  -->
+            <a id="btn-projectTemplate" href="#" class="btn btn-square btn-info btn-project" style="display: none;">
+              <i class="fa fa-user fa-5x" id="projectItalic"></i><br/>
+              <strong class="fa fa-user fa-5x" id="projectStrong"></strong>
+            </a>
             <a href="#" class="btn btn-square btn-info btn-addproject" onclick="div_show()">
               <i class="fa fa-user fa-5x"></i><br/>
               Click to <br>Add Project
@@ -89,6 +93,8 @@
         </div>
 	</div>
   </div>
+      <span id="error-label" style="display:none;"></span>
+
 </article>
 <!-- Project POP-UP -->
 <div class="overlay" id="overlay" style="display:none;"></div>
@@ -98,12 +104,11 @@
       <h2>Project Form</h2>
       <hr>
       <a>Name: </a>
-      <input id="name" name="name" placeholder="Name" type="text">
+      <input id="name" name="name" placeholder="Name" type="text" required oninvalid="this.setCustomValidity('* Required')"
       <a>Color (RGB Hex): </a>
-      <input id="projectColor" name="projectColor" placeholder="#1e90ff" type="text">
+      <input id="projectColor" name="projectColor" placeholder="#1e90ff" type="text" required oninvalid="this.setCustomValidity('* Required')">
       <span id="error-label" style="display:none;"></span>
-      <a href="javascript:%20check_empty()" id="submitPop"><input type="submit"> </a>
-      
+      <a id="submitPop"><input type="submit"> </a>
     </form>
   </div>
 </body>

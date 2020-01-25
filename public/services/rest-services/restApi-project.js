@@ -3,8 +3,23 @@ const https_serivce = require('./http-service');
 const rest_api_users_path = '/users';
 const rest_api_projects_path = '/projects';
 
-exports.getProjectUserById = async (projectId, userId) => {
+exports.getProjectByIds = async (projectId, userId) => {
     var projectsPath = rest_api_users_path + '/' + userId + rest_api_projects_path + '/' + projectId;
+    var returnValue = '';
+    await https_serivce.restapi_get(projectsPath).then((value) => {
+        returnValue =  value;
+    }).catch(
+        (reason) => {
+             console.log('RestApi-Project.Get rejected promise ('+reason+') here.');
+             throw new Error(reason);
+         }
+    );
+
+    return returnValue;
+}
+
+exports.getProjectByUserId = async (userId) => {
+    var projectsPath = rest_api_users_path + '/' + userId + rest_api_projects_path;
     var returnValue = '';
     await https_serivce.restapi_get(projectsPath).then((value) => {
         returnValue =  value;
