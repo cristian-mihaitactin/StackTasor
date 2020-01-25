@@ -76,8 +76,15 @@ exports.restapi_post = function(path, bodyObject) {
 
             res.on('end', () => {
                 console.log('Http-service Post end: Data received: ' + postResponseString);
-                resolve(JSON.parse(postResponseString));
+                if (typeof( postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1)
+                {
+                    resolve(JSON.parse(postResponseString));
+                }
             });
+            req.on('error', (error) => {
+                console.log("Http-service Post: Error: " + error.message);
+                reject(error);
+            })
         });
 
         req.on('error', (error) => {

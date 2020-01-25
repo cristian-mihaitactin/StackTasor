@@ -72,7 +72,6 @@ class ProjectRepository {
     await this._azureRepository.getByQuery(query).then((value) => {
       value.forEach((item, index) => {
         var model = this.entityToModel(item);
-        console.log('ProjectRepo ENTITY return: ' + JSON.stringify(model));
 
         modelArray.push(model);
       });

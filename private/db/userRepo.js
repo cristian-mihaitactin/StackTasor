@@ -60,7 +60,6 @@ class UserRepository {
     await this._azureRepository.getByQuery(query).then((value) => {
       value.forEach((item, index) => {
         var model = this.entityToModel(item);
-        console.log('UserRepo ENTITY return: ' + JSON.stringify(model));
 
         modelArray.push(model);
       });
@@ -107,7 +106,6 @@ class UserRepository {
     return entity;
   }
   entityToModel(entity) {
-    console.log('UserRepo. entityToModel: ' + JSON.stringify(entity));
     var model = new User(entity.RowKey._);
     model.createdDate = entity.CreatedDate._;
     model.updateDate = entity.UpdateDate._;

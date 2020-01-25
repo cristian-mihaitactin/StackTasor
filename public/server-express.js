@@ -9,6 +9,7 @@ var multiparty = require('multiparty');
 const router = express.Router();
 
 var authManager = require('./services/managers/authManager');
+var projectManager = require('./services/managers/projectManager');
 
 port = process.env.PORT || 3000;
 
@@ -163,40 +164,27 @@ router.post('/project', async function(request, response) {
         response.end();
 	} else {
         form.parse(request, async function(err, fields, files) {
-            var name = fields.name;
-            var projectColor = fields.projectColor;
-        
-            var userExists = await authManager.userExists(username);
-            console.log('userExists' + userExists)
+            var projectName = '' + fields.name;
+            var projectColor = '' + fields.projectColor;
+            var projectId = '' + files.id;
+            var accountId = request.session.userId._;
 
-            if (userExists){
-                response.status(403).send( {
-                    Message: 'User name already exists!',
+            var createdProject = await projectManager.createProject(projectId, accountId, projectName, projectColor);
+
+            if (createdProject) {
+                response.status(200).send({
+                    RedirectLink: '/home',
+                    Error: false
+                });
+            } else {
+                response.status(500).send( {
+                    Message: 'Something went wrong when creating project. Please try again.',
                     Error: true
                 });
                 response.end();
-            } else {
-                // create user
-                var userExists = await authManager.userCreate(username, password, email);
-                if (userExists) {
-                    request.session.loggedin = true;
-                    request.session.username = username;
-                    response.status(200).send({
-                        RedirectLink: '/home',
-                        Error: false
-                    });
-                } else {
-                    response.status(500).send( {
-                        Message: 'Something went wrong when creating user. Please try again.',
-                        Error: true
-                    });
-                    response.end();
-                }
             }
         });
     }
-    
-    
 });
 app.use(express.static(__dirname + '/src'));
 

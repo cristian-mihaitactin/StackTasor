@@ -23,10 +23,8 @@ class UserController {
     // getQuery
 
     async getQuery(req, res) {
-      console.log('UserController.getQuery: req.body=' + JSON.stringify(req.body));
       var usr = this.jsonToObject(req.body);
       await this._repo.getByQuery(usr).then((value) => {
-        console.log('UserController.getQuery: RETURN=' + JSON.stringify(value));
         res.json(value);
       }).catch((e) =>{
         res.send(e);

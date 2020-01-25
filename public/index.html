@@ -90,19 +90,20 @@
 	</div>
   </div>
 </article>
-
+<!-- Project POP-UP -->
 <div class="overlay" id="overlay" style="display:none;"></div>
   <div id="popupContact" style="display:none;">
-  <!-- Contact Us Form -->
     <a class="boxclose" id="boxclose" onclick="div_hide()"></a>
-    <form action="#" id="formPop" method="post" name="sendForm">
+    <form action="project" id="formPop" method="post" name="sendForm">
       <h2>Project Form</h2>
       <hr>
       <a>Name: </a>
       <input id="name" name="name" placeholder="Name" type="text">
       <a>Color (RGB Hex): </a>
       <input id="projectColor" name="projectColor" placeholder="#1e90ff" type="text">
-      <a href="javascript:%20check_empty()" id="submitPop">Send</a>
+      <span id="error-label" style="display:none;"></span>
+      <a href="javascript:%20check_empty()" id="submitPop"><input type="submit"> </a>
+      
     </form>
   </div>
 </body>

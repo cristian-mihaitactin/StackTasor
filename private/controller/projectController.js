@@ -1,5 +1,6 @@
 const ProjectRepository = require('../db/projectRepo');
 const Project = require('../../models/db/project');
+const uuidv1 = require('uuid/v1');
 
 class ProjectController {
     constructor(repo){
@@ -31,16 +32,28 @@ class ProjectController {
 
       async upsert(req, res) {
         try{
-          var obj = req.body;
-          var proj = new Project(obj.id);
-          usr.createdDate = obj.createdDate;
-          usr.updateDate = obj.updateDate;
-          usr.name = obj.name;
-          usr.color = obj.color;
-          usr.accountId = obj.accountId;
           
-          await this._repo.upsert(proj);
-          res.json();
+          var obj = req.body;
+          //if (queryObject.accountId !== undefined || queryObject.accountId != null) {
+          
+          if (obj.id._ === undefined || obj.id._ == null || obj.id._ == '' || obj.id._ == 'undefined') {
+            obj.id = uuidv1();
+          } else {
+            obj.id = req.body.id._;
+          }
+          
+          var modelObj = new Project(obj.id);
+          modelObj.createdDate = obj.createdDate;
+          modelObj.updateDate = obj.updateDate;
+          modelObj.name = obj.name;
+          modelObj.color = obj.color;
+          modelObj.accountId = obj.accountId;
+          
+          await this._repo.upsert(modelObj);
+          setTimeout(async () => {
+            req.params['id'] = modelObj.id;
+            await this.get(req, res);
+              }, 1000);
         } catch (e) {
           console.log('UserControler error: ' + e);
           res.send(e);
