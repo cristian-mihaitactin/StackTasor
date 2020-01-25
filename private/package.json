@@ -6,7 +6,9 @@
   "scripts": {
     "test_repotest": "jasmine spec/db_tests/AzureTableRepositorySpec.js",
     "test_userrepotest": "jasmine spec/db_tests/UserRepoSpec.js",
-    "test_integration_usercontroller": "jasmine spec/integration/controllers/UserControllerSpecs.js",
+    "test_integration_usercontroller": "jasmine spec/controllers/integration/UserControllerSpecs.js",
+    "test_projectcontroller": "jasmine spec/controllers/ProjectControllerSpecs.js",
+
     "start": "http-server -c-1 -p 8081",
     "start_local": "node -r dotenv/config server.js"
   },

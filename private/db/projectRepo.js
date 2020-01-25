@@ -31,11 +31,49 @@ class ProjectRepository {
 
     return model;
   }
-  async getByQuery(query) {
+  async getByQuery(queryObject) {
+    //compose query
+    var query = new azure.TableQuery()
+    // .where();
+    var whereUsed = false;
+    if (queryObject.accountId !== undefined || queryObject.accountId != null) {
+      if (whereUsed) {
+        query.and('PartitionKey eq ?', queryObject.accountId);
+      } else {
+        query.where('PartitionKey eq ?', queryObject.accountId);
+        whereUsed = true;
+      }
+    }
+    if (queryObject.name !== undefined || queryObject.name != null) {
+      if (whereUsed) {
+        query.and('Name eq ?', queryObject.name);
+      } else {
+        query.where('Name eq ?', queryObject.name);
+        whereUsed = true;
+      }
+    }
+    if (queryObject.color !== undefined || queryObject.color != null) {
+      if (whereUsed) {
+        query.and('Color eq ?', queryObject.color);
+      } else {
+        query.where('Color eq ?', queryObject.color);
+        whereUsed = true;
+      }
+    }
+    if (queryObject.accountId !== undefined || queryObject.accountId != null) {
+      if (whereUsed) {
+        query.and('AccountId eq ?', queryObject.accountId);
+      } else {
+        query.where('AccountId eq ?', queryObject.accountId);
+        whereUsed = true;
+      }
+    }
     var modelArray = new Array();
     await this._azureRepository.getByQuery(query).then((value) => {
       value.forEach((item, index) => {
         var model = this.entityToModel(item);
+        console.log('ProjectRepo ENTITY return: ' + JSON.stringify(model));
+
         modelArray.push(model);
       });
     }).catch(
@@ -45,6 +83,7 @@ class ProjectRepository {
        });
     return modelArray;
   }
+
   async upsert(model) {
     model.update();
     var entity = this.modelToEntity(model);

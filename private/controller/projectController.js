@@ -9,6 +9,17 @@ class ProjectController {
           this._repo = repo;
         }
       }
+      // getByUserId
+      async getByUserId(req, res) {
+        var queryObj = new Project();
+        queryObj.id = '';
+        queryObj._accountId = req.params.userid;
+        await this._repo.getByQuery(queryObj).then((value) => {
+          res.json(value);
+        }).catch((e) =>{
+          res.send(e);
+        });
+      };
 
       async get(req, res) {
         await this._repo.get(req.params.userid, req.params.id).then((value) => {

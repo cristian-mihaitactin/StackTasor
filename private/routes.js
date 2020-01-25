@@ -26,7 +26,7 @@ module.exports = function(app) {
 
     app.route('/users/:userid/projects')
       .get((req, res) => {
-        _projectController.getAll(req, res);
+        _projectController.getByUserId(req, res);
       })
       .post((req, res) => {
         _projectController.upsert(req, res);
