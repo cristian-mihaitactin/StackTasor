@@ -6,7 +6,7 @@ const rest_api_tasks_path = '/tasks';
 
 
 exports.getTaskProjectUserById = async (taskId, projectId, userId) => {
-    var tasksPath = rest_api_users_path + '/' + userId + '/' + rest_api_projects_path + '/' + projectId + '/' + rest_api_tasks_path + '/' + taskId;
+    var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path + '/' + taskId;
     var returnValue = '';
     await https_serivce.restapi_get(tasksPath).then((value) => {
         returnValue =  value;
@@ -20,8 +20,8 @@ exports.getTaskProjectUserById = async (taskId, projectId, userId) => {
     return returnValue;
 }
 
-exports.upsertProject = async (taskObj, projectId, userId) => {
-    var tasksPath = rest_api_users_path + '/' + userId + '/' + rest_api_projects_path + '/' + projectId + '/' + rest_api_tasks_path;
+exports.upsertTask = async (taskObj, projectId) => {
+    var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path;
     var returnValue = '';
     await https_serivce.restapi_post(tasksPath, taskObj).then((value) => {
         returnValue =  value;
@@ -36,7 +36,7 @@ exports.upsertProject = async (taskObj, projectId, userId) => {
 }
 
 exports.deleteTaskProjectUserById = async (taskId, projectId, userId) => {
-    var tasksPath = rest_api_users_path + '/' + userId + '/' + rest_api_projects_path + '/' + projectId + '/' + rest_api_tasks_path + '/' + taskId;
+    var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path + '/' + taskId;
     var returnValue = '';
     await https_serivce.restapi_delete(tasksPath).then((value) => {
         returnValue =  value;

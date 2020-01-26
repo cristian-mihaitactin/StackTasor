@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <meta name="viewport"
@@ -13,6 +13,8 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" href="/css/project.css">
+  <link rel="stylesheet" href="/css/popup.css">
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -26,7 +28,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Statistics</a>
@@ -95,25 +97,47 @@
     </div>
   </div>
   <div class="card__content">
-    <a href="#">Add new Task ...</a>
+    <a href="#" onclick="div_show()">Add new Task ...</a>
   </div>
 </article>
-<script src="/js/app.js"></script>
-<script>
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
+<!-- Task POP-UP -->
+<div class="overlay" id="overlay" style="display:none;"></div>
+  <div id="popupContact" style="display:none;">
+    <a class="boxclose" id="boxclose" onclick="div_hide()"></a>
+    <form action="project" id="formPop" method="post" name="sendForm">
+      <h2>Project Form</h2>
+      <hr>
+      <a>Name: <i>(Required)</i></a>
+      <input id="name" name="name" placeholder="Name" type="text" required oninvalid="this.setCustomValidity('* Required')"
+      <a>Color (RGB Hex): </a>
+      <input pattern="^#?[a-fA-F0-9]{6}$" id="color" name="color" placeholder="#1e90ff" type="color" required oninvalid="this.setCustomValidity('* Required')">
+      <a>Description: <i>(Required)</i></a>
+      <textarea id="description" name="description" placeholder="Description" type="text" required oninvalid="this.setCustomValidity('* Required')"></textarea>
+      <a>Estimation:  <i>(Required)</i></a>
+      <input pattern="^[0-9]+(\.[0-9]+)?$" id="estimation" name="estimation" placeholder="3 or 5.4" type="text" required oninvalid="this.setCustomValidity('* Required')">
+      <a>Task type (dev, design, support, etc.): <i>(Required)</i></a>
+      <input id="taskType" name="taskType" placeholder="(dev, design, support, etc.)" type="text" required oninvalid="this.setCustomValidity('* Required')"></input>
+      <a>Geographic Zone:</a>
+      <input id="geographicZone" name="geographicZone" placeholder="(West Europe, East Asia, Etc.)" type="text">
+      <a>Time Zone:</a>
+      <input id="timeZone" name="timeZone" placeholder="(UTC+02:00)"type="text">
+      <a>Work Domain:</a>
+      <input id="workDomain" name="workDomain" placeholder="(Programming, DevOps, Etc)" type="text">
 
-    for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight){
-        content.style.maxHeight = null;
-        } else {
-        content.style.maxHeight = content.scrollHeight + "px";
-        }
-    });
-    }
-</script>
+      <input id="taskId" name="taskId" type="text" hidden>
+      <input id="attachedAccountId" name="attachedAccountId" type="text" hidden>
+      <input id="status" name="status" type="text" hidden>
+
+      <span id="error-label" style="display:none;"></span>
+      <a id="submitPop"><input type="submit"> </a>
+    </form>
+  </div>
+
+
+
+  <script src="/js/collapsible.js"></script>
+  <script src="/js/formPopupManager.js"></script>
+  <script src="/js/formHandling.js"></script>
+  <script src="/js/project.js"></script>
 </body>
 </html>

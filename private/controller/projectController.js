@@ -60,7 +60,7 @@ class ProjectController {
             await this.get(req, res);
               }, 1000);
         } catch (e) {
-          console.log('UserControler error: ' + e);
+          console.log('ProjectControler error: ' + e);
           res.send(e);
         }
       };

@@ -149,6 +149,8 @@ class TaskRepository {
     return modelArray;
   }
   upsert(model) {
+    console.log('TaskRepo.upsert: model=' + JSON.stringify(model));
+
     model.update();
     var entity = this.modelToEntity(model);
 
@@ -170,6 +172,10 @@ class TaskRepository {
   }
 
   modelToEntity(model) {
+    if (model.attachedAccountId == undefined || model.attachedAccountId == null|| model.attachedAccountId == ''|| model.attachedAccountId == 'undefined'){
+      model.attachedAccountId = null;
+    }
+    
     var entity = {
       PartitionKey: entGen.Guid(model.projectId),
       RowKey: entGen.Guid(model.id),

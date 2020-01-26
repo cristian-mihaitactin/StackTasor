@@ -67,7 +67,7 @@ class AzureTableRepository { // Inject tableService for testing purposes
     }
     upsert(entity) {
         return new Promise((resolve, reject) => {
-            
+            console.log('AzureRepo.upsert: entity=' + JSON.stringify(entity));
             // this._tableService.doesTableExist(this._tableName, null, function(error, result, response) {
             // });
             this._tableService.insertOrMergeEntity(this._tableName, entity, function (error, result, response) {

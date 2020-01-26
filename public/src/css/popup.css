@@ -20,7 +20,9 @@ div#popupContact {
     padding:10px 50px;
     border:2px solid gray;
     border-radius:10px;
-    background-color:#fff
+    background-color:#fff;
+    max-height: 600px;
+    overflow-y: scroll
     }
     #formPop > hr {
     margin:10px -50px;
@@ -51,7 +53,6 @@ div#popupContact {
     resize:none;
     margin-top:5px;
     border:1px solid #ccc;
-    padding-left:40px;
     font-size:16px;
     font-family:raleway;
     margin-bottom:30px
