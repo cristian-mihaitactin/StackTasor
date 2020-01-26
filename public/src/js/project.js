@@ -65,8 +65,26 @@ function populateTasks(taskList){
       divClone.getElementsByClassName('span-geographicZone')[0].innerText = element.geographicZone;
       divClone.getElementsByClassName('span-timeZone')[0].innerText = element.timeZone;
 
+      //calculate link
+      var taskLink = window.location.origin + "/workItem/" + element.projectId + "/tasks/" + element.id._;
+
+      divClone.getElementsByClassName('span-link')[0].href = taskLink;
+      divClone.getElementsByClassName('span-link')[0].innerText = taskLink;
+      
+      var linkId = "taskLink" + index;
+      divClone.getElementsByClassName('span-link')[0].id = linkId;
+      divClone.getElementsByClassName('btn-copyLink')[0].onclick = () => {
+        var copyText = document.getElementById(linkId);
+        
+        navigator.clipboard.writeText(copyText.innerText).then(function() {
+            alert("Copied");
+        }, function(err) {
+            alert("Failed to copy text!");
+          });
+
+      }
+
       divClone.style.display = "";
-      // divClone.href = "/project/" + element.id._;
       taskListEl.insertBefore(divClone, taskListEl.childNodes[0]);
   });
   addCollapsible();
