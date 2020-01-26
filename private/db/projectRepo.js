@@ -33,15 +33,15 @@ class ProjectRepository {
   }
   async getByQuery(queryObject) {
     //compose query
-    var queryEntity = modelToEntity(queryObject);
+    // var queryEntity = this.modelToEntity(queryObject);
     var query = new azure.TableQuery()
     // .where();
     var whereUsed = false;
     if (queryObject.accountId != undefined || queryObject.accountId != null) {
       if (whereUsed) {
-        query.and('PartitionKey eq ?', queryEntity.PartitionKey);
+        query.and('PartitionKey eq ?', queryObject.accountId);
       } else {
-        query.where('PartitionKey eq ?', queryEntity.PartitionKey);
+        query.where('PartitionKey eq ?', queryObject.accountId);
         whereUsed = true;
       }
     }
