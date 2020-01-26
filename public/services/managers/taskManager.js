@@ -1,6 +1,18 @@
 const restapi_tasks = require('../rest-services/restApi-task');
 const Task = require('../../../models/db/task')
 
+exports.getTasksById = async (projectId, taskId) => {
+    var objList = '';
+    await restapi_tasks.getTaskById(projectId, taskId).then((value) => {
+        if (value === undefined || value === null){
+            throw Error('No tasts found. TaskId: ' + taskId);
+        }else {
+            objList = value;
+        }
+    })
+    return objList;
+}
+
 exports.createTask = async (taskId, taskattachedAccountId, projectId,
      name, color, description, taskType,
       geographicZone,timeZone, workDomain, estimation,status, evidence) => {

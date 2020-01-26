@@ -5,6 +5,21 @@ const rest_api_projects_path = '/projects';
 const rest_api_tasks_path = '/tasks';
 
 
+exports.getTaskById = async (projectId, taskId) => {
+    var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path + '/' + taskId;
+    var returnValue = '';
+    await https_serivce.restapi_get(tasksPath).then((value) => {
+        returnValue =  value;
+    }).catch(
+        (reason) => {
+             console.log('RestApi-Task.Get rejected promise ('+reason+') here.');
+             throw new Error(reason);
+         }
+    );
+
+    return returnValue;
+}
+
 exports.getTaskByProjectId = async (projectId) => {
     var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path;
     var returnValue = '';

@@ -255,29 +255,6 @@ router.get('/project/:projectId/tasks', async function(request, response) {
 	}
 });
 
-router.get('/tasks/:taskId', async function(request, response) {
-    var projectId = request.params.taskId;
-
-    if (request.session.loggedin) {
-
-        var createdtasks = await taskManager.getTasksByProjectId(projectId);
-
-        if (createdtasks) {
-            response.status(200).send(createdtasks);
-        } else {
-            response.status(500).send( {
-                Message: 'Something went wrong when creating project. Please try again.',
-                Error: true
-            });
-            response.end();
-        }
-	} else {
-        request.session.fromRedirect = true;
-        request.session.fromRedirect = '/tasks/' + request.params.taskId;
-        response.redirect('/');
-	}
-});
-
 router.post('/project/:projectId', async function(request, response) {
     var form = new multiparty.Form();
     console.log('Project params: params=' + JSON.stringify(request.params));
@@ -326,6 +303,43 @@ router.post('/project/:projectId', async function(request, response) {
             }
         });
     }
+});
+
+router.get('/workItem/:projectId/tasks/:taskId', async function(request, response) {
+    var projectId = request.params.projectId;
+    var taskId = request.params.taskId;
+
+    if (request.session.loggedin) {
+        response.sendFile(path.join(__dirname + '/workItem.html'));
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirectUrl = '/workItem/' + projectId + '/tasks/' + taskId;
+        response.redirect('/');
+	}
+});
+
+router.get('/project/:projectId/tasks/:taskId', async function(request, response) {
+    var projectId = request.params.projectId;
+    var taskId = request.params.taskId;
+
+    if (request.session.loggedin) {
+
+        var createdtasks = await taskManager.getTasksById(projectId, taskId);
+
+        if (createdtasks) {
+            response.status(200).send(createdtasks);
+        } else {
+            response.status(500).send( {
+                Message: 'Something went wrong when creating project. Please try again.',
+                Error: true
+            });
+            response.end();
+        }
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirect = '/project/' + projectId + '/tasks/' + request.params.taskId;
+        response.redirect('/');
+	}
 });
 
 app.use(express.static(__dirname + '/src'));
