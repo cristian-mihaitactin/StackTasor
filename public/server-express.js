@@ -49,8 +49,13 @@ router.post('/auth', async function(request, response) {
                 request.session.username = username;
                 request.session.userId = results[0].id;
 
+                var _redirectLink = '/home';
+                if (request.session.fromRedirect) {
+                    _redirectLink = request.session.fromRedirectUrl;
+                    request.session.fromRedirect = false;
+                }
                 response.status(200).send({
-                    RedirectLink: '/home',
+                    RedirectLink: _redirectLink,
                     Error: false
                 });
             } else {
@@ -79,6 +84,8 @@ router.get('/home', function(request, response) {
 	if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/index.html'));
 	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirectUrl = '/home';
         response.redirect('/');
 	}
 });
@@ -202,7 +209,6 @@ router.get('/project', async function(request, response) {
             var accountId = request.session.userId._;
 
             var createdProject = await projectManager.getProjectsByUserId(accountId);
-
             if (createdProject) {
                 response.status(200).send(createdProject);
             } else {
@@ -220,6 +226,8 @@ router.get('/project/:projectId', async function(request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/project.html'));
 	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirectUrl = '/project/' + request.params.projectId;
         response.redirect('/');
 	}
 });
@@ -241,6 +249,31 @@ router.get('/project/:projectId/tasks', async function(request, response) {
             response.end();
         }
 	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirect = '/tasks/' + request.params.taskId;
+        response.redirect('/');
+	}
+});
+
+router.get('/tasks/:taskId', async function(request, response) {
+    var projectId = request.params.taskId;
+
+    if (request.session.loggedin) {
+
+        var createdtasks = await taskManager.getTasksByProjectId(projectId);
+
+        if (createdtasks) {
+            response.status(200).send(createdtasks);
+        } else {
+            response.status(500).send( {
+                Message: 'Something went wrong when creating project. Please try again.',
+                Error: true
+            });
+            response.end();
+        }
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirect = '/tasks/' + request.params.taskId;
         response.redirect('/');
 	}
 });
