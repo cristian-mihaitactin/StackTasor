@@ -59,6 +59,8 @@ function populateTask(taskitem){
     divClone.getElementsByClassName('span-workDomain')[0].innerText = taskitem.workDomain;
     divClone.getElementsByClassName('span-geographicZone')[0].innerText = taskitem.geographicZone;
     divClone.getElementsByClassName('span-timeZone')[0].innerText = taskitem.timeZone;
-
+    
+    divClone.style.display = "";
+    taskListEl.insertBefore(divClone, taskListEl.childNodes[0])
     addCollapsible();
 }
