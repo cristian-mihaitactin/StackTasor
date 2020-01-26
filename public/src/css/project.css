@@ -40,4 +40,6 @@
 
   .content > .row{
     padding: 18px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
   }

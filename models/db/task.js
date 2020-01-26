@@ -68,6 +68,14 @@ class Task extends Component{
         this._attachedAccountId = value;
     }
 
+    get evidence() {
+        return this._evidence;
+        }
+    set evidence(value) {
+        this._evidence = value;
+    }
+    
+
     toJSON() {
         var jsonObj = super.toJSON();
         jsonObj.projectId= this.projectId;
@@ -79,6 +87,7 @@ class Task extends Component{
         jsonObj.timeZone= this.timeZone;
         jsonObj.workDomain= this.workDomain;
         jsonObj.attachedAccountId= this.attachedAccountId
+        jsonObj.evidence= this._evidence
 
         return jsonObj;
     }

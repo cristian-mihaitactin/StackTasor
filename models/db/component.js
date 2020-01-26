@@ -4,8 +4,8 @@ class Component extends DbModel {
     constructor(id) {
         super(id);
         if (id == null) {
-            this._name = "Empty"
-            this._color = "#808080"
+            // this._name = "Empty"
+            // this._color = "#808080"
         }
     }
 

@@ -39,7 +39,7 @@ class ProjectController {
         try{
           
           var obj = req.body;
-          //if (queryObject.accountId !== undefined || queryObject.accountId != null) {
+          //if (queryObject.accountId != undefined || queryObject.accountId != null) {
           
           if (obj.id._ === undefined || obj.id._ == null || obj.id._ == '' || obj.id._ == 'undefined') {
             obj.id = uuidv1();
@@ -60,7 +60,7 @@ class ProjectController {
             await this.get(req, res);
               }, 1000);
         } catch (e) {
-          console.log('UserControler error: ' + e);
+          console.log('ProjectControler error: ' + e);
           res.send(e);
         }
       };

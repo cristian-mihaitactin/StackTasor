@@ -10,6 +10,7 @@ const router = express.Router();
 
 var authManager = require('./services/managers/authManager');
 var projectManager = require('./services/managers/projectManager');
+var taskManager = require('./services/managers/taskManager');
 
 port = process.env.PORT || 3000;
 
@@ -165,7 +166,7 @@ router.post('/project', async function(request, response) {
 	} else {
         form.parse(request, async function(err, fields, files) {
             var projectName = '' + fields.name;
-            var projectColor = '' + fields.projectColor;
+            var projectColor = '' + fields.color;
             var projectId = '' + files.id;
             var accountId = request.session.userId._;
 
@@ -213,7 +214,87 @@ router.get('/project', async function(request, response) {
             }
         });
     }
+})
+
+router.get('/project/:projectId', async function(request, response) {
+    if (request.session.loggedin) {
+        response.sendFile(path.join(__dirname + '/project.html'));
+	} else {
+        response.redirect('/');
+	}
 });
+
+router.get('/project/:projectId/tasks', async function(request, response) {
+    var projectId = request.params.projectId;
+
+    if (request.session.loggedin) {
+
+        var createdtasks = await taskManager.getTasksByProjectId(projectId);
+
+        if (createdtasks) {
+            response.status(200).send(createdtasks);
+        } else {
+            response.status(500).send( {
+                Message: 'Something went wrong when creating project. Please try again.',
+                Error: true
+            });
+            response.end();
+        }
+	} else {
+        response.redirect('/');
+	}
+});
+
+router.post('/project/:projectId', async function(request, response) {
+    var form = new multiparty.Form();
+    console.log('Project params: params=' + JSON.stringify(request.params));
+    var projectId = request.params.projectId;
+ 
+    if (!request.session.loggedin) {
+        response.status(401).send( {
+            Message: 'Please login to view this page!',
+            Error: true
+        });
+        response.end();
+	} else {
+        form.parse(request, async function(err, fields, files) {
+            var taskId = '' + files.taskId;
+            var taskattachedAccountId = '' + files.attachedAccountId;
+            var taskName = '' + fields.name;
+            var taskColor = '' + fields.color;
+            var taskDescription = '' + fields.description;
+            var taskType = '' + fields.taskType;
+            var geographicZone = '' + fields.geographicZone;
+            var timeZone = '' + fields.timeZone;
+            var workDomain = '' + fields.workDomain;
+            var estimation = '' + fields.estimation;
+            var evidence = '' + fields.evidence;
+
+            var status = '' + fields.status;
+            if (fields.status == undefined ||fields.status == 'undefined' || fields.status == null || fields.status == '') {
+                status = 0;
+            }
+
+            var createdTask = await taskManager.createTask(taskId, taskattachedAccountId, projectId,
+                 taskName, taskColor, taskDescription,
+                 taskType, geographicZone,timeZone, workDomain, estimation,status, evidence);
+
+            if (createdTask) {
+                response.status(200).send({
+                    RedirectLink: '/project/'+ projectId,
+                    Error: false
+                });
+            } else {
+                response.status(500).send( {
+                    Message: 'Something went wrong when creating project. Please try again.',
+                    Error: true
+                });
+                response.end();
+            }
+        });
+    }
+});
+
 app.use(express.static(__dirname + '/src'));
 
 app.use('/', router);

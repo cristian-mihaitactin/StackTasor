@@ -30,7 +30,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Statistics</a>
@@ -103,10 +103,10 @@
     <form action="project" id="formPop" method="post" name="sendForm">
       <h2>Project Form</h2>
       <hr>
-      <a>Name: </a>
+      <a>Name: <i>(Required)</i></a>
       <input id="name" name="name" placeholder="Name" type="text" required oninvalid="this.setCustomValidity('* Required')"
-      <a>Color (RGB Hex): </a>
-      <input id="projectColor" name="projectColor" placeholder="#1e90ff" type="text" required oninvalid="this.setCustomValidity('* Required')">
+      <a>Color (RGB Hex): <i>(Required)</i></a>
+      <input pattern="^#?[a-fA-F0-9]{6}$" id="color" name="color" placeholder="#1e90ff" type="color" required oninvalid="this.setCustomValidity('* Required')">
       <span id="error-label" style="display:none;"></span>
       <a id="submitPop"><input type="submit"> </a>
     </form>

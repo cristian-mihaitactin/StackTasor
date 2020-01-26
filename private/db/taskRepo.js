@@ -33,18 +33,29 @@ class TaskRepository {
   }
   async getByQuery(queryObject) {
     //compose query
+    var queryEntity = this.modelToEntity(queryObject);
+    // console.log('TaskRepo.getByQuery: value=' + JSON.stringify(queryEntity))
+
     var query = new azure.TableQuery()
     // .where();
     var whereUsed = false;
-    if (queryObject.projectId !== undefined || queryObject.projectId != null) {
+    if (queryObject.projectId != undefined || queryObject.projectId != null) {
       if (whereUsed) {
-        query.and('PartitionKey eq ?', queryObject.projectId);
+        console.log('whereUsed');
+        query.and('PartitionKey eq ?', queryEntity.PartitionKey._);
+        console.log('whereUsed after');
+
       } else {
-        query.where('PartitionKey eq ?', queryObject.projectId);
+        console.log('!whereUsed');
+
+        query.where('PartitionKey eq ?', queryEntity.PartitionKey._);
         whereUsed = true;
+        console.log('!whereUsed after');
+
       }
     }
-    if (queryObject.name !== undefined || queryObject.name != null) {
+    if (queryObject.name != undefined || queryObject.name != null) {
+      console.log('here');
       if (whereUsed) {
         query.and('Name eq ?', queryObject.name);
       } else {
@@ -52,7 +63,8 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.color !== undefined || queryObject.color != null) {
+    if (queryObject.color != undefined || queryObject.color != null) {
+      console.log('here');
       if (whereUsed) {
         query.and('Color eq ?', queryObject.color);
       } else {
@@ -60,15 +72,16 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.projectId !== undefined || queryObject.projectId != null) {
-      if (whereUsed) {
-        query.and('ProjectId eq ?', queryObject.projectId);
-      } else {
-        query.where('ProjectId eq ?', queryObject.projectId);
-        whereUsed = true;
-      }
-    }
-    if (queryObject.description !== undefined || queryObject.description != null) {
+    // if (queryObject.projectId != undefined || queryObject.projectId != null) {
+    //   if (whereUsed) {
+    //     query.and('ProjectId eq ?', queryObject.projectId);
+    //   } else {
+    //     query.where('ProjectId eq ?', queryObject.projectId);
+    //     whereUsed = true;
+    //   }
+    // }
+    if (queryObject.description != undefined || queryObject.description != null) {
+      console.log('1here');
       if (whereUsed) {
         query.and('Description eq ?', queryObject.description);
       } else {
@@ -76,7 +89,8 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.taskType !== undefined || queryObject.taskType != null) {
+    if (queryObject.taskType != undefined || queryObject.taskType != null) {
+      console.log('2here');
       if (whereUsed) {
         query.and('TaskType eq ?', queryObject.taskType);
       } else {
@@ -84,7 +98,8 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.estimation !== undefined || queryObject.estimation != null) {
+    if (queryObject.estimation != undefined || queryObject.estimation != null) {
+      console.log('3here');
       if (whereUsed) {
         query.and('Estimation eq ?', queryObject.estimation);
       } else {
@@ -92,7 +107,8 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.status !== undefined || queryObject.status != null) {
+    if (queryObject.status != undefined || queryObject.status != null) {
+      console.log('4here');
       if (whereUsed) {
         query.and('Status eq ?', queryObject.status);
       } else {
@@ -100,7 +116,8 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.geographicZone !== undefined || queryObject.geographicZone != null) {
+    if (queryObject.geographicZone != undefined || queryObject.geographicZone != null) {
+      console.log('5here');
       if (whereUsed) {
         query.and('GeographicZone eq ?', queryObject.geographicZone);
       } else {
@@ -108,7 +125,8 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.timeZone !== undefined || queryObject.timeZone != null) {
+    if (queryObject.timeZone != undefined || queryObject.timeZone != null) {
+      console.log('6here');
       if (whereUsed) {
         query.and('TimeZone eq ?', queryObject.timeZone);
       } else {
@@ -116,7 +134,8 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.workDomain !== undefined || queryObject.workDomain != null) {
+    if (queryObject.workDomain != undefined || queryObject.workDomain != null) {
+      console.log('7here');
       if (whereUsed) {
         query.and('WorkDomain eq ?', queryObject.workDomain);
       } else {
@@ -124,7 +143,8 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.attachedAccountId !== undefined || queryObject.attachedAccountId != null) {
+    if (queryObject.attachedAccountId != undefined || queryObject.attachedAccountId != null) {
+      console.log('8here');
       if (whereUsed) {
         query.and('AttachedAccountId eq ?', queryObject.attachedAccountId);
       } else {
@@ -132,8 +152,19 @@ class TaskRepository {
         whereUsed = true;
       }
     }
+    if (queryObject.evidence != undefined || queryObject.evidence != null) {
+      console.log('9here');
+      if (whereUsed) {
+        query.and('Evidence eq ?', queryObject.evidence);
+      } else {
+        query.where('Evidence eq ?', queryObject.evidence);
+        whereUsed = true;
+      }
+    }
+    console.log('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
 
     var modelArray = new Array();
+    console.log('TaskRepo.query: value=' + JSON.stringify(query))
     await this._azureRepository.getByQuery(query).then((value) => {
       value.forEach((item, index) => {
         var model = this.entityToModel(item);
@@ -149,6 +180,8 @@ class TaskRepository {
     return modelArray;
   }
   upsert(model) {
+    console.log('TaskRepo.upsert: model=' + JSON.stringify(model));
+
     model.update();
     var entity = this.modelToEntity(model);
 
@@ -170,6 +203,10 @@ class TaskRepository {
   }
 
   modelToEntity(model) {
+    if (model.attachedAccountId == undefined || model.attachedAccountId == null|| model.attachedAccountId == ''|| model.attachedAccountId == 'undefined'){
+      model.attachedAccountId = null;
+    }
+    
     var entity = {
       PartitionKey: entGen.Guid(model.projectId),
       RowKey: entGen.Guid(model.id),
@@ -181,6 +218,7 @@ class TaskRepository {
       GeographicZone: entGen.String(model.geographicZone),
       TimeZone: entGen.String(model.timeZone),
       WorkDomain: entGen.String(model.workDomain),
+      Evidence: entGen.String(model.evidence),
       AttachedAccountId: entGen.Guid(model.attachedAccountId),
 
       Name: entGen.String(model.name),
@@ -201,8 +239,10 @@ class TaskRepository {
     model.geographicZone = entity.GeographicZone._;
     model.timeZone = entity.TimeZone._;
     model.workDomain = entity.WorkDomain._;
-    model.attachedAccountId = entity.AttachedAccountId._;
-
+    model.evidence = entity.Evidence._;
+    if (entity.AttachedAccountId != undefined || entity.AttachedAccountId != null) {
+      model.attachedAccountId = entity.AttachedAccountId._;
+    }
 
     model.name = entity.Name._;
     model.color = entity.Color._;

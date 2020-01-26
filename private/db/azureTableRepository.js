@@ -56,6 +56,7 @@ class AzureTableRepository { // Inject tableService for testing purposes
         return new Promise((resolve, reject) => {
             this._tableService.queryEntities(this._tableName, query, null, function (error, result, response) {
                 if (! error) { // result.entries contains entities matching the query
+                    console.log('AzyreTable.getByQuery: result=' + JSON.stringify(result.entries))
                     return resolve(result.entries);
                 } else {
                     reject("Unable to retrieve entity: Query: " + query + ". Error: " + error);
@@ -67,7 +68,7 @@ class AzureTableRepository { // Inject tableService for testing purposes
     }
     upsert(entity) {
         return new Promise((resolve, reject) => {
-            
+            console.log('AzureRepo.upsert: entity=' + JSON.stringify(entity));
             // this._tableService.doesTableExist(this._tableName, null, function(error, result, response) {
             // });
             this._tableService.insertOrMergeEntity(this._tableName, entity, function (error, result, response) {
