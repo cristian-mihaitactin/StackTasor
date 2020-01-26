@@ -23,7 +23,12 @@ class TaskController {
         var queryObj = new Task();
         queryObj.id = '';
         queryObj.projectId = req.params.projectid;
+        queryObj.attachedAccountId = undefined;
+
+        console.log('TaskRepo.getByProjectId: queryObj=' + JSON.stringify(queryObj));
+
         await this._repo.getByQuery(queryObj).then((value) => {
+          console.log('TaskRepo.getByProjectId: value=' + JSON.stringify(value));
           res.json(value);
         }).catch((e) =>{
           res.send(e);
@@ -56,6 +61,7 @@ class TaskController {
           taskobj.timeZone = obj.timeZone;
           taskobj.workDomain = obj.workDomain;
           taskobj.attachedAccountId = obj.attachedAccountId;
+          taskobj.evidence = obj.evidence;
           await this._repo.upsert(taskobj);
           setTimeout(async () => {
             req.params['id'] = taskobj.id;

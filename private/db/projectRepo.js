@@ -33,18 +33,19 @@ class ProjectRepository {
   }
   async getByQuery(queryObject) {
     //compose query
+    var queryEntity = modelToEntity(queryObject);
     var query = new azure.TableQuery()
     // .where();
     var whereUsed = false;
-    if (queryObject.accountId !== undefined || queryObject.accountId != null) {
+    if (queryObject.accountId != undefined || queryObject.accountId != null) {
       if (whereUsed) {
-        query.and('PartitionKey eq ?', queryObject.accountId);
+        query.and('PartitionKey eq ?', queryEntity.PartitionKey);
       } else {
-        query.where('PartitionKey eq ?', queryObject.accountId);
+        query.where('PartitionKey eq ?', queryEntity.PartitionKey);
         whereUsed = true;
       }
     }
-    if (queryObject.name !== undefined || queryObject.name != null) {
+    if (queryObject.name != undefined || queryObject.name != null) {
       if (whereUsed) {
         query.and('Name eq ?', queryObject.name);
       } else {
@@ -52,7 +53,7 @@ class ProjectRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.color !== undefined || queryObject.color != null) {
+    if (queryObject.color != undefined || queryObject.color != null) {
       if (whereUsed) {
         query.and('Color eq ?', queryObject.color);
       } else {
@@ -60,7 +61,7 @@ class ProjectRepository {
         whereUsed = true;
       }
     }
-    // if (queryObject.accountId !== undefined || queryObject.accountId != null) {
+    // if (queryObject.accountId != undefined || queryObject.accountId != null) {
     //   if (whereUsed) {
     //     query.and('AccountId eq ?', queryObject.accountId);
     //   } else {

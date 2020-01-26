@@ -43,17 +43,17 @@ class UserRepository {
     .where("PartitionKey eq ?", latestUserVersion);
     // TODO For some reason, and does not work
     // .top(1);
-    if (queryObject.accountType !== undefined || queryObject.accountType != null) {
+    if (queryObject.accountType != undefined || queryObject.accountType != null) {
       query.and('AccountType eq ?', queryObject.accountType);
     }
-    if (queryObject.username !== undefined || queryObject.username != null) {
+    if (queryObject.username != undefined || queryObject.username != null) {
       query.and('UserName eq ?', queryObject.username);
     }
 
-    if (queryObject.password !== undefined || queryObject.password != null) {
+    if (queryObject.password != undefined || queryObject.password != null) {
       query.and('Password eq ?', queryObject.password);
     }
-    if (queryObject.email !== undefined || queryObject.email != null) {
+    if (queryObject.email != undefined || queryObject.email != null) {
       query.and('Email eq ?', queryObject.email);
     }
     var modelArray = new Array();

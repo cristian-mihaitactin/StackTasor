@@ -39,7 +39,7 @@ class ProjectController {
         try{
           
           var obj = req.body;
-          //if (queryObject.accountId !== undefined || queryObject.accountId != null) {
+          //if (queryObject.accountId != undefined || queryObject.accountId != null) {
           
           if (obj.id._ === undefined || obj.id._ == null || obj.id._ == '' || obj.id._ == 'undefined') {
             obj.id = uuidv1();

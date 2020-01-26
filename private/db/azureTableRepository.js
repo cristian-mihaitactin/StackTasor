@@ -56,6 +56,7 @@ class AzureTableRepository { // Inject tableService for testing purposes
         return new Promise((resolve, reject) => {
             this._tableService.queryEntities(this._tableName, query, null, function (error, result, response) {
                 if (! error) { // result.entries contains entities matching the query
+                    console.log('AzyreTable.getByQuery: result=' + JSON.stringify(result.entries))
                     return resolve(result.entries);
                 } else {
                     reject("Unable to retrieve entity: Query: " + query + ". Error: " + error);

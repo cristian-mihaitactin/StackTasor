@@ -5,8 +5,8 @@ const rest_api_projects_path = '/projects';
 const rest_api_tasks_path = '/tasks';
 
 
-exports.getTaskProjectUserById = async (taskId, projectId, userId) => {
-    var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path + '/' + taskId;
+exports.getTaskByProjectId = async (projectId) => {
+    var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path;
     var returnValue = '';
     await https_serivce.restapi_get(tasksPath).then((value) => {
         returnValue =  value;

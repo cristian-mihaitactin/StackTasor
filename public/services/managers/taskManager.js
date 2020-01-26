@@ -3,7 +3,7 @@ const Task = require('../../../models/db/task')
 
 exports.createTask = async (taskId, taskattachedAccountId, projectId,
      name, color, description, taskType,
-      geographicZone,timeZone, workDomain, estimation,status) => {
+      geographicZone,timeZone, workDomain, estimation,status, evidence) => {
     var taskObj = new Task(taskId);
     taskObj.attachedAccountId = taskattachedAccountId;
     taskObj.projectId = projectId;
@@ -17,6 +17,7 @@ exports.createTask = async (taskId, taskattachedAccountId, projectId,
 
     taskObj.estimation = estimation;
     taskObj.status = status;
+    taskObj.evidence = evidence;
 
 
     var result = '';
@@ -28,4 +29,16 @@ exports.createTask = async (taskId, taskattachedAccountId, projectId,
         }
     })
     return result;
+}
+
+exports.getTasksByProjectId = async (projectId) => {
+    var objList = '';
+    await restapi_tasks.getTaskByProjectId(projectId).then((value) => {
+        if (value === undefined || value === null){
+            throw Error('No tasts found. Project: ' + projectId);
+        }else {
+            objList = value;
+        }
+    })
+    return objList;
 }

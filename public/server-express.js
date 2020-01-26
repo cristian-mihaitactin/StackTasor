@@ -224,6 +224,27 @@ router.get('/project/:projectId', async function(request, response) {
 	}
 });
 
+router.get('/project/:projectId/tasks', async function(request, response) {
+    var projectId = request.params.projectId;
+
+    if (request.session.loggedin) {
+
+        var createdtasks = await taskManager.getTasksByProjectId(projectId);
+
+        if (createdtasks) {
+            response.status(200).send(createdtasks);
+        } else {
+            response.status(500).send( {
+                Message: 'Something went wrong when creating project. Please try again.',
+                Error: true
+            });
+            response.end();
+        }
+	} else {
+        response.redirect('/');
+	}
+});
+
 router.post('/project/:projectId', async function(request, response) {
     var form = new multiparty.Form();
     console.log('Project params: params=' + JSON.stringify(request.params));
@@ -247,6 +268,7 @@ router.post('/project/:projectId', async function(request, response) {
             var timeZone = '' + fields.timeZone;
             var workDomain = '' + fields.workDomain;
             var estimation = '' + fields.estimation;
+            var evidence = '' + fields.evidence;
 
             var status = '' + fields.status;
             if (fields.status == undefined ||fields.status == 'undefined' || fields.status == null || fields.status == '') {
@@ -255,7 +277,7 @@ router.post('/project/:projectId', async function(request, response) {
 
             var createdTask = await taskManager.createTask(taskId, taskattachedAccountId, projectId,
                  taskName, taskColor, taskDescription,
-                 taskType, geographicZone,timeZone, workDomain, estimation,status);
+                 taskType, geographicZone,timeZone, workDomain, estimation,status, evidence);
 
             if (createdTask) {
                 response.status(200).send({

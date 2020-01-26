@@ -44,56 +44,58 @@
 </nav>
 
 <article class="card">
-  <div class="card__content">
-    <button type="button" class="collapsible"><strong>Title</strong></button>
-    <div class="content">
-        <p>Lorem ipsum...</p>
-        <div class="row">
-            <strong>Created: </strong> <span>Created datetime</span>
-        </div>
+  
+  <div id="taskListArticle">
+    <div id="taskTemplate" class="card__content"  style="display: none;">
+      <button type="button" class="collapsible"><strong class="taskName">Title</strong></button>
+      <div class="content">
+          <p class="taskDescription">Lorem ipsum...</p>
+          <div class="row">
+              <p><strong>Created: </strong> <br/> <span class="span-createdDate">Created datetime</span></p>
+          </div>
 
-        <hr>
+          <hr>
 
-        <div class="row">
-            <strong>Updated: </strong> <span>Update datetime</span>
-        </div>
-        <div class="row">
-            <strong>Is working: </strong> <span>Show if someone working on the item</span>
-        </div>
-        <div class="row">
-            <strong>Status: </strong> <span>This is a status. Colored text status</span>
-        </div>
-        <div class="row">
-            <strong>Evidence of Done: </strong> <span>Link to evidence of done. is hidden</span>
-        </div>
+          <div class="row">
+              <p><strong>Updated: </strong> <br/> <span class="span-updatedDate">Update datetime</span></p>
+          </div>
+          <div class="row">
+              <p><strong>Is working: </strong> <br/> <span class="span-attachedAccount"> N/A</span></p>
+          </div>
+          <div class="row">
+              <p><strong>Status: </strong> <br/> <span class="span-status">This is a status. Colored text status</span></p>
+          </div>
+          <div class="row">
+              <p><strong>Evidence of Done: </strong> <br/> <span class="span-evidence">Link to evidence of done. is hidden</span></p>
+          </div>
 
-        <hr>
+          <hr>
 
-        <div class="row">
-            <strong>Type: </strong> <span>Type of task</span>
-        </div>
-        <div class="row">
-            <strong>Estimation: </strong> <span>Estimation ints</span>
-        </div>
-        <div class="row">
-            <strong>Work domain: </strong> <span>Work domain</span>
-        </div>
-        <div class="row">
-            <strong>Geographical zone: </strong> <span>Geo domain</span>
-        </div>
-        <div class="row">
-            <strong>Client timezone: </strong> <span>Client timezone</span>
-        </div>
+          <div class="row">
+              <p><strong>Task Type: </strong> <br/> <span class="span-taskType">Type of task</span></p>
+          </div>
+          <div class="row">
+              <p><strong>Estimation: </strong> <br/> <span class="span-estimation">Estimation ints</span></p>
+          </div>
+          <div class="row">
+              <p><strong>Work domain: </strong> <br/> <span class="span-workDomain">Work domain</span></p>
+          </div>
+          <div class="row">
+              <p><strong>Geographical zone: </strong> <br/> <span class="span-geographicZone">Geo domain</span></p>
+          </div>
+          <div class="row">
+              <p><strong>Client timezone: </strong> <br/> <span class="span-timeZone">Client timezone</span></p>
+          </div>
 
-        <hr>
+          <hr>
+          <div class="row">
+              <button>Edit - only for client</button>
+              <button>Finish</button>
+              <button>Abandon</button>
 
-        <div class="row">
-            <button>Edit - only for client</button>
-            <button>Finish</button>
-            <button>Abandon</button>
-
-            <button>Cancel - only for client</button> 
-        </div>
+              <button>Cancel - only for client</button> 
+          </div>
+      </div>
     </div>
   </div>
   <div class="card__content">
@@ -127,6 +129,7 @@
       <input id="taskId" name="taskId" type="text" hidden>
       <input id="attachedAccountId" name="attachedAccountId" type="text" hidden>
       <input id="status" name="status" type="text" hidden>
+      <input id="evidence" name="evidence" type="text" hidden>
 
       <span id="error-label" style="display:none;"></span>
       <a id="submitPop"><input type="submit"> </a>
