@@ -46,7 +46,7 @@
 <article class="card">
   
   <div id="taskListArticle">
-    <div id="taskTemplate" class="card__content"  style="display: none;">
+    <div id="taskTemplate" class="card__content">
       <button type="button" class="collapsible"><strong class="taskName">Title</strong></button>
       <div class="content">
           <p class="taskDescription">Lorem ipsum...</p>
@@ -86,66 +86,18 @@
           <div class="row">
               <p><strong>Client timezone: </strong> <br/> <span class="span-timeZone">Client timezone</span></p>
           </div>
-          <hr>
-
-          <div class="row">
-              <p><strong>Work Item Link: </strong> <br/> <a href="" class="span-link">link to task</a> <br/> <button class="btn-copyLink" >Copy Link</button></p>
-          </div>
 
           <hr>
           <div class="row">
-              <button>Edit - only for client</button>
+              <button>Accept</button>
               <button>Finish</button>
               <button>Abandon</button>
-
-              <button>Cancel - only for client</button> 
           </div>
       </div>
     </div>
   </div>
-  <div class="card__content">
-    <a href="#" onclick="div_show()">Add new Task ...</a>
-  </div>
 </article>
-<!-- Task POP-UP -->
-<div class="overlay" id="overlay" style="display:none;"></div>
-  <div id="popupContact" style="display:none;">
-    <a class="boxclose" id="boxclose" onclick="div_hide()"></a>
-    <form action="project" id="formPop" method="post" name="sendForm">
-      <h2>Project Form</h2>
-      <hr>
-      <a>Name: <i>(Required)</i></a>
-      <input id="name" name="name" placeholder="Name" type="text" required oninvalid="this.setCustomValidity('* Required')"
-      <a>Color (RGB Hex): </a>
-      <input pattern="^#?[a-fA-F0-9]{6}$" id="color" name="color" placeholder="#1e90ff" type="color" required oninvalid="this.setCustomValidity('* Required')">
-      <a>Description: <i>(Required)</i></a>
-      <textarea id="description" name="description" placeholder="Description" type="text" required oninvalid="this.setCustomValidity('* Required')"></textarea>
-      <a>Estimation:  <i>(Required)</i></a>
-      <input pattern="^[0-9]+(\.[0-9]+)?$" id="estimation" name="estimation" placeholder="3 or 5.4" type="text" required oninvalid="this.setCustomValidity('* Required')">
-      <a>Task type (dev, design, support, etc.): <i>(Required)</i></a>
-      <input id="taskType" name="taskType" placeholder="(dev, design, support, etc.)" type="text" required oninvalid="this.setCustomValidity('* Required')"></input>
-      <a>Geographic Zone:</a>
-      <input id="geographicZone" name="geographicZone" placeholder="(West Europe, East Asia, Etc.)" type="text">
-      <a>Time Zone:</a>
-      <input id="timeZone" name="timeZone" placeholder="(UTC+02:00)"type="text">
-      <a>Work Domain:</a>
-      <input id="workDomain" name="workDomain" placeholder="(Programming, DevOps, Etc)" type="text">
-
-      <input id="taskId" name="taskId" type="text" hidden>
-      <input id="attachedAccountId" name="attachedAccountId" type="text" hidden>
-      <input id="status" name="status" type="text" hidden>
-      <input id="evidence" name="evidence" type="text" hidden>
-
-      <span id="error-label" style="display:none;"></span>
-      <a id="submitPop"><input type="submit"> </a>
-    </form>
-  </div>
-
-
-
   <script src="/js/collapsible.js"></script>
-  <script src="/js/formPopupManager.js"></script>
-  <script src="/js/formHandling.js"></script>
-  <script src="/js/project.js"></script>
+  <script src="/js/task.js"></script>
 </body>
 </html>
