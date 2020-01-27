@@ -312,7 +312,6 @@ router.get('/project/:projectId/tasks/:taskId', async function(request, response
     if (request.session.loggedin) {
 
         var createdtasks = await taskManager.getTasksById(projectId, taskId);
-
         if (createdtasks) {
             response.status(200).send(createdtasks);
         } else {
@@ -332,6 +331,7 @@ router.get('/project/:projectId/tasks/:taskId', async function(request, response
 router.get('/workItem/:projectId/tasks/:taskId', async function(request, response) {
     var projectId = request.params.projectId;
     var taskId = request.params.taskId;
+
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/workItem.html'));
 	} else {
@@ -354,13 +354,25 @@ router.post('/workItem/:projectId/tasks/:taskId', async function(request, respon
         console.log('statusChange: ' + JSON.stringify(statusChange));
         if (statusChange.Accepted) {
             newStatus = 1;
-        }else if (statusChange.Abandon) {
-            newStatus = 0;
-            taskattachedAccountId = null;
-        } else if (statusChange.Finished) {
-            newStatus = 2;
-            evidence = statusChange.Evidence;
+        }else {
+            var taskBefore = await taskManager.getTasksById(projectId, taskId);
+            if (taskattachedAccountId._ == taskBefore.attachedAccountId){
+                if (statusChange.Abandon) {
+                    newStatus = 0;
+                    taskattachedAccountId = null;
+                } else if (statusChange.Finished) {
+                    newStatus = 2;
+                    evidence = statusChange.Evidence;
+                }
+            } else {
+                response.status(403).send( {
+                    Message: "You can't modify a task that you are not attached to!",
+                    Error: true
+                });
+                response.end();
+            }
         }
+        
         var updatedTasks = await taskManager.updateTaskStatus(taskId,
              taskattachedAccountId, projectId,
              newStatus, evidence);
