@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 // app.use(bodyParser.raw({ type: 'multipart/form-data' }))
 
 router.get('/', function(request, response) {
-	response.sendFile(path.join(__dirname + '/login.html'));
+	response.sendFile(path.join(__dirname + "/views" + '/login.html'));
 });
 
 router.post('/auth', async function(request, response) {
@@ -79,10 +79,10 @@ router.post('/auth', async function(request, response) {
 });
 
 router.get('/home', function(request, response) {
-    console.log(path.join(__dirname + '/index.html'));
+    console.log(path.join(__dirname + "/views" + '/index.html'));
 
 	if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + '/index.html'));
+        response.sendFile(path.join(__dirname + "/views" + '/index.html'));
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = '/home';
@@ -91,12 +91,12 @@ router.get('/home', function(request, response) {
 });
 
 router.get('/signUp', function(request, response) {
-    console.log(path.join(__dirname + '/signUp.html'));
+    console.log(path.join(__dirname + "/views" + '/signUp.html'));
 
 	if (!request.session.loggedin) {
 
-        response.sendFile(path.join(__dirname + '/signUp.html'));
-        // response.render(path.join(__dirname + '/index.html'));
+        response.sendFile(path.join(__dirname + "/views" + '/signUp.html'));
+        // response.render(path.join(__dirname + "/views" + '/index.html'));
         // response.send('Welcome back, ' + request.session.username + '!');
         // response.end();
 
@@ -223,7 +223,7 @@ router.get('/project', async function(request, response) {
 
 router.get('/project/:projectId', async function(request, response) {
     if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + '/project.html'));
+        response.sendFile(path.join(__dirname + "/views" + '/project.html'));
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = '/project/' + request.params.projectId;
@@ -331,7 +331,7 @@ router.get('/workItem/:projectId/tasks/:taskId', async function(request, respons
     var taskId = request.params.taskId;
 
     if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + '/workItem.html'));
+        response.sendFile(path.join(__dirname + "/views" + '/workItem.html'));
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = '/workItem/' + projectId + '/tasks/' + taskId;
