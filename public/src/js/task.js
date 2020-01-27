@@ -7,6 +7,12 @@ var taskStatus = {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    var formEl = document.getElementById('formPop');
+
+    var pathname = window.location.pathname;
+    formEl.action = pathname;
+    formEl.method = 'POST';
+
     getTask();
   });
 

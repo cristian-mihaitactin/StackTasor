@@ -350,20 +350,35 @@ router.post('/workItem/:projectId/tasks/:taskId', async function(request, respon
         var evidence = '';
 
         var statusChange = request.body;
-        // TODO
-        console.log('{}' == JSON.stringify(request.body));
+        if ('{}' == JSON.stringify(request.body)){
+            statusChange.Finished = true;
 
+            statusChange.Accepted = false;
+            statusChange.Abandon = false;
+        }
         if (statusChange.Accepted) {
             newStatus = 1;
+            await updateTask(response,taskId,
+                taskattachedAccountId, projectId,
+                newStatus, evidence)
         }else {
             var taskBefore = await taskManager.getTasksById(projectId, taskId);
             if (taskattachedAccountId._ == taskBefore.attachedAccountId){
                 if (statusChange.Abandon) {
                     newStatus = 0;
                     taskattachedAccountId = null;
+                    await updateTask(response,taskId,
+                        taskattachedAccountId, projectId,
+                        newStatus, evidence)
                 } else if (statusChange.Finished) {
                     newStatus = 2;
-                    evidence = statusChange.Evidence;
+                    var form = new multiparty.Form();
+                    form.parse(request, async function(err, fields, files) {
+                        evidence = "" + fields.evidence;
+                        await updateTask(response,taskId,
+                            taskattachedAccountId, projectId,
+                            newStatus, evidence)
+                    });
                 }
             } else {
                 response.status(403).send( {
@@ -371,30 +386,52 @@ router.post('/workItem/:projectId/tasks/:taskId', async function(request, respon
                     Error: true
                 });
                 response.end();
+                return;
             }
         }
-        
-        var updatedTasks = await taskManager.updateTaskStatus(taskId,
-             taskattachedAccountId, projectId,
-             newStatus, evidence);
-        if (updatedTasks) {
-        response.status(200).send({
-            RedirectLink: redirectLink,
-            Error: false
-        });
-        } else {
-            response.status(500).send( {
-                Message: 'Something went wrong when creating user. Please try again.',
-                Error: true
-            });
-            response.end();
-        }
+        console.log('evidence.after=' + evidence);
+        // var updatedTasks = await taskManager.updateTaskStatus(taskId,
+        //      taskattachedAccountId, projectId,
+        //      newStatus, evidence);
+        // if (updatedTasks) {
+        // response.status(200).send({
+        //     RedirectLink: redirectLink,
+        //     Error: false
+        // });
+        // } else {
+        //     response.status(500).send( {
+        //         Message: 'Something went wrong when creating user. Please try again.',
+        //         Error: true
+        //     });
+        //     response.end();
+        // }
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = redirectLink;
         response.redirect('/');
 	}
 });
+async function updateTask(response,taskId,
+    taskattachedAccountId, projectId,
+    newStatus, evidence) {
+    var redirectLink = '/workItem/' + projectId + '/tasks/' + taskId;
+
+    var updatedTasks = await taskManager.updateTaskStatus(taskId,
+        taskattachedAccountId, projectId,
+        newStatus, evidence);
+   if (updatedTasks) {
+   response.status(200).send({
+       RedirectLink: redirectLink,
+       Error: false
+   });
+   } else {
+       response.status(500).send( {
+           Message: 'Something went wrong when creating user. Please try again.',
+           Error: true
+       });
+       response.end();
+   }
+}
 
 app.use(express.static(__dirname + '/src'));
 

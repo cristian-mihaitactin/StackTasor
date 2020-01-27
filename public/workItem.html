@@ -90,8 +90,8 @@
           <hr>
           <div class="row">
               <button id="btn-accept" onclick="acceptTask()">Accept</button>
-              <button id="btn-finish" onclick="finishTaskTask()">Finish</button>
               <button id="btn-abandon" onclick="abandonTask()">Abandon</button>
+              <button id="btn-finish" onclick="div_show()">Finish</button>
           </div>
       </div>
     </div>
@@ -106,12 +106,14 @@
       <hr>
       <p>Please provide evidence of finishing the task.</p>
       <a>Evidence: </a>
-      <input id="name" name="name" placeholder="Name" type="text" required oninvalid="this.setCustomValidity('* Required')">
+      <textarea id="evidence" name="evidence" placeholder="Evidence (e.g.: link ...)" type="text" required oninvalid="this.setCustomValidity('* Required')"></textarea>
       <span id="error-label" style="display:none;"></span>
       <a id="submitPop"><input type="submit"> </a>
     </form>
   </div>
   <script src="/js/collapsible.js"></script>
   <script src="/js/task.js"></script>
+  <script src="/js/formPopupManager.js"></script>
+  <script src="/js/formHandling.js"></script>
 </body>
 </html>
