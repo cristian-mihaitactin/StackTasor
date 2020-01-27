@@ -54,3 +54,25 @@ exports.getTasksByProjectId = async (projectId) => {
     })
     return objList;
 }
+
+exports.updateTaskStatus = async (taskId, taskattachedAccountId, projectId,
+    status, evidence) => {
+   var taskObj = new Task(taskId);
+   taskObj.attachedAccountId = taskattachedAccountId;
+   taskObj.projectId = projectId;
+
+   taskObj.status = status;
+   taskObj.evidence = evidence;
+
+   var result = '';
+   console.log('updateTaskStatus: taskObj' + JSON.stringify(taskObj));
+
+   await restapi_tasks.upsertTask(taskObj, projectId).then((value) => {
+       if (value === undefined || value === null){
+           throw Error('No task found. TaskId= ' + taskObj.id);
+       }else {
+           result = value;
+       }
+   })
+   return result;
+}

@@ -63,7 +63,6 @@ exports.restapi_post = function(path, bodyObject) {
                 rejectUnauthorized: false,
               }),
         }
-
         const req = https.request(options, (res) => {
             console.log(`Http-service Post: StatusCode: ${res.statusCode}`);
 

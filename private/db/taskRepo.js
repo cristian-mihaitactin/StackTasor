@@ -1,9 +1,12 @@
 const azure = require('azure-storage');
 const AzureTableRepository = require('./azureTableRepository');
 const Task = require('../../models/db/task');
+const uuidv1 = require('uuid/v1');
+
 const entGen = azure.TableUtilities.entityGenerator;
 
 const tableName = 'Tasks';
+const emptyString = "00000000-0000-0000-0000-000000000000";
 
 class TaskRepository {
   //Inject tableService for testing purposes
@@ -204,7 +207,9 @@ class TaskRepository {
 
   modelToEntity(model) {
     if (model.attachedAccountId == undefined || model.attachedAccountId == null|| model.attachedAccountId == ''|| model.attachedAccountId == 'undefined'){
-      model.attachedAccountId = null;
+      model.attachedAccountId = emptyString;
+    } else {
+      model.attachedAccountId = model.attachedAccountId._;
     }
     
     var entity = {
@@ -240,8 +245,13 @@ class TaskRepository {
     model.timeZone = entity.TimeZone._;
     model.workDomain = entity.WorkDomain._;
     model.evidence = entity.Evidence._;
+
     if (entity.AttachedAccountId != undefined || entity.AttachedAccountId != null) {
-      model.attachedAccountId = entity.AttachedAccountId._;
+      if (entity.AttachedAccountId._ == emptyString) {
+        model.attachedAccountId = null;
+      } else {
+        model.attachedAccountId = entity.AttachedAccountId._;
+      }
     }
 
     model.name = entity.Name._;
