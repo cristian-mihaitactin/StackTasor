@@ -24,12 +24,12 @@ div#popupContact {
     max-height: 600px;
     overflow-y: scroll
     }
-    #formPop > hr {
+    .formPop > hr {
     margin:10px -50px;
     border:0;
     border-top:1px solid #ccc
     }
-    #formPop > input[type=text] {
+    .formPop > input[type=text] {
     width:82%;
     padding:10px;
     margin-top:0px;
@@ -39,12 +39,12 @@ div#popupContact {
     font-family:raleway
 
     }
-    #formPop > #name {
+    .formPop > #name {
     width:90%;
     background-repeat:no-repeat;
     background-position:5px 7px
     }
-    #formPop > textarea {
+    .formPop > textarea {
     background-repeat:no-repeat;
     background-position:5px 7px;
     width:82%;

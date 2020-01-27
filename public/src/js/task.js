@@ -7,7 +7,7 @@ var taskStatus = {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    var formEl = document.getElementById('formPop');
+    var formEl = document.getElementById('taskFormPop');
 
     var pathname = window.location.pathname;
     formEl.action = pathname;
