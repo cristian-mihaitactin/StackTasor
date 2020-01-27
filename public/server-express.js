@@ -34,6 +34,20 @@ router.get('/', function(request, response) {
 	response.sendFile(path.join(__dirname + "/views" + '/login.html'));
 });
 
+router.post('/signout', async function(request, response) {
+
+    if (request.session.loggedin) {
+        request.session.loggedin = false;
+        request.session.username = "";
+        request.session.userId = "";
+        response.redirect('/');
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirectUrl = '/home';
+        response.redirect('/');
+	}
+});
+
 router.post('/auth', async function(request, response) {
 	var form = new multiparty.Form();
  
@@ -74,13 +88,9 @@ router.post('/auth', async function(request, response) {
             response.end();
         }
     });
-
-	
 });
 
 router.get('/home', function(request, response) {
-    console.log(path.join(__dirname + "/views" + '/index.html'));
-
 	if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + "/views" + '/index.html'));
 	} else {
@@ -91,15 +101,9 @@ router.get('/home', function(request, response) {
 });
 
 router.get('/signUp', function(request, response) {
-    console.log(path.join(__dirname + "/views" + '/signUp.html'));
-
 	if (!request.session.loggedin) {
 
         response.sendFile(path.join(__dirname + "/views" + '/signUp.html'));
-        // response.render(path.join(__dirname + "/views" + '/index.html'));
-        // response.send('Welcome back, ' + request.session.username + '!');
-        // response.end();
-
 	} else {
         response.status(401).send( {
             Message: 'Please login to view this page!',
