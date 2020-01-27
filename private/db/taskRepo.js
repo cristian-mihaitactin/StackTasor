@@ -1,9 +1,12 @@
 const azure = require('azure-storage');
 const AzureTableRepository = require('./azureTableRepository');
 const Task = require('../../models/db/task');
+const uuidv1 = require('uuid/v1');
+
 const entGen = azure.TableUtilities.entityGenerator;
 
 const tableName = 'Tasks';
+const emptyString = "00000000-0000-0000-0000-000000000000";
 
 class TaskRepository {
   //Inject tableService for testing purposes
@@ -143,7 +146,9 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.attachedAccountId != undefined || queryObject.attachedAccountId != null) {
+
+      console.log('queryObject.attachedAccountId = ' + queryObject.attachedAccountId);
+    if ((queryObject.attachedAccountId != undefined || queryObject.attachedAccountId != null ) && queryObject.attachedAccountId != emptyString) {
       console.log('8here');
       if (whereUsed) {
         query.and('AttachedAccountId eq ?', queryObject.attachedAccountId);
@@ -204,9 +209,12 @@ class TaskRepository {
 
   modelToEntity(model) {
     if (model.attachedAccountId == undefined || model.attachedAccountId == null|| model.attachedAccountId == ''|| model.attachedAccountId == 'undefined'){
-      model.attachedAccountId = null;
+      model.attachedAccountId = emptyString;
+    } else {
+      if (model.attachedAccountId._ !== undefined){
+        model.attachedAccountId = model.attachedAccountId._;
+      }
     }
-    
     var entity = {
       PartitionKey: entGen.Guid(model.projectId),
       RowKey: entGen.Guid(model.id),
@@ -240,8 +248,13 @@ class TaskRepository {
     model.timeZone = entity.TimeZone._;
     model.workDomain = entity.WorkDomain._;
     model.evidence = entity.Evidence._;
+
     if (entity.AttachedAccountId != undefined || entity.AttachedAccountId != null) {
-      model.attachedAccountId = entity.AttachedAccountId._;
+      if (entity.AttachedAccountId._ == emptyString) {
+        model.attachedAccountId = null;
+      } else {
+        model.attachedAccountId = entity.AttachedAccountId._;
+      }
     }
 
     model.name = entity.Name._;

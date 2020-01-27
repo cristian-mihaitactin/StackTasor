@@ -20,8 +20,8 @@ exports.getTaskById = async (projectId, taskId) => {
     return returnValue;
 }
 
-exports.getTaskByProjectId = async (projectId) => {
-    var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path;
+exports.getTaskByProjectId = async (loggedUserId, projectId) => {
+    var tasksPath = rest_api_users_path + '/'+ loggedUserId + rest_api_projects_path + '/' + projectId + rest_api_tasks_path;
     var returnValue = '';
     await https_serivce.restapi_get(tasksPath).then((value) => {
         returnValue =  value;

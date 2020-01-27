@@ -1,13 +1,19 @@
 const TaskRepository = require('../db/taskRepo');
+const ProjectRepository = require('../db/projectRepo');
 const Task = require('../../models/db/task');
 const uuidv1 = require('uuid/v1');
 
 class TaskController {
-    constructor(repo){
+    constructor(repo, projectRepo){
         if (repo === undefined || repo === null) {
           this._repo = new TaskRepository();
         } else {
           this._repo = repo;
+        }
+        if (projectRepo === undefined || projectRepo === null) {
+          this._projectRepo = new ProjectRepository();
+        } else {
+          this._projectRepo = projectRepo;
         }
       }
 
@@ -20,16 +26,20 @@ class TaskController {
       };
 
       async getByProjectId(req, res) {
+        var projAccountId = req.params.userid;
         var queryObj = new Task();
         queryObj.id = '';
         queryObj.projectId = req.params.projectid;
-        queryObj.attachedAccountId = undefined;
+        queryObj.attachedAccountId = '';
 
-        console.log('TaskRepo.getByProjectId: queryObj=' + JSON.stringify(queryObj));
-
-        await this._repo.getByQuery(queryObj).then((value) => {
-          console.log('TaskRepo.getByProjectId: value=' + JSON.stringify(value));
-          res.json(value);
+        await this._projectRepo.get(projAccountId, req.params.projectid).then(async (projValue) => {
+          if (projValue){
+            await this._repo.getByQuery(queryObj).then((value) => {
+              res.json(value);
+            }).catch((e) =>{
+              res.send(e);
+            });
+          }
         }).catch((e) =>{
           res.send(e);
         });

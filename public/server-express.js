@@ -207,7 +207,6 @@ router.get('/project', async function(request, response) {
 	} else {
         form.parse(request, async function(err, fields, files) {
             var accountId = request.session.userId._;
-
             var createdProject = await projectManager.getProjectsByUserId(accountId);
             if (createdProject) {
                 response.status(200).send(createdProject);
@@ -236,8 +235,8 @@ router.get('/project/:projectId/tasks', async function(request, response) {
     var projectId = request.params.projectId;
 
     if (request.session.loggedin) {
-
-        var createdtasks = await taskManager.getTasksByProjectId(projectId);
+        var loggedUserId =  request.session.userId._;
+        var createdtasks = await taskManager.getTasksByProjectId(loggedUserId,projectId);
 
         if (createdtasks) {
             response.status(200).send(createdtasks);
@@ -257,7 +256,6 @@ router.get('/project/:projectId/tasks', async function(request, response) {
 
 router.post('/project/:projectId', async function(request, response) {
     var form = new multiparty.Form();
-    console.log('Project params: params=' + JSON.stringify(request.params));
     var projectId = request.params.projectId;
  
     if (!request.session.loggedin) {
@@ -305,19 +303,6 @@ router.post('/project/:projectId', async function(request, response) {
     }
 });
 
-router.get('/workItem/:projectId/tasks/:taskId', async function(request, response) {
-    var projectId = request.params.projectId;
-    var taskId = request.params.taskId;
-
-    if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + "/views" + '/workItem.html'));
-	} else {
-        request.session.fromRedirect = true;
-        request.session.fromRedirectUrl = '/workItem/' + projectId + '/tasks/' + taskId;
-        response.redirect('/');
-	}
-});
-
 router.get('/project/:projectId/tasks/:taskId', async function(request, response) {
     var projectId = request.params.projectId;
     var taskId = request.params.taskId;
@@ -325,7 +310,6 @@ router.get('/project/:projectId/tasks/:taskId', async function(request, response
     if (request.session.loggedin) {
 
         var createdtasks = await taskManager.getTasksById(projectId, taskId);
-
         if (createdtasks) {
             response.status(200).send(createdtasks);
         } else {
@@ -341,6 +325,113 @@ router.get('/project/:projectId/tasks/:taskId', async function(request, response
         response.redirect('/');
 	}
 });
+
+router.get('/workItem/:projectId/tasks/:taskId', async function(request, response) {
+    var projectId = request.params.projectId;
+    var taskId = request.params.taskId;
+
+    if (request.session.loggedin) {
+        response.sendFile(path.join(__dirname + "/views" + '/workItem.html'));
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirectUrl = '/workItem/' + projectId + '/tasks/' + taskId;
+        response.redirect('/');
+	}
+});
+
+router.post('/workItem/:projectId/tasks/:taskId', async function(request, response) {
+    var projectId = request.params.projectId;
+    var taskId = request.params.taskId;
+
+    var redirectLink = '/workItem/' + projectId + '/tasks/' + taskId;
+    if (request.session.loggedin) {
+        var newStatus = 0;
+        var taskattachedAccountId = request.session.userId;
+        var evidence = '';
+
+        var statusChange = request.body;
+        if ('{}' == JSON.stringify(request.body)){
+            statusChange.Finished = true;
+
+            statusChange.Accepted = false;
+            statusChange.Abandon = false;
+        }
+        if (statusChange.Accepted) {
+            newStatus = 1;
+            await updateTask(response,taskId,
+                taskattachedAccountId, projectId,
+                newStatus, evidence)
+        }else {
+            var taskBefore = await taskManager.getTasksById(projectId, taskId);
+            if (taskattachedAccountId._ == taskBefore.attachedAccountId){
+                if (statusChange.Abandon) {
+                    newStatus = 0;
+                    taskattachedAccountId = null;
+                    await updateTask(response,taskId,
+                        taskattachedAccountId, projectId,
+                        newStatus, evidence)
+                } else if (statusChange.Finished) {
+                    newStatus = 2;
+                    var form = new multiparty.Form();
+                    form.parse(request, async function(err, fields, files) {
+                        evidence = "" + fields.evidence;
+                        await updateTask(response,taskId,
+                            taskattachedAccountId, projectId,
+                            newStatus, evidence)
+                    });
+                }
+            } else {
+                response.status(403).send( {
+                    Message: "You can't modify a task that you are not attached to!",
+                    Error: true
+                });
+                response.end();
+                return;
+            }
+        }
+        console.log('evidence.after=' + evidence);
+        // var updatedTasks = await taskManager.updateTaskStatus(taskId,
+        //      taskattachedAccountId, projectId,
+        //      newStatus, evidence);
+        // if (updatedTasks) {
+        // response.status(200).send({
+        //     RedirectLink: redirectLink,
+        //     Error: false
+        // });
+        // } else {
+        //     response.status(500).send( {
+        //         Message: 'Something went wrong when creating user. Please try again.',
+        //         Error: true
+        //     });
+        //     response.end();
+        // }
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirectUrl = redirectLink;
+        response.redirect('/');
+	}
+});
+async function updateTask(response,taskId,
+    taskattachedAccountId, projectId,
+    newStatus, evidence) {
+    var redirectLink = '/workItem/' + projectId + '/tasks/' + taskId;
+
+    var updatedTasks = await taskManager.updateTaskStatus(taskId,
+        taskattachedAccountId, projectId,
+        newStatus, evidence);
+   if (updatedTasks) {
+   response.status(200).send({
+       RedirectLink: redirectLink,
+       Error: false
+   });
+   } else {
+       response.status(500).send( {
+           Message: 'Something went wrong when creating user. Please try again.',
+           Error: true
+       });
+       response.end();
+   }
+}
 
 app.use(express.static(__dirname + '/src'));
 

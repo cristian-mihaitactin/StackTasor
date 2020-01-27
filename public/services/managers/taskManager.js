@@ -43,9 +43,9 @@ exports.createTask = async (taskId, taskattachedAccountId, projectId,
     return result;
 }
 
-exports.getTasksByProjectId = async (projectId) => {
+exports.getTasksByProjectId = async (loggedUserId,projectId) => {
     var objList = '';
-    await restapi_tasks.getTaskByProjectId(projectId).then((value) => {
+    await restapi_tasks.getTaskByProjectId(loggedUserId,projectId).then((value) => {
         if (value === undefined || value === null){
             throw Error('No tasts found. Project: ' + projectId);
         }else {
@@ -53,4 +53,26 @@ exports.getTasksByProjectId = async (projectId) => {
         }
     })
     return objList;
+}
+
+exports.updateTaskStatus = async (taskId, taskattachedAccountId, projectId,
+    status, evidence) => {
+   var taskObj = new Task(taskId);
+   taskObj.attachedAccountId = taskattachedAccountId;
+   taskObj.projectId = projectId;
+
+   taskObj.status = status;
+   taskObj.evidence = evidence;
+
+   var result = '';
+   console.log('updateTaskStatus: taskObj' + JSON.stringify(taskObj));
+
+   await restapi_tasks.upsertTask(taskObj, projectId).then((value) => {
+       if (value === undefined || value === null){
+           throw Error('No task found. TaskId= ' + taskObj.id);
+       }else {
+           result = value;
+       }
+   })
+   return result;
 }
