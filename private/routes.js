@@ -44,10 +44,12 @@ module.exports = function(app) {
     const TaskController = require('./controller/taskController');
     var _taskController = new TaskController();
 
+    app.route('/users/:userid/projects/:projectid/tasks/')
+    . get((req, res) => {
+      _taskController.getByProjectId(req, res);
+    })
+
     app.route('/projects/:projectid/tasks')
-      .get((req, res) => {
-        _taskController.getByProjectId(req, res);
-      })
       .post((req, res) => {
         _taskController.upsert(req, res);
       });

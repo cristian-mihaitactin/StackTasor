@@ -207,7 +207,6 @@ router.get('/project', async function(request, response) {
 	} else {
         form.parse(request, async function(err, fields, files) {
             var accountId = request.session.userId._;
-
             var createdProject = await projectManager.getProjectsByUserId(accountId);
             if (createdProject) {
                 response.status(200).send(createdProject);
@@ -236,8 +235,8 @@ router.get('/project/:projectId/tasks', async function(request, response) {
     var projectId = request.params.projectId;
 
     if (request.session.loggedin) {
-
-        var createdtasks = await taskManager.getTasksByProjectId(projectId);
+        var loggedUserId =  request.session.userId._;
+        var createdtasks = await taskManager.getTasksByProjectId(loggedUserId,projectId);
 
         if (createdtasks) {
             response.status(200).send(createdtasks);
@@ -257,7 +256,6 @@ router.get('/project/:projectId/tasks', async function(request, response) {
 
 router.post('/project/:projectId', async function(request, response) {
     var form = new multiparty.Form();
-    console.log('Project params: params=' + JSON.stringify(request.params));
     var projectId = request.params.projectId;
  
     if (!request.session.loggedin) {
@@ -344,14 +342,17 @@ router.get('/workItem/:projectId/tasks/:taskId', async function(request, respons
 router.post('/workItem/:projectId/tasks/:taskId', async function(request, response) {
     var projectId = request.params.projectId;
     var taskId = request.params.taskId;
-    var statusChange = request.body;
 
     var redirectLink = '/workItem/' + projectId + '/tasks/' + taskId;
     if (request.session.loggedin) {
         var newStatus = 0;
         var taskattachedAccountId = request.session.userId;
         var evidence = '';
-        console.log('statusChange: ' + JSON.stringify(statusChange));
+
+        var statusChange = request.body;
+        // TODO
+        console.log('{}' == JSON.stringify(request.body));
+
         if (statusChange.Accepted) {
             newStatus = 1;
         }else {

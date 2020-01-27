@@ -43,9 +43,9 @@ exports.createTask = async (taskId, taskattachedAccountId, projectId,
     return result;
 }
 
-exports.getTasksByProjectId = async (projectId) => {
+exports.getTasksByProjectId = async (loggedUserId,projectId) => {
     var objList = '';
-    await restapi_tasks.getTaskByProjectId(projectId).then((value) => {
+    await restapi_tasks.getTaskByProjectId(loggedUserId,projectId).then((value) => {
         if (value === undefined || value === null){
             throw Error('No tasts found. Project: ' + projectId);
         }else {

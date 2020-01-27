@@ -146,7 +146,9 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    if (queryObject.attachedAccountId != undefined || queryObject.attachedAccountId != null) {
+
+      console.log('queryObject.attachedAccountId = ' + queryObject.attachedAccountId);
+    if ((queryObject.attachedAccountId != undefined || queryObject.attachedAccountId != null ) && queryObject.attachedAccountId != emptyString) {
       console.log('8here');
       if (whereUsed) {
         query.and('AttachedAccountId eq ?', queryObject.attachedAccountId);
@@ -209,9 +211,10 @@ class TaskRepository {
     if (model.attachedAccountId == undefined || model.attachedAccountId == null|| model.attachedAccountId == ''|| model.attachedAccountId == 'undefined'){
       model.attachedAccountId = emptyString;
     } else {
-      model.attachedAccountId = model.attachedAccountId._;
+      if (model.attachedAccountId._ !== undefined){
+        model.attachedAccountId = model.attachedAccountId._;
+      }
     }
-    
     var entity = {
       PartitionKey: entGen.Guid(model.projectId),
       RowKey: entGen.Guid(model.id),
