@@ -47,7 +47,12 @@ module.exports = function(app) {
     app.route('/users/:userid/projects/:projectid/tasks/')
     . get((req, res) => {
       _taskController.getByProjectId(req, res);
-    })
+    });
+
+    app.route('/users/:userid/projects/:projectid/tasks/:id')
+    .delete((req, res) => {
+      _taskController.remove(req, res);
+    });
 
     app.route('/projects/:projectid/tasks')
       .post((req, res) => {

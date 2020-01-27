@@ -13,6 +13,14 @@ function div_show() {
 
 }
 function div_hide(){
+    document.getElementById('name').value = '';
+        document.getElementById('color').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('estimation').value = '';
+        document.getElementById('taskType').value = '';
+        document.getElementById('geographicZone').value = '';
+        document.getElementById('timeZone').value = '';
+        document.getElementById('workDomain').value = '';
     $('#popupContact').animate({
     'top': '-200px'
     }, 500, function() {

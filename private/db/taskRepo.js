@@ -37,24 +37,17 @@ class TaskRepository {
   async getByQuery(queryObject) {
     //compose query
     var queryEntity = this.modelToEntity(queryObject);
-    // console.log('TaskRepo.getByQuery: value=' + JSON.stringify(queryEntity))
 
     var query = new azure.TableQuery()
     // .where();
     var whereUsed = false;
     if (queryObject.projectId != undefined || queryObject.projectId != null) {
       if (whereUsed) {
-        console.log('whereUsed');
         query.and('PartitionKey eq ?', queryEntity.PartitionKey._);
-        console.log('whereUsed after');
 
       } else {
-        console.log('!whereUsed');
-
         query.where('PartitionKey eq ?', queryEntity.PartitionKey._);
         whereUsed = true;
-        console.log('!whereUsed after');
-
       }
     }
     if (queryObject.name != undefined || queryObject.name != null) {
@@ -147,7 +140,6 @@ class TaskRepository {
       }
     }
 
-      console.log('queryObject.attachedAccountId = ' + queryObject.attachedAccountId);
     if ((queryObject.attachedAccountId != undefined || queryObject.attachedAccountId != null ) && queryObject.attachedAccountId != emptyString) {
       console.log('8here');
       if (whereUsed) {
@@ -166,10 +158,8 @@ class TaskRepository {
         whereUsed = true;
       }
     }
-    console.log('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
 
     var modelArray = new Array();
-    console.log('TaskRepo.query: value=' + JSON.stringify(query))
     await this._azureRepository.getByQuery(query).then((value) => {
       value.forEach((item, index) => {
         var model = this.entityToModel(item);
@@ -198,6 +188,7 @@ class TaskRepository {
     });  
   }
   async remove(projectId, id) {
+    console.log('TaskRepo: ' + projectId+',' + id);
     await this._azureRepository.remove(projectId, id).then(
       (value) => {
       }).catch(

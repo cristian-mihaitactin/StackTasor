@@ -61,14 +61,6 @@ class ProjectRepository {
         whereUsed = true;
       }
     }
-    // if (queryObject.accountId != undefined || queryObject.accountId != null) {
-    //   if (whereUsed) {
-    //     query.and('AccountId eq ?', queryObject.accountId);
-    //   } else {
-    //     query.where('AccountId eq ?', queryObject.accountId);
-    //     whereUsed = true;
-    //   }
-    // }
     var modelArray = new Array();
     await this._azureRepository.getByQuery(query).then((value) => {
       console.log('ProjectRepo.query: value=' + JSON.stringify(value))
