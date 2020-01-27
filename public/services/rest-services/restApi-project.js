@@ -34,13 +34,9 @@ exports.getProjectByUserId = async (userId) => {
 }
 
 exports.upsertProject = async (projectObj, userId) => {
-    console.log('exports.upsertProject: projectObj= ' + JSON.stringify(projectObj));
-    console.log('exports.upsertProject: userId= ' + userId);
     var projectsPath = rest_api_users_path + '/' + userId + rest_api_projects_path;
     var returnValue = '';
     await https_serivce.restapi_post(projectsPath, projectObj).then((value) => {
-        console.log('exports.upsertProject[Created]: projectObj= ' + JSON.stringify(value));
-
         returnValue =  value;
     }).catch(
         (reason) => {

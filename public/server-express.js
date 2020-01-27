@@ -257,7 +257,6 @@ router.get('/project/:projectId/tasks', async function(request, response) {
 router.post('/project/:projectId', async function(request, response) {
     var form = new multiparty.Form();
     var projectId = request.params.projectId;
- 
     if (!request.session.loggedin) {
         response.status(401).send( {
             Message: 'Please login to view this page!',
@@ -265,8 +264,12 @@ router.post('/project/:projectId', async function(request, response) {
         });
         response.end();
 	} else {
-        form.parse(request, async function(err, fields, files) {
-            var taskId = '' + files.taskId;
+        form.parse(request, async function(err, fields, files)
+         {
+            console.log("post('/project/:projectId'=" + JSON.stringify(fields));
+            console.log("post('/project/:projectId'.id=" + JSON.stringify(fields.taskId));
+
+            var taskId = '' + fields.taskId;
             var taskattachedAccountId = '' + files.attachedAccountId;
             var taskName = '' + fields.name;
             var taskColor = '' + fields.color;
@@ -390,21 +393,6 @@ router.post('/workItem/:projectId/tasks/:taskId', async function(request, respon
             }
         }
         console.log('evidence.after=' + evidence);
-        // var updatedTasks = await taskManager.updateTaskStatus(taskId,
-        //      taskattachedAccountId, projectId,
-        //      newStatus, evidence);
-        // if (updatedTasks) {
-        // response.status(200).send({
-        //     RedirectLink: redirectLink,
-        //     Error: false
-        // });
-        // } else {
-        //     response.status(500).send( {
-        //         Message: 'Something went wrong when creating user. Please try again.',
-        //         Error: true
-        //     });
-        //     response.end();
-        // }
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = redirectLink;
@@ -432,7 +420,24 @@ async function updateTask(response,taskId,
        response.end();
    }
 }
+router.delete('/project/:projectId/tasks/:taskId', async function(request, response) {
+    var projectId = request.params.projectId;
+    var taskId = request.params.taskId;
 
+    var redirectLink = '/project/' + projectId;
+    if (request.session.loggedin) {
+        var loggedUser = request.session.userId._;
+        await taskManager.deleteTask(taskId, projectId, loggedUser);
+        response.status(200).send({
+            RedirectLink: redirectLink,
+            Error: false
+        });
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirectUrl = redirectLink;
+        response.redirect('/');
+	}
+});
 app.use(express.static(__dirname + '/src'));
 
 app.use('/', router);

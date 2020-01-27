@@ -23,7 +23,7 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-
+    margin-bottom: 10px;
   }
 
   .collapsible:after {
@@ -32,6 +32,7 @@
     color: white;
     float: right;
     margin-left: 5px;
+    max-height: fit-content;
   }
   
   .collapsible.active:after {

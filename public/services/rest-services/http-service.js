@@ -68,8 +68,6 @@ exports.restapi_post = function(path, bodyObject) {
 
             var postResponseString = '';
             res.on('data', (d) => {
-                // console.log('Http-service Post: Data received: ' + d);
-                // resolve(JSON.parse(d))
                 postResponseString += d;
             });
 
@@ -78,12 +76,10 @@ exports.restapi_post = function(path, bodyObject) {
                 if (typeof( postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1)
                 {
                     resolve(JSON.parse(postResponseString));
+                } else {
+                    resolve();
                 }
             });
-            req.on('error', (error) => {
-                console.log("Http-service Post: Error: " + error.message);
-                reject(error);
-            })
         });
 
         req.on('error', (error) => {
@@ -114,14 +110,19 @@ exports.restapi_delete = function(path) {
 
             var postResponseString = '';
             res.on('data', (d) => {
-                // console.log('Http-service Post: Data received: ' + d);
-                // resolve(JSON.parse(d))
                 postResponseString += d;
             });
 
             res.on('end', () => {
                 console.log('Http-service Delete end: Data received: ' + postResponseString);
-                resolve(JSON.parse(d));
+                if (typeof( postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1)
+                {
+                    resolve(JSON.parse(postResponseString));
+                } else {
+                    console.log('before simple');
+                    resolve(postResponseString);
+                    console.log('after simple');
+                }
             });
         });
 
@@ -158,8 +159,6 @@ exports.restapi_query = function(path, bodyObject) {
 
             var postResponseString = '';
             res.on('data', (d) => {
-                // console.log('Http-service Post: Data received: ' + d);
-                // resolve(JSON.parse(d))
                 postResponseString += d;
             });
 

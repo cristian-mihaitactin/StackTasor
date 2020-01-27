@@ -51,8 +51,9 @@ exports.upsertTask = async (taskObj, projectId) => {
 }
 
 exports.deleteTaskProjectUserById = async (taskId, projectId, userId) => {
-    var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path + '/' + taskId;
+    var tasksPath = rest_api_users_path + '/'+ userId + rest_api_projects_path + '/' + projectId + rest_api_tasks_path + '/' + taskId;
     var returnValue = '';
+
     await https_serivce.restapi_delete(tasksPath).then((value) => {
         returnValue =  value;
     }).catch(

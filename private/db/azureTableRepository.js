@@ -89,7 +89,7 @@ class AzureTableRepository { // Inject tableService for testing purposes
         RowKey: {
             '_': rowKey
         }
-      };
+      }
       return new Promise((resolve, reject) => {
         this._tableService.deleteEntity(this._tableName, task, function (error, response) {
             if (! error) { // Entity deleted

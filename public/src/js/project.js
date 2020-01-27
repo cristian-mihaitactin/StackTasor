@@ -1,4 +1,5 @@
 var projectPathname = '';
+var testObj = '';
 document.addEventListener("DOMContentLoaded", function() {
     var form = document.forms.namedItem("sendForm");
     projectPathname = location.pathname;
@@ -82,6 +83,56 @@ function populateTasks(taskList){
             alert("Failed to copy text!");
           });
 
+      }
+
+      divClone.getElementsByClassName('btn-taskEdit')[0].onclick = () => {
+        document.getElementById('name').value = element.name;
+        document.getElementById('color').value = element.color;
+        document.getElementById('description').value = element.description;
+        document.getElementById('estimation').value = element.estimation;
+        document.getElementById('taskType').value = element.taskType;
+        document.getElementById('geographicZone').value = element.geographicZone;
+        document.getElementById('timeZone').value = element.timeZone;
+        document.getElementById('workDomain').value = element.workDomain;
+
+        document.getElementById('taskId').value = element.id._;
+        var form = document.forms.namedItem("sendForm");
+        var projectPathname = location.pathname;
+        form.action = projectPathname;
+        div_show()
+      }
+      divClone.getElementsByClassName('btn-taskDelete')[0].onclick = () => {
+        var r = confirm("Are you sure you want do delete the task?");
+        
+        if (r == true) {
+            let request = new XMLHttpRequest();
+            var taskDeletePathname = location.pathname + "/tasks/" + element.id._;
+    
+            request.open('DELETE', taskDeletePathname, true);
+          
+            // get projects
+            request.onload = function(event){ 
+                console.log("Success, server responded with: " + event.target.response); // raw response
+                var responseObj = JSON.parse(event.target.response);
+                testObj = responseObj;
+                if (responseObj.Error && responseObj.Error == true){
+                    console.log('is error');
+                    // var errorLabel = document.getElementById('error-label');
+                    errorLabel.innerText = responseObj.Message;
+                    errorLabel.style.color = "red";
+                    errorLabel.style.display = 'block';
+                } else {
+                    //check if they exist
+                    window.location.href = responseObj.RedirectLink;
+                }
+            }; 
+          
+            request.onerror = function(event){ 
+                    alert("error, server responded with: " + event.target.response); // raw response
+                    console.log("error, server responded with: " + event.target.response); // raw response
+            }; 
+            request.send();        
+        }
       }
 
       divClone.style.display = "";

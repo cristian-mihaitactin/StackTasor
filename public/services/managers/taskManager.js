@@ -65,7 +65,6 @@ exports.updateTaskStatus = async (taskId, taskattachedAccountId, projectId,
    taskObj.evidence = evidence;
 
    var result = '';
-   console.log('updateTaskStatus: taskObj' + JSON.stringify(taskObj));
 
    await restapi_tasks.upsertTask(taskObj, projectId).then((value) => {
        if (value === undefined || value === null){
@@ -74,5 +73,14 @@ exports.updateTaskStatus = async (taskId, taskattachedAccountId, projectId,
            result = value;
        }
    })
+   return result;
+}
+
+exports.deleteTask = async (taskId, projectId, userId) => {
+    var result = '';
+   await restapi_tasks.deleteTaskProjectUserById(taskId, projectId, userId).then((value) => {
+           result = value;
+   });
+
    return result;
 }

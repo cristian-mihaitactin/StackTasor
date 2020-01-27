@@ -33,35 +33,13 @@ class UserController {
 
   async upsert(req, res) {
     try{
-      /*
-      console.log(req.body);
-      var obj = JSON.parse(req.body);
-      console.log(obj);
-*/
-      // var obj = req.body;
-      // var usr = new User(obj.id);
-      // usr.createdDate = obj.createdDate;
-      // usr.updateDate = obj.updateDate;
-      // usr.accountType = obj.accountType;
-      // usr.username = obj.username;
-      // usr.password = obj.password;
-      // usr.email = obj.email;
-
       var usr = this.jsonToObject(req.body);
-      console.log('UserController BEFORE reqBody: ' + JSON.stringify(usr));
 
       if (usr.id == '') {
         usr = uuidv1();
       } else {
         usr.id = usr.id._;
       }
-      console.log('UserController reqBody: ' + JSON.stringify(usr));
-    //   await this._repo.upsert(usr).then(() => {
-    //     req.params['id'] = usr.id;
-    //     setTimeout(function(){
-    //       this.get(req, res);
-    //   }, 1000);
-    // });
 
       await this._repo.upsert(usr);
 
