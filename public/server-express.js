@@ -167,7 +167,6 @@ router.post('/createUser', async function(request, response) {
 });
 router.post('/project', async function(request, response) {
     var form = new multiparty.Form();
- 
     if (!request.session.loggedin) {
         response.status(401).send( {
             Message: 'Please login to view this page!',
