@@ -305,19 +305,6 @@ router.post('/project/:projectId', async function(request, response) {
     }
 });
 
-router.get('/workItem/:projectId/tasks/:taskId', async function(request, response) {
-    var projectId = request.params.projectId;
-    var taskId = request.params.taskId;
-
-    if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + '/workItem.html'));
-	} else {
-        request.session.fromRedirect = true;
-        request.session.fromRedirectUrl = '/workItem/' + projectId + '/tasks/' + taskId;
-        response.redirect('/');
-	}
-});
-
 router.get('/project/:projectId/tasks/:taskId', async function(request, response) {
     var projectId = request.params.projectId;
     var taskId = request.params.taskId;
@@ -341,6 +328,21 @@ router.get('/project/:projectId/tasks/:taskId', async function(request, response
         response.redirect('/');
 	}
 });
+
+router.get('/workItem/:projectId/tasks/:taskId', async function(request, response) {
+    var projectId = request.params.projectId;
+    var taskId = request.params.taskId;
+
+    if (request.session.loggedin) {
+        response.sendFile(path.join(__dirname + '/workItem.html'));
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirectUrl = '/workItem/' + projectId + '/tasks/' + taskId;
+        response.redirect('/');
+	}
+});
+
+
 
 app.use(express.static(__dirname + '/src'));
 
