@@ -4,7 +4,7 @@
   "description": "A simplistic task management app",
   "main": "index.js",
   "scripts": {
-    "start": "http-server -c-1 -p 8081",
+    "start": "npm run start_local_express",
     "start_local_http": "node -r dotenv/config server-http.js",
     "start_local_express": "node -r dotenv/config server-express.js",
     "start_local": "npm run start_local_express"

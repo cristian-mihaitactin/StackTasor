@@ -1,7 +1,7 @@
 var azure = require('azure-storage');
 const UserRepository = require('../../private/db/userRepo');
 const AzureTableRepository = require('../../private/db/azureTableRepository');
-const User = require('../../models/db/user');
+const User = require('../entities/user');
 const entGen = azure.TableUtilities.entityGenerator;
 
 const latestUserVersion = 'user-v1';

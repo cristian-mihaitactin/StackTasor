@@ -1,5 +1,5 @@
 const restapi_tasks = require('../rest-services/restApi-task');
-const Task = require('../../../models/db/task')
+const Task = require('../../entities/task')
 
 exports.getTasksById = async (projectId, taskId) => {
     var objList = '';

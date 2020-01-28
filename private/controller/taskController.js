@@ -1,6 +1,6 @@
 const TaskRepository = require('../db/taskRepo');
 const ProjectRepository = require('../db/projectRepo');
-const Task = require('../../models/db/task');
+const Task = require('../entities/task');
 const uuidv1 = require('uuid/v1');
 
 class TaskController {

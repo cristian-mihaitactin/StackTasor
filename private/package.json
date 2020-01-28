@@ -9,7 +9,7 @@
     "test_integration_usercontroller": "jasmine spec/controllers/integration/UserControllerSpecs.js",
     "test_projectcontroller": "jasmine spec/controllers/ProjectControllerSpecs.js",
 
-    "start": "http-server -c-1 -p 8081",
+    "start": "npm run start_local",
     "start_local": "node -r dotenv/config server.js"
   },
   "keywords": [],

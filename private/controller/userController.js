@@ -1,5 +1,5 @@
 const UserRepository = require('../db/userRepo');
-const User = require('../../models/db/user');
+const User = require('../entities/user');
 const tableName = 'Users';
 const uuidv1 = require('uuid/v1');
 

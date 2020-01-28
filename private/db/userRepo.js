@@ -1,6 +1,6 @@
 const azure = require('azure-storage');
 const AzureTableRepository = require('./azureTableRepository');
-const User = require('../../models/db/user');
+const User = require('../entities/user');
 const entGen = azure.TableUtilities.entityGenerator;
 
 const tableName = 'Users';

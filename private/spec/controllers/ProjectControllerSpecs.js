@@ -2,7 +2,7 @@ var azure = require('azure-storage');
 const ProjectController = require('../../controller/projectController');
 const ProjectRepository = require('../../db/projectRepo');
 const AzureTableRepository = require('../../db/azureTableRepository');
-const Project = require('../../../models/db/project');
+const Project = require('../../entities/project');
 
 const test_tableName = 'TestProject';
 const deleteTable = true;
