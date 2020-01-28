@@ -1,6 +1,6 @@
 const azure = require('azure-storage');
 const AzureTableRepository = require('./azureTableRepository');
-const Task = require('../../models/db/task');
+const Task = require('../entities/task');
 const uuidv1 = require('uuid/v1');
 
 const entGen = azure.TableUtilities.entityGenerator;

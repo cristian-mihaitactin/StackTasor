@@ -1,5 +1,5 @@
 const https_serivce = require('./http-service');
-const User = require('../../../models/db/user');
+const User = require('../../entities/user');
 
 const rest_api_users_path = '/users';
 

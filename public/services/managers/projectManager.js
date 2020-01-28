@@ -1,5 +1,5 @@
 const restapi_projects = require('../rest-services/restApi-project');
-const Project = require('../../../models/db/project')
+const Project = require('../../entities/project')
 
 exports.createProject = async (projectId, accountId, name, color) => {
     var projectObj = new Project(projectId);

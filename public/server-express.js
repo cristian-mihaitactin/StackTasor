@@ -13,7 +13,7 @@ var projectManager = require('./services/managers/projectManager');
 var taskManager = require('./services/managers/taskManager');
 
 port = process.env.PORT || 3000;
-
+const mainUrl = process.env.HOSTNAME;
 var app = express();
 
 app.use(session({
@@ -31,10 +31,13 @@ app.use(bodyParser.json());
 // app.use(bodyParser.raw({ type: 'multipart/form-data' }))
 
 router.get('/', function(request, response) {
-	response.sendFile(path.join(__dirname + "/views" + '/login.html'));
+    console.log("router.get('/'");
+	 response.sendFile(path.join(__dirname + "/views" + '/login.html'));
+     //response.send(mainUrl + '/static/login.html');
 });
 
 router.post('/signout', async function(request, response) {
+    console.log("router.post('/signout'");
 
     if (request.session.loggedin) {
         request.session.loggedin = false;
@@ -49,6 +52,8 @@ router.post('/signout', async function(request, response) {
 });
 
 router.post('/auth', async function(request, response) {
+    console.log("router.post('/auth'");
+
 	var form = new multiparty.Form();
  
     form.parse(request, async function(err, fields, files) {
@@ -91,8 +96,13 @@ router.post('/auth', async function(request, response) {
 });
 
 router.get('/home', function(request, response) {
+    console.log("router.get('/home'");
+
 	if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + "/views" + '/index.html'));
+        //  response.send(mainUrl + '/static/index.html');
+        // response.redirect(mainUrl + '/static/index.html');
+
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = '/home';
@@ -101,9 +111,12 @@ router.get('/home', function(request, response) {
 });
 
 router.get('/signUp', function(request, response) {
+    console.log("router.get('/signUp'");
+
 	if (!request.session.loggedin) {
 
         response.sendFile(path.join(__dirname + "/views" + '/signUp.html'));
+        // response.send( '/signUp.html');
 	} else {
         response.status(401).send( {
             Message: 'Please login to view this page!',
@@ -114,6 +127,8 @@ router.get('/signUp', function(request, response) {
 });
 
 router.post('/createUser', async function(request, response) {
+    console.log("router.post('/createUser'");
+
     var form = new multiparty.Form();
  
     form.parse(request, async function(err, fields, files) {
@@ -167,7 +182,6 @@ router.post('/createUser', async function(request, response) {
 });
 router.post('/project', async function(request, response) {
     var form = new multiparty.Form();
- 
     if (!request.session.loggedin) {
         response.status(401).send( {
             Message: 'Please login to view this page!',
@@ -228,6 +242,7 @@ router.get('/project', async function(request, response) {
 router.get('/project/:projectId', async function(request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + "/views" + '/project.html'));
+        // response.send('/project.html');
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = '/project/' + request.params.projectId;
@@ -339,6 +354,7 @@ router.get('/workItem/:projectId/tasks/:taskId', async function(request, respons
 
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + "/views" + '/workItem.html'));
+       // response.send('/workItem.html');
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = '/workItem/' + projectId + '/tasks/' + taskId;
@@ -443,6 +459,8 @@ router.delete('/project/:projectId/tasks/:taskId', async function(request, respo
 	}
 });
 app.use(express.static(__dirname + '/src'));
+app.use('/static', express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/pwa'));
 
 app.use('/', router);
 

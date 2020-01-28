@@ -4,9 +4,10 @@
   "description": "A simplistic task management app",
   "main": "index.js",
   "scripts": {
-    "start": "http-server -c-1 -p 8081",
+    "start": "npm run start_install && npm run start_local_express",
     "start_local_http": "node -r dotenv/config server-http.js",
     "start_local_express": "node -r dotenv/config server-express.js",
+    "start_install": "npm install",
     "start_local": "npm run start_local_express"
   },
   "keywords": [
@@ -27,5 +28,8 @@
     "multiparty": "^4.2.1",
     "ssl-root-cas": "^1.3.1",
     "uuid": "^3.3.3"
+  },
+  "engines": {
+    "node": "10.15.2"
   }
 }

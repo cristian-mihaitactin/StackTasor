@@ -1,6 +1,6 @@
 const azure = require('azure-storage');
 const AzureTableRepository = require('./azureTableRepository');
-const Project = require('../../models/db/project');
+const Project = require('../entities/project');
 const entGen = azure.TableUtilities.entityGenerator;
 
 const tableName = 'Projects';

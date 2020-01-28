@@ -1,6 +1,6 @@
 var azure = require('azure-storage');
-const dotenv = require('dotenv');
-dotenv.config();
+// const dotenv = require('dotenv');
+// dotenv.config();
 class AzureTableRepository { // Inject tableService for testing purposes
     constructor(tableName, tableService) {
 

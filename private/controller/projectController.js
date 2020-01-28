@@ -1,5 +1,5 @@
 const ProjectRepository = require('../db/projectRepo');
-const Project = require('../../models/db/project');
+const Project = require('../entities/project');
 const uuidv1 = require('uuid/v1');
 
 class ProjectController {

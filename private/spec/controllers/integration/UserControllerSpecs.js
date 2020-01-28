@@ -2,7 +2,7 @@ var azure = require('azure-storage');
 const UserController = require('../../../controller/userController');
 const UserRepository = require('../../../db/userRepo');
 const AzureTableRepository = require('../../../db/azureTableRepository');
-const User = require('../../../../models/db/user');
+const User = require('../../../entities/user');
 
 const test_tableName = 'TestUser';
 const deleteTable = true;

@@ -1,5 +1,11 @@
 module.exports = function(app) {
 
+  app.route('/')
+      .get((req, res) => {
+        console.log('in empty');
+        res.status(200).send();
+      })
+
   // User section
     const UserController = require('./controller/userController');
     var _userController = new UserController();
