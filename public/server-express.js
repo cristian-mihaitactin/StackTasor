@@ -61,7 +61,6 @@ router.post('/auth', async function(request, response) {
         var password = fields.password;
 
         if (username && password) {
-            //connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
             var results = await authManager.userLogin(username, password);
             if (results.length > 0) {
                 request.session.loggedin = true;
@@ -84,7 +83,6 @@ router.post('/auth', async function(request, response) {
                 });
                 response.end();
             }
-            // });
         } else {
             response.status(401).send( {
                 Message: 'Please enter Username and Password!',
