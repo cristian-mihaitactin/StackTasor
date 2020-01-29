@@ -26,6 +26,16 @@
       "src": "/images/icons/app-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "/images/icons/close-window-52px.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icons/checkmark-48.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ]
 }

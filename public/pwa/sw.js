@@ -16,6 +16,8 @@ self.addEventListener('install', function (event) {
             '/images/icons/app-icon-144x144.png',
             '/images/icons/app-icon-256x256.png',
             '/images/icons/app-icon-512x512.png',
+            '/images/icons/close-window-52px.png',
+            '/images/icons/checkmark-48.png',
             '/js/app.js',
             '/js/collapsible.js',
             '/js/formHandling.js',
@@ -68,4 +70,27 @@ self.addEventListener('install', function (event) {
           }
         })
     );
+  });
+
+  self.addEventListener('notificationclose', function(e) {
+    var notification = e.notification;
+    var taskId = notification.data.updatedTask;
+    var project = notification.data.projectId;
+  
+    console.log('Closed notification: ' + taskId + ', ' + project);
+  });
+
+  self.addEventListener('notificationclick', function(e) {
+    var notification = e.notification;
+    var taskId = notification.data.updatedTask;
+    var project = notification.data.projectId;
+
+    var action = e.action;
+  
+    if (action === 'close') {
+      notification.close();
+    } else {
+      clients.openWindow('http://www.example.com');
+      notification.close();
+    }
   });
