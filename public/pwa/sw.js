@@ -72,6 +72,37 @@ self.addEventListener('install', function (event) {
     );
   });
 
+  self.addEventListener('push', function(e) {
+    var body;
+  
+    if (e.data) {
+      console.log('Push data: ' + e.data);
+      console.log('Push data.test(): ' + e.data.text());
+      body = e.data.text(); 
+    } else {
+      body = 'Push message no payload';
+    }
+  
+    var options = {
+      body: body,
+      icon: 'images/app-icon-144x144.png',
+      vibrate: [100, 50, 100],
+      data: {
+        dateOfArrival: Date.now(),
+        primaryKey: 1
+      },
+      actions: [
+        {action: 'explore', title: 'Task finished',
+          icon: 'images/checkmark-48.png'},
+        {action: 'close', title: 'Close notification',
+          icon: '/images/icons/close-window-52px.png'},
+      ]
+    };
+    e.waitUntil(
+      self.registration.showNotification('Push Notification', options)
+    );
+  });
+
   self.addEventListener('notificationclose', function(e) {
     var notification = e.notification;
     var taskId = notification.data.updatedTask;
@@ -81,6 +112,8 @@ self.addEventListener('install', function (event) {
   });
 
   self.addEventListener('notificationclick', function(e) {
+    console.log('notificationclick: ' + e.data);
+
     var notification = e.notification;
     var taskId = notification.data.updatedTask;
     var project = notification.data.projectId;

@@ -1,33 +1,41 @@
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
-      .then(function() {
-        console.log('SW registered');
+      .then(function(reg) {
+        console.log('Service Worker Registered!', reg);
+    
+        reg.pushManager.getSubscription().then(function(sub) {
+          if (sub === null) {
+            // Update UI to ask user to register for Push
+            Notification.requestPermission(function(status) {
+              console.log('Notification permission status:', status);
+              subscribeUser();
+            })
+          } else {
+            // We have a subscription, update the database
+            console.log('Subscription object: ', sub);
+          }
+        });
+      })
+       .catch(function(err) {
+        console.log('Service Worker registration failed: ', err);
       });
-  }
+    }
 
-  Notification.requestPermission(function(status) {
-    console.log('Notification permission status:', status);
-});
-
-function displayNotification(projectId,taskId) {
-  if (Notification.permission == 'granted') {
-    navigator.serviceWorker.getRegistration().then(function(reg) {
-      var options = {
-        body: 'Here is a notification body!',
-        icon: 'images/example.png',
-        vibrate: [100, 50, 100],
-        data: {
-          dateOfArrival: Date.now(),
-          primaryKey: 1
-        },
-        actions: [
-          {action: 'explore', title: 'Task finished',
-            icon: 'images/checkmark-48.png'},
-          {action: 'close', title: 'Close notification',
-            icon: '/images/icons/close-window-52px.png'},
-        ]
-      };
-      reg.showNotification('Hello world!', options);
-    });
-  }
-}
+    function subscribeUser() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(function(reg) {
+          reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: 'AAAAe5XNnaI:APA91bFznn0-NJSeQ-LyyoLBkMGEbg2srDeYVy12xeu-iMoHbit4ePbkiusJ5rAJd2JGlhglEb9tlsVtwIWp7YfKyY1JLjHkdBbE5EAvVoSjurjqGZItsneCPYp3G1w1aBJTXsXxyTKz' 
+          }).then(function(sub) {
+            console.log('Endpoint URL: ', sub.endpoint);
+          }).catch(function(e) {
+            if (Notification.permission === 'denied') {
+              console.warn('Permission for notifications was denied');
+            } else {
+              console.error('Unable to subscribe to push', e);
+            }
+          });
+        })
+      }
+    }
