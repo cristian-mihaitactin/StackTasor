@@ -249,6 +249,45 @@ router.post('/auth', async function(request, response) {
       </p>
     </section>
   </section>
+  <section id="PWA">
+    <h2>Progressive Web App (PWA)</h2>
+    <p>
+      Progressive Web Apps are , in essence, web applications that meet a set of requirements (such as HTTPS support, fast loads over mobile networks, 
+      a "Service Worker" being register-installed-and used, etc.) which enable them to simulate a <i>"native application"</i> on desktop and mobile devices. This also gives the web app,
+      through the Service worker, access to native functionalities (such as push notifications). 
+    </p>
+    <section id="manifestfile">
+      <h3>The "<code>Manifest.JSON</code>" file</h3>
+      <p>
+        As a bare minimum for a web app to qualify as a PWA, the webapp must support HTTPS (or even better, redirect HTTP trafic to HTTPS - which the live public API does do) as well as present
+        a special file named <code>"manifest.json"</code>. This contains information such as 
+        the orientation of the application once installed (be it portrait or landscape), <code>background</code> and <code>theme_color</code>, as well 
+        as include of list of images (with path and type included) in a variety of dimentions, to be
+        used by the native system.
+      </p>
+      <p>
+        The project contains such a file in the "pwa" directory.
+      </p>
+    </section>
+    <section id="serviceworker">
+      <h3>Service Worker</h3>
+      <p>
+        A "Service worker" is a script program that is run by the Browser in the background. This enables a website to cache files and data, enabling even offline 
+        activity, as well respond to specific events ("install", "activate", "sync", 
+        "message", "push" and "fetch"). In the project, the "Service worker" script file is the "sw.js" file under the "pwa" directory in the public API.
+      </p>
+      <p>
+        By using the "push" event listeners, web notification can be sent, informing the user about 
+        the status change of a created Task ("Accepted", "Aborted" or "Finished") or expiration of an attached one.
+      </p>
+      <p>
+        Later one, by integrating with a <a href="https://firebase.google.com/docs/cloud-messaging">"Firebase Message Management"</a> via 
+        the webpush API, a "Subscription" type notification system can be established (using the webpush api to send notification from the server, and 'push' event listener of the service worker). 
+        Essentially decoupling the server from the notification system. This guarantees 
+        a much bigger degree of extensibility for the notification system.
+      </p>
+  </section>
+  </section>
   <section id="hosting">
     <!-- review? -->
     <h3>Hosting</h3>
