@@ -1,5 +1,5 @@
-const https = require('https');
-https.globalAgent.options.ca = require('ssl-root-cas/latest').create();
+const http = require('http');
+// https.globalAgent.options.ca = require('ssl-root-cas/latest').create();
 
 const rest_api_url = process.env.RESTAPI_URL;
 const rest_api_port = process.env.RESTAPI_PORT;
@@ -15,12 +15,12 @@ exports.restapi_get = function(path) {
             //     'Content-Type': 'application/json',
             //     'Content-Length': data.length
             // },
-            agent: new https.Agent({
+            agent: new http.Agent({
                 rejectUnauthorized: false,
               }),
         }
 
-        const req = https.request(options, (res) => {
+        const req = http.request(options, (res) => {
             console.log(`Http-service GET: StatusCode: ${res.statusCode}`);
 
             var postResponseString = '';
@@ -59,11 +59,11 @@ exports.restapi_post = function(path, bodyObject) {
                 'Content-Type': 'application/json',
                 'Content-Length': data.length
             },
-            agent: new https.Agent({
+            agent: new http.Agent({
                 rejectUnauthorized: false,
               }),
         }
-        const req = https.request(options, (res) => {
+        const req = http.request(options, (res) => {
             console.log(`Http-service Post: StatusCode: ${res.statusCode}`);
 
             var postResponseString = '';
@@ -100,12 +100,12 @@ exports.restapi_delete = function(path) {
             port: rest_api_port,
             path: path,
             method: 'DELETE',
-            agent: new https.Agent({
+            agent: new http.Agent({
                 rejectUnauthorized: false,
               }),
         }
 
-        const req = https.request(options, (res) => {
+        const req = http.request(options, (res) => {
             console.log(`Http-service Delete: StatusCode: ${res.statusCode}`);
 
             var postResponseString = '';
@@ -149,12 +149,12 @@ exports.restapi_query = function(path, bodyObject) {
                 'Content-Type': 'application/json',
                 'Content-Length': data.length
             },
-            agent: new https.Agent({
+            agent: new http.Agent({
                 rejectUnauthorized: false,
               }),
         }
 
-        const req = https.request(options, (res) => {
+        const req = http.request(options, (res) => {
             console.log(`Http-service Post: StatusCode: ${res.statusCode}`);
 
             var postResponseString = '';
