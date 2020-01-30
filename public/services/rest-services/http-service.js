@@ -1,10 +1,10 @@
-const https = require('https');
-https.globalAgent.options.ca = require('ssl-root-cas/latest').create();
+const http = require('http');
+http.globalAgent.options.ca = require('ssl-root-cas/latest').create();
 
 const rest_api_url = process.env.RESTAPI_URL;
 const rest_api_port = process.env.RESTAPI_PORT;
 
-exports.restapi_get = function(path) {
+exports.restapi_get = function (path) {
     return new Promise((resolve, reject) => {
         const options = {
             hostname: rest_api_url,
@@ -15,12 +15,12 @@ exports.restapi_get = function(path) {
             //     'Content-Type': 'application/json',
             //     'Content-Length': data.length
             // },
-            agent: new https.Agent({
+            agent: new http.Agent({
                 rejectUnauthorized: false,
-              }),
+            }),
         }
 
-        const req = https.request(options, (res) => {
+        const req = http.request(options, (res) => {
             console.log(`Http-service GET: StatusCode: ${res.statusCode}`);
 
             var postResponseString = '';
@@ -46,7 +46,7 @@ exports.restapi_get = function(path) {
     });
 }
 
-exports.restapi_post = function(path, bodyObject) {
+exports.restapi_post = function (path, bodyObject) {
     return new Promise((resolve, reject) => {
         const data = JSON.stringify(bodyObject);
 
@@ -59,11 +59,11 @@ exports.restapi_post = function(path, bodyObject) {
                 'Content-Type': 'application/json',
                 'Content-Length': data.length
             },
-            agent: new https.Agent({
+            agent: new http.Agent({
                 rejectUnauthorized: false,
-              }),
+            }),
         }
-        const req = https.request(options, (res) => {
+        const req = http.request(options, (res) => {
             console.log(`Http-service Post: StatusCode: ${res.statusCode}`);
 
             var postResponseString = '';
@@ -73,8 +73,7 @@ exports.restapi_post = function(path, bodyObject) {
 
             res.on('end', () => {
                 console.log('Http-service Post end: Data received: ' + postResponseString);
-                if (typeof( postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1)
-                {
+                if (typeof (postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1) {
                     resolve(JSON.parse(postResponseString));
                 } else {
                     resolve();
@@ -92,7 +91,7 @@ exports.restapi_post = function(path, bodyObject) {
     });
 }
 
-exports.restapi_delete = function(path) {
+exports.restapi_delete = function (path) {
     return new Promise((resolve, reject) => {
 
         const options = {
@@ -100,12 +99,12 @@ exports.restapi_delete = function(path) {
             port: rest_api_port,
             path: path,
             method: 'DELETE',
-            agent: new https.Agent({
+            agent: new http.Agent({
                 rejectUnauthorized: false,
-              }),
+            }),
         }
 
-        const req = https.request(options, (res) => {
+        const req = http.request(options, (res) => {
             console.log(`Http-service Delete: StatusCode: ${res.statusCode}`);
 
             var postResponseString = '';
@@ -115,8 +114,7 @@ exports.restapi_delete = function(path) {
 
             res.on('end', () => {
                 console.log('Http-service Delete end: Data received: ' + postResponseString);
-                if (typeof( postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1)
-                {
+                if (typeof (postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1) {
                     resolve(JSON.parse(postResponseString));
                 } else {
                     console.log('before simple');
@@ -136,7 +134,7 @@ exports.restapi_delete = function(path) {
     });
 }
 
-exports.restapi_query = function(path, bodyObject) {
+exports.restapi_query = function (path, bodyObject) {
     return new Promise((resolve, reject) => {
         const data = JSON.stringify(bodyObject);
 
@@ -149,12 +147,12 @@ exports.restapi_query = function(path, bodyObject) {
                 'Content-Type': 'application/json',
                 'Content-Length': data.length
             },
-            agent: new https.Agent({
+            agent: new http.Agent({
                 rejectUnauthorized: false,
-              }),
+            }),
         }
 
-        const req = https.request(options, (res) => {
+        const req = http.request(options, (res) => {
             console.log(`Http-service Post: StatusCode: ${res.statusCode}`);
 
             var postResponseString = '';
