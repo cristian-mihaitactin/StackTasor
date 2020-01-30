@@ -88,6 +88,15 @@
         </p>
         </section>
       </section>
+      <section id="testing">
+        <!-- review? -->
+        <h3>Testing</h3>
+        <p>
+          For testing, the <a href="https://www.npmjs.com/package/jasmine">jasmine npm</a> module is used. as well as 
+          <a href="https://www.npmjs.com/package/jasmine-spec-reporter">jasmine-spec-reporter npm</a> module for better test feedback.
+        </p>
+        </section>
+      </section>
       <section id="architecture">
         <!-- review? -->
         <h2>Architecture</h2>
@@ -189,7 +198,8 @@ router.post('/auth', async function(request, response) {
             The API facing the <a href="#publicapi">public api</a> presents controllers for each of the 3 entities (users, projects and tasks). 
             Each controller instantiates a repository that interacts with "Azure Tables" through a common "azureTableRepository.js" class that contains
             functions for getting/upserting/deleting an entry as well as getting multiple via a "query". If the table does not exist, the table is created on 
-            the spot. The module establishes commnication with "Azure Tables" via a "Connection String" from the process settings "AZURE_STORAGE_CONNECTION_STRING".
+            the spot. The module establishes commnication with "Azure Tables" via a "Connection String" from the process settings "AZURE_STORAGE_CONNECTION_STRING". 
+            All of the controller and repository classes accept dependencies as parameters, as to facilitate "Dependency Injection".
           </p>
           <p>
             This is a snippet for getting an entry from "azureTableRepository.js" class:

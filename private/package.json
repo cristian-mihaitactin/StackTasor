@@ -8,6 +8,7 @@
     "test_userrepotest": "jasmine spec/db_tests/UserRepoSpec.js",
     "test_integration_usercontroller": "jasmine spec/controllers/integration/UserControllerSpecs.js",
     "test_projectcontroller": "jasmine spec/controllers/ProjectControllerSpecs.js",
+    "run_tests" : "npm run test_repotest && npm run test_userrepotest && npm run test_integration_usercontroller && npm run test_projectcontroller", 
     "start": "npm run start_install && npm run start_local",
     "start_install": "npm install",
     "start_local": "node -r dotenv/config server.js"
