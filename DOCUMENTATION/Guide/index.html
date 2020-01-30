@@ -3,13 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>CRIS-TASOR Report</title>
+    <title>CRIS-TASOR Guide</title>
     <link rel="stylesheet" href="css/scholarly.min.css">
     <script src="js/scholarly.min.js"></script>
+    <style>
+      img {
+        max-width: 300px;
+      }
+    </style>
   </head>
   <body prefix="schema: http://schema.org">
     <header>
-      <h1>CRIS-TASOR Report</h1>
+      <h1>CRIS-TASOR Guide</h1>
     </header>
     <div role="contentinfo">
       <dl>
@@ -23,15 +28,15 @@
       <!-- review? -->
       <h2>Introduction</h2>
       <p>
-        The following document represents a short report regarding the <strong>Cris-Tasor</strong> product, developed
+        The following document represents a short guide to running the <strong>Cris-Tasor</strong> project, developed
         in accordance with the <a href="https://profs.info.uaic.ro/~busaco/teach/courses/staw/projects/">tasor (task smart organizer) //8</a>
         project requirements.  
       </p>
       <p>
-        The product described in this document represents the MVP ("<i>Minimum Viable Product</i>") as understood by the Dev team.
+        The project described in this document represents the MVP ("<i>Minimum Viable Product</i>") as understood by the Dev team.
       </p>
       <p>
-        The product is able to register Users and authenticate users and enable each user (authorized via session) to:
+        The project is able to register Users and authenticate users and enable each user (authorized via session) to:
         <ul>
           <li>Create Projects.</li>
           <li>Append Tasks to each project with various details</li>
@@ -40,208 +45,218 @@
           <li>Generate public link to enable other Users to attach to a created Task</li>
         </ul>
       </p>
-    </section>
-    <section id="technologies">
-      <!-- review? -->
-      <h2>Technologies used</h2>
       <p>
-        As this is a "Full Stack" developed project, many technologies and tooles were used (if a programmer loves something,
-        it's using other peoples work to make things easier). As such, this section hass been split subiteration. 
+        The project is split into two separate api's: "public" (the one serving the client) and "private" (the one exchanges data with AzureTables). 
+        Both of these api's are contained in their own servers. As such, the <a href="install">install</a> and/or <a href="run">run </a> 
+        and/or <a href="test">test</a> sections apply to both api's
       </p>
-      <section id="productivity">
-        <!-- review? -->
-        <h3>Productivity</h3>
-        <p>
-          Even if this is a single developer project, productivity tools are essential to the life of a project.
-        </p>
-        <p>
-          For code management and distribution, the marvelous <a href="https://https://github.com/">GitHub</a> was used. (Link to repository <a href="https://github.com/cristian-mihaitactin/StackTasor">Here</a> )
-        </p>
-        <p>
-          For task management and distribution, the enormingly useful <a href="https://trello.com/">Trello</a> was used. 
-          Each complex aspect of the project was broken down in tab lists, later on being further fragmented and cristalized into individual tasks. 
-          Each task contains a description (usually containing links with information of interest pertaining the task) and Github "Pull Request",
-          linking the "requirement" aspect of the project to the "implementation". (Link to boards <a href="https://trello.com/b/trkEa8pN/staw-tasor">Here</a> )
-        </p>
-      </section>
-      <section id="backend">
-        <!-- review? -->
-        <h3>Backend</h3>
-        <p>
-          The backend (or server side) technologies are all NodeJS and Javascript oriented. The server is hosted via the
-           <a href="https://www.npmjs.com/package/express/">"express"</a> npm, and the <a href="https://www.npmjs.com/package/azure-storage/">"azure-storage"</a> 
-           npm was used to communicate with <a href="https://azure.microsoft.com/en-us/services/storage/tables/">"Azure Table Storage"</a>  as a means of 
-          data storage.
-        </p>
-        <p>
-          The server and client side communicate through an API configured using "Express routes".
-        </p>
-      </section>
-      <section id="frontend">
-        <!-- review? -->
-        <h3>Frontend</h3>
-        <p>
-          Frontend technologies include the "classic 3" Html, Css and Javascript. However, in order to achieve the PWA standard,
-          a <a href="https://developers.google.com/web/fundamentals/primers/service-workers">Service Worker</a> was added to manage 
-          caching and events. A bare minimum of "Bootstrap" (for the navigation bar) and "Jquery" (for "hide" and "show" animation) was used. 
-          The rest of of the technologies used on this end are Vanilla Javascript.
-        </p>
-        </section>
-      </section>
-      <section id="architecture">
-        <!-- review? -->
-        <h2>Architecture</h2>
-        <p>
-          Early on in the planning of the project, a decision to separate the client facing server and database interaction was made. And thus, the 
-          concept of the "public" and "private" api's was born. This meant that any environment (local or live) cound target any database, making debugging and testing much easier.
-        </p>
-        <p>
-          Communication between these api's is made through a common set of "contract entities". These are:
+      <p>
+          The project relies on custom proceenvironmentss variables (e.g.:<code>process.env.PORT</code>), as such, when running on <strong>any environment</strong>, we recommend providing 
+          them. These are: 
           <ul>
-            <li>"user.js"</li>
-            <li>"project.js"</li>
-            <li>"task.js"</li>
+            <li>Private API:
+              <ul>
+                <li>PORT - specifies on which port the server will be listening</li>
+                <li>HOSTNAME - the hostname the server be hosted</li>
+                <li>AZURE_STORAGE_CONNECTION_STRING - connection string to an Azure Table</li>
+              </ul>
+            </li>
+            <li>Public API:
+              <ul>
+                <li>PORT - specifies on which port the server will be listening</li>
+                <li>HOSTNAME - the hostname the server be hosted</li>
+                <li>RESTAPI_URL - the hostname the private api server is hosted on</li>
+                <li>RESTAPI_PORT - specifies on which port the private api server is listening to</li>
+              </ul>
+            </li>
+          <ul>
+        </p>
+    </section>
+    <section id="install">
+      <!-- review? -->
+      <h2>Install</h2>
+      <p>
+        This project was developed and tested with the following Node versions:
+        <ul>
+          <il>Node: 10.15.2</il>
+          <il>Npm: 6.4.1</il>
+        </ul>
+      </p>
+      <p>
+        Before any deployment or development please install all dependencies by running the following command in project folder:
+        <code>
+          npm install
+        </code>
+      </p>
+      </section>
+      <section id="run">
+        <!-- review? -->
+        <h2>Run locally</h2>
+        <p>
+          For the local environment, the project uses <a href="https://www.npmjs.com/package/dotenv">dotenv</a> module to create and read custom 
+          environment variables. To add these variables, add a ".env" file in the api folder and add the variables there. After all this, run the custom 
+          package script: <code>npm run start_local</code>
+        </p>
+      </section>
+      <section id="test">
+        <!-- review? -->
+        <h3>Local Testing</h3>
+        <p>
+          Test suites using <a href="https://www.npmjs.com/package/jasmine">jasmine npm</a> module are provided. These include "Mock" testing as well as "Integration" 
+          tests.
+          <p>
+          <strong>ATTENTION:</strong> "Integration" tests will attempt to connect to the database and create entities, while "Mock" uses dependency injection to 
+          simulate calls.
+          </p>
+        </p>
+        <p>
+          To run provided tests, use:
+          <ul>
+            <il><code>npm run test_repotest</code></il>
+            <il><code>npm run test_userrepotest</code></il>
+            <il><code>npm run test_integration_usercontroller</code></il>
+            <il><code>npm run test_projectcontroller</code></il>
           </ul>
+          To run all the tests, run: <code>npm run run_tests</code>
         </p>
-        <section id="publicapi">
-          <h3>Public Api</h3>
-          <p>
+      </section>
+      <section id="flow">
+        <!-- review? -->
+        <h2>Functional flow</h2>
+        <p>
             Live link: <a href="https://cristasor-public-win.azurewebsites.net">cristasor-public-win.azurewebsites.net</a>
-          </p>
+        </p>
+        <section id="createuser">
+          <h3>Create an user:</h3>
           <p>
-            The "public" api is the one designated to face the client and serve the "html pages".
-            Code snippet of the "/auth" action which enables a user to login:
-            <pre><code>
-              
-router.post('/auth', async function(request, response) {
-    console.log("router.post('/auth'");
-
-	var form = new multiparty.Form();
- 
-    form.parse(request, async function(err, fields, files) {
-        var username = fields.username;
-        var password = fields.password;
-
-        if (username && password) {
-            var results = await authManager.userLogin(username, password);
-            if (results.length > 0) {
-                request.session.loggedin = true;
-                request.session.username = username;
-                request.session.userId = results[0].id;
-
-                var _redirectLink = '/home';
-                if (request.session.fromRedirect) {
-                    _redirectLink = request.session.fromRedirectUrl;
-                    request.session.fromRedirect = false;
-                }
-                response.status(200).send({
-                    RedirectLink: _redirectLink,
-                    Error: false
-                });
-            } else {
-                response.status(400).send( {
-                    Message: 'Incorrect Username and/or Password!',
-                    Error: true
-                });
-                response.end();
-            }
-        } else {
-            response.status(401).send( {
-                Message: 'Please enter Username and Password!',
-                Error: true
-            });
-            response.end();
-        }
-    });
-});
-            </code></pre>
+            Click <a href="">Create account ...</a> link
           </p>
+          <img src="./img/createuser.jpg">
           <p>
-            All of these actions are located in the "server-express.js" file. As a security precaution, the only files that the client 
-            can access are the static ones:
-            <pre>
-              <code>
-                app.use(express.static(__dirname + '/src'));
-                app.use('/static', express.static(__dirname + '/views'));
-                app.use(express.static(__dirname + '/pwa'));
-              </code>
-            </pre>
+            Enter credentials and email. All fields are required.
           </p>
+          <img src="./img/pass-prepeat-min.jpg">
           <p>
-            Communication with the <a href="#privateapi">private api</a> is made through a set of services and managers.
-            The server calls the "managers". These "managers" then manipulate the date so that they can call and interpret the "rest-services".
-            These "services" are specialized modules that get,set,delete data via the "contract entities". As such, there is a "rest-service" for each 
-            of these entities. The actual sending and receiving of data is made through a common "http-service.js" module.
+            Password must be a min of 8 characters
           </p>
+          <img src="./img/pass-prepeat-min.jpg">
+          <img src="./img/pass-same.jpg">
+
         </section>
-        <section id="privateapi">
-          <h3>Public Api</h3>
+        <section id="project-create">
+          <h3>Create project:</h3>
           <p>
-            Live link: <a href="https://cristasor-private-win.azurewebsites.net">cristasor-private-win.azurewebsites.net</a>
+            To create a new Project, click the "Click to Add Project" button.
           </p>
+          <img src="./img/Home.jpg">
+
+          <img src="./img/project-add.jpg">
           <p>
-            The "private" api is the one designated to interact with "Azure Tables" that hold data. The API server is hosted via the "server.js" file and
-            route management via the "routes.js" module. This routes module is the one directing requests to each specific controller. Each of these controllers
-             returns a JSON object if the request was completed, or an error if not. 
+             This will open the form to add info about the new Project (all field are required)
+             You can choose a color to represent this project
           </p>
-          <p>
-            Communication with "Azure Tables" is made through a set repositories.
-            The API facing the <a href="#publicapi">public api</a> presents controllers for each of the 3 entities (users, projects and tasks). 
-            Each controller instantiates a repository that interacts with "Azure Tables" through a common "azureTableRepository.js" class that contains
-            functions for getting/upserting/deleting an entry as well as getting multiple via a "query". If the table does not exist, the table is created on 
-            the spot. The module establishes commnication with "Azure Tables" via a "Connection String" from the process settings "AZURE_STORAGE_CONNECTION_STRING".
-          </p>
-          <p>
-            This is a snippet for getting an entry from "azureTableRepository.js" class:
-            <pre>
-              <code>
-      get(partitionKey, rowKey) {
-        return new Promise((resolve, reject) => {
-            this._tableService.retrieveEntity(this._tableName, partitionKey, rowKey, function (error, result, response) {
-                if (! error) { // result contains the entity
-                    console.log('Entity.datetime = ' + result.CreatedDate);
-                    return resolve(result);
-                } else {
-                    reject("Unable to retrieve entity: PartitionKey: " + partitionKey + ", RowKey: " + rowKey + ". Error: " + error);
-                }
-            });
-        });
-    }
-              </code>
-            </pre>
-          </p>
+          <img src="./img/project-add2.jpg">
+          <img src="./img/project-done.jpg">
         </section>
-      </section>
-      <section id="hosting">
-        <!-- review? -->
-        <h3>Hosting</h3>
-        <p>
-          Hosting is done by using <a href="https://azure.microsoft.com/en-us/">Azure Hosting</a> Services. The two servers (<a href="#privateapi">private</a> 
-          and <a href="#publicapi">public</a> API's) are hosted on "App services", with logging provided "Application Insights".
-        </p>
-      </section>
-      <section id="problems">
-        <!-- review? -->
-        <h3>Problems encountered</h3>
-        <p>
-          As any project, developing the <strong>Cris-Tasor</strong> project has encountered some problems.
-        </p>
-        <p class="issue">
-          One of the issues tackled was the hosting on a live environment. As per "PWA" standard, https support was needed. When moving the project from local
-          to a live environment, some architectural decisions were needed to be done. One of them was the contracts. Before hosting on a live environment, 
-          the two api's were both targeting the same classes (in order to maintain common contracts). However, as NodeJS does not "build" the dependencies 
-          into binary files via references, the classes had to be cloned and moved in each of the api project.
-        </p>
-        <p class="issue">
-          Another issue encountered was the web push api for notification. Although web notifications was easlily implemented, the "subscriptions" part of 
-          the api has presented a very confusing and time-consuming documentation. After a day of analysing the documentation, a choice has presented itself: 
-          either host a third api to manage notifications, or use a "Firebase" message service. Given the time constraint of the project, the "Firebase" option was 
-          used. However, again, the confusing documentation ("what is the notification url?") and lack of practical examples, has forced the development team 
-          to drop this feature. There is still a branch wating for this to finish.
-        </p>
-        <p class="issue">
-          The last, and biggest, issue encountered was the <strong>"css time drain"</strong>. The development team is specialized and experienced in backend technologies (bites, not px).
-        </p>
+        <section id="task-create">
+          <h3>Add a task to the project:</h3>
+          <p>
+            To add a task to a project, click on the project button, and enter the project task list:
+          </p>
+          <img src="./img/project-done.jpg">
+          <img src="./img/task-add.jpg">
+          <p>
+            Click on the <a href="#">Add new Task ...</a>. This will open a Task creation form:
+          </p>
+          <p>
+            The required fileds are:
+            <ul>
+              <li>Name</li>
+              <li>Color</li>
+              <li>Description</li>
+              <li>Estimation (float number)</li>
+              <li>Task type</li>
+            </ul>
+            The optional fileds are:
+            <ul>
+              <li>Geographic Zone</li>
+              <li>Time Zone</li>
+              <li>Work Domain</li>
+            </ul>
+          </p>
+          <img src="./img/task-add3.jpg">
+          <img src="./img/task-add4.jpg">
+          <p>
+            After all that, click the "Submit button".
+          </p>
+
+          <p>
+            Now the task should be added to the project.
+          </p>
+          <img src="./img/task-done.jpg">
+          <p>
+            Click on the task to expand or collapse.
+          </p>
+          <img src="./img/task-done1.jpg">
+
+        </section>
+        <section id="task-edit">
+          <h3>Edit or Delete Task:</h3>
+          <p>
+            At the bottom of any task that you created, there is a button for editing or deleting the task.
+             Clicking the edit will open the form with the current editable data. 
+          </p>
+          <img src="./img/task-abandon.jpg">
+          <img src="./img/task-edit.jpg">
+        </section>
+        <section id="task-link">
+          <h3>Public link:</h3>
+          <p>
+            Every task has a publicly accessible link. Next to it it's a button that copies the link to the client clipboard.
+          </p>
+          <img src="./img/task-link.jpg">
+          <p>
+            The link will redirect the user to a page containing the task details. <strong>Only logged users can access!</strong>
+          </p>
+          <p>
+            At the bottom there are 3 buttons. Any user can accept any task. Once the task has been accepted by an user, it can't be accepted by others.
+          </p>
+          <img src="./img/task-asign.jpg">
+          <img src="./img/task-accept.jpg">
+          <p>
+            Once an user accepts, his/her id will appear unde "Is working"
+          </p>
+          <img src="./img/task-abandon.jpg">
+          <p>
+            Once an user accepts, on he/she can abandon or finish.
+          </p>
+
+          <p>
+            If user finished, and has evidence, click "Finish" button. The evindece will be available under the "Evidence of Done":
+          </p>
+          <img src="./img/task-evidence.jpg">
+          <img src="./img/task-evidence1.jpg">
+        </section>
+        <section id="user-signout">
+          <h3>Sign out</h3>
+            <p>
+              To sign out, click the "Log off" button (if on mobile, the button is under the menu button)
+            </p>
+          <img src="./img/task-signout2.jpg">
+        </section>
+        <section id="pwa">
+          <h3>Progressive Web App</h3>
+            <p>
+              If you are on a mobile device with a supported Browser, you will get a notification asking if you want to add the app to the home screen:
+            </p>
+          <img src="./img/zpwa-0.jpg">
+          <img src="./img/zpwa-1.jpg">
+          <p>
+              If you accepted, now the web app will run like any other native app.
+            </p>
+          <img src="./img/zpwa.jpg">
+
+        </section>
       </section>
   </body>
 </html>
