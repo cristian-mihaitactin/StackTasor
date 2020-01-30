@@ -6,3 +6,4 @@ Once that command finished, start the server via `npm start` or `npm start_local
 Check the Documentation section for more info.
 
 Link to video demo: [YouTube link](https://youtu.be/bJLvOKKWX50)
+Link to Trello board: [TASOR Board](https://trello.com/b/trkEa8pN/staw-tasor)
