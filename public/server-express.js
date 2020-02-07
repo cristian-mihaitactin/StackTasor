@@ -329,9 +329,25 @@ router.get('/project/:projectId/tasks/:taskId', async function(request, response
     var projectId = request.params.projectId;
     var taskId = request.params.taskId;
 
-    if (request.session.loggedin) {
+    // if (request.session.loggedin) {
 
-        var createdtasks = await taskManager.getTasksById(projectId, taskId);
+    //     var createdtasks = await taskManager.getTasksById(projectId, taskId);
+    //     if (createdtasks) {
+    //         response.status(200).send(createdtasks);
+    //     } else {
+    //         response.status(500).send( {
+    //             Message: 'Something went wrong when creating project. Please try again.',
+    //             Error: true
+    //         });
+    //         response.end();
+    //     }
+	// } else {
+    //     request.session.fromRedirect = true;
+    //     request.session.fromRedirect = '/project/' + projectId + '/tasks/' + request.params.taskId;
+    //     response.redirect('/');
+    // }
+    
+    var createdtasks = await taskManager.getTasksById(projectId, taskId);
         if (createdtasks) {
             response.status(200).send(createdtasks);
         } else {
@@ -341,25 +357,20 @@ router.get('/project/:projectId/tasks/:taskId', async function(request, response
             });
             response.end();
         }
-	} else {
-        request.session.fromRedirect = true;
-        request.session.fromRedirect = '/project/' + projectId + '/tasks/' + request.params.taskId;
-        response.redirect('/');
-	}
 });
 
 router.get('/workItem/:projectId/tasks/:taskId', async function(request, response) {
     var projectId = request.params.projectId;
     var taskId = request.params.taskId;
-
-    if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + "/views" + '/workItem.html'));
-       // response.send('/workItem.html');
-	} else {
-        request.session.fromRedirect = true;
-        request.session.fromRedirectUrl = '/workItem/' + projectId + '/tasks/' + taskId;
-        response.redirect('/');
-	}
+    response.sendFile(path.join(__dirname + "/views" + '/workItem.html'));
+    // if (request.session.loggedin) {
+        
+    //    // response.send('/workItem.html');
+	// } else {
+    //     request.session.fromRedirect = true;
+    //     request.session.fromRedirectUrl = '/workItem/' + projectId + '/tasks/' + taskId;
+    //     response.redirect('/');
+	// }
 });
 
 router.post('/workItem/:projectId/tasks/:taskId', async function(request, response) {
@@ -414,9 +425,14 @@ router.post('/workItem/:projectId/tasks/:taskId', async function(request, respon
         }
         console.log('evidence.after=' + evidence);
 	} else {
+        
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = redirectLink;
-        response.redirect('/');
+        // response.redirect('/');
+        response.send({
+            RedirectLink: '/',
+            Error: false
+        })
 	}
 });
 async function updateTask(response,taskId,
@@ -455,7 +471,11 @@ router.delete('/project/:projectId/tasks/:taskId', async function(request, respo
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = redirectLink;
-        response.redirect('/');
+        // response.redirect('/');
+        response.send({
+            RedirectLink: '/',
+            Error: false
+        });
 	}
 });
 app.use(express.static(__dirname + '/src'));
