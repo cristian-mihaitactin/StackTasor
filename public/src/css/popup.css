@@ -1,6 +1,8 @@
 div#popupContact {
     position:fixed;
-    top:-200px;
+    top:100px;
+    max-width: 80%;
+    max-height: 450px;
     left: calc(50% - 170px);
     background-color:#fff;
     color:#7F7F7F;
@@ -16,12 +18,12 @@ div#popupContact {
 
     div#popupContact > form {
     max-width:300px;
-    min-width:250px;
+    min-width:150px;
     padding:10px 50px;
+    max-height: inherit;
     border:2px solid gray;
     border-radius:10px;
     background-color:#fff;
-    max-height: 600px;
     overflow-y: scroll
     }
     .formPop > hr {
