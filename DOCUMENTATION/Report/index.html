@@ -1,126 +1,143 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>CRIS-TASOR Report</title>
-    <link rel="stylesheet" href="css/scholarly.min.css">
-    <script src="js/scholarly.min.js"></script>
-  </head>
-  <body prefix="schema: http://schema.org">
-    <header>
-      <h1>CRIS-TASOR Report</h1>
-    </header>
-    <div role="contentinfo">
-      <dl>
-        <dt>Autor</dt>
-        <dd>
-          Cristian Constantin Mihaita
-        </dd>
-      </dl>
-    </div>
-    <section id="introduction" role="doc-introduction">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>CRIS-TASOR Report</title>
+  <link rel="stylesheet" href="css/scholarly.min.css">
+  <script src="js/scholarly.min.js"></script>
+</head>
+
+<body prefix="schema: http://schema.org">
+  <header>
+    <h1>CRIS-TASOR Report</h1>
+  </header>
+  <div role="contentinfo">
+    <dl>
+      <dt>Autor</dt>
+      <dd>
+        Cristian Constantin Mihaita
+      </dd>
+    </dl>
+  </div>
+  <section id="introduction" role="doc-introduction">
+    <!-- review? -->
+    <h2>Introduction</h2>
+    <p>
+      The following document represents a short report regarding the <strong>Cris-Tasor</strong> product, developed
+      in accordance with the <a href="https://profs.info.uaic.ro/~busaco/teach/courses/staw/projects/">tasor (task smart
+        organizer) //8</a>
+      project requirements.
+    </p>
+    <p>
+      The product described in this document represents the MVP ("<i>Minimum Viable Product</i>") as understood by the
+      Dev team.
+    </p>
+    <p>
+      The product is able to register Users and authenticate users and enable each user (authorized via session) to:
+      <ul>
+        <li>Create Projects.</li>
+        <li>Append Tasks to each project with various details</li>
+        <li>Edit or Delete created Tasks</li>
+        <li>Attach to Tasks either created by itself, or by other Users</li>
+        <li>Generate public link to enable other Users to attach to a created Task</li>
+      </ul>
+    </p>
+  </section>
+  <section id="technologies">
+    <!-- review? -->
+    <h2>Technologies used</h2>
+    <p>
+      As this is a "Full Stack" developed project, many technologies and tooles were used (if a programmer loves
+      something,
+      it's using other peoples work to make things easier). As such, this section hass been split subiteration.
+    </p>
+    <section id="productivity">
       <!-- review? -->
-      <h2>Introduction</h2>
+      <h3>Productivity</h3>
       <p>
-        The following document represents a short report regarding the <strong>Cris-Tasor</strong> product, developed
-        in accordance with the <a href="https://profs.info.uaic.ro/~busaco/teach/courses/staw/projects/">tasor (task smart organizer) //8</a>
-        project requirements.  
+        Even if this is a single developer project, productivity tools are essential to the life of a project.
       </p>
       <p>
-        The product described in this document represents the MVP ("<i>Minimum Viable Product</i>") as understood by the Dev team.
+        For code management and distribution, the marvelous <a href="https://https://github.com/">GitHub</a> was used.
+        (Link to repository <a href="https://github.com/cristian-mihaitactin/StackTasor">Here</a> )
       </p>
       <p>
-        The product is able to register Users and authenticate users and enable each user (authorized via session) to:
-        <ul>
-          <li>Create Projects.</li>
-          <li>Append Tasks to each project with various details</li>
-          <li>Edit or Delete created Tasks</li>
-          <li>Attach to Tasks either created by itself, or by other Users</li>
-          <li>Generate public link to enable other Users to attach to a created Task</li>
-        </ul>
+        For task management and distribution, the enormingly useful <a href="https://trello.com/">Trello</a> was used.
+        Each complex aspect of the project was broken down in tab lists, later on being further fragmented and
+        cristalized into individual tasks.
+        Each task contains a description (usually containing links with information of interest pertaining the task) and
+        Github "Pull Request",
+        linking the "requirement" aspect of the project to the "implementation". (Link to boards <a
+          href="https://trello.com/b/trkEa8pN/staw-tasor">Here</a> )
       </p>
     </section>
-    <section id="technologies">
+    <section id="backend">
       <!-- review? -->
-      <h2>Technologies used</h2>
+      <h3>Backend</h3>
       <p>
-        As this is a "Full Stack" developed project, many technologies and tooles were used (if a programmer loves something,
-        it's using other peoples work to make things easier). As such, this section hass been split subiteration. 
+        The backend (or server side) technologies are all NodeJS and Javascript oriented. The server is hosted via the
+        <a href="https://www.npmjs.com/package/express/">"express"</a> npm, and the <a
+          href="https://www.npmjs.com/package/azure-storage/">"azure-storage"</a>
+        npm was used to communicate with <a href="https://azure.microsoft.com/en-us/services/storage/tables/">"Azure
+          Table Storage"</a> as a means of
+        data storage.
       </p>
-      <section id="productivity">
-        <!-- review? -->
-        <h3>Productivity</h3>
-        <p>
-          Even if this is a single developer project, productivity tools are essential to the life of a project.
-        </p>
-        <p>
-          For code management and distribution, the marvelous <a href="https://https://github.com/">GitHub</a> was used. (Link to repository <a href="https://github.com/cristian-mihaitactin/StackTasor">Here</a> )
-        </p>
-        <p>
-          For task management and distribution, the enormingly useful <a href="https://trello.com/">Trello</a> was used. 
-          Each complex aspect of the project was broken down in tab lists, later on being further fragmented and cristalized into individual tasks. 
-          Each task contains a description (usually containing links with information of interest pertaining the task) and Github "Pull Request",
-          linking the "requirement" aspect of the project to the "implementation". (Link to boards <a href="https://trello.com/b/trkEa8pN/staw-tasor">Here</a> )
-        </p>
-      </section>
-      <section id="backend">
-        <!-- review? -->
-        <h3>Backend</h3>
-        <p>
-          The backend (or server side) technologies are all NodeJS and Javascript oriented. The server is hosted via the
-           <a href="https://www.npmjs.com/package/express/">"express"</a> npm, and the <a href="https://www.npmjs.com/package/azure-storage/">"azure-storage"</a> 
-           npm was used to communicate with <a href="https://azure.microsoft.com/en-us/services/storage/tables/">"Azure Table Storage"</a>  as a means of 
-          data storage.
-        </p>
-        <p>
-          The server and client side communicate through an API configured using "Express routes".
-        </p>
-      </section>
-      <section id="frontend">
-        <!-- review? -->
-        <h3>Frontend</h3>
-        <p>
-          Frontend technologies include the "classic 3" Html, Css and Javascript. However, in order to achieve the PWA standard,
-          a <a href="https://developers.google.com/web/fundamentals/primers/service-workers">Service Worker</a> was added to manage 
-          caching and events. A bare minimum of "Bootstrap" (for the navigation bar) and "Jquery" (for "hide" and "show" animation) was used. 
-          The rest of of the technologies used on this end are Vanilla Javascript.
-        </p>
-        </section>
-      </section>
-      <section id="testing">
-        <!-- review? -->
-        <h3>Testing</h3>
-        <p>
-          For testing, the <a href="https://www.npmjs.com/package/jasmine">jasmine npm</a> module is used. as well as 
-          <a href="https://www.npmjs.com/package/jasmine-spec-reporter">jasmine-spec-reporter npm</a> module for better test feedback.
-        </p>
-        </section>
-      </section>
-      <section id="architecture">
-        <!-- review? -->
-        <h2>Architecture</h2>
-        <p>
-          Early on in the planning of the project, a decision to separate the client facing server and database interaction was made. And thus, the 
-          concept of the "public" and "private" api's was born. This meant that any environment (local or live) cound target any database, making debugging and testing much easier.
-        </p>
-        <p>
-          Communication between these api's is made through a common set of "contract entities". These are:
-          <ul>
-            <li>"user.js"</li>
-            <li>"project.js"</li>
-            <li>"task.js"</li>
-          </ul>
-        </p>
-        <section id="publicapi">
-          <h3>Public Api</h3>
-          <p>
-            Live link: <a href="https://cristasor-public-win.azurewebsites.net">cristasor-public-win.azurewebsites.net</a>
-          </p>
-          <p>
-            The "public" api is the one designated to face the client and serve the "html pages".
-            Code snippet of the "/auth" action which enables a user to login:
-            <pre><code>
+      <p>
+        The server and client side communicate through an API configured using "Express routes".
+      </p>
+    </section>
+    <section id="frontend">
+      <!-- review? -->
+      <h3>Frontend</h3>
+      <p>
+        Frontend technologies include the "classic 3" Html, Css and Javascript. However, in order to achieve the PWA
+        standard,
+        a <a href="https://developers.google.com/web/fundamentals/primers/service-workers">Service Worker</a> was added
+        to manage
+        caching and events. A bare minimum of "Bootstrap" (for the navigation bar) and "Jquery" (for "hide" and "show"
+        animation) was used.
+        The rest of of the technologies used on this end are Vanilla Javascript.
+      </p>
+    </section>
+  </section>
+  <section id="testing">
+    <!-- review? -->
+    <h3>Testing</h3>
+    <p>
+      For testing, the <a href="https://www.npmjs.com/package/jasmine">jasmine npm</a> module is used. as well as
+      <a href="https://www.npmjs.com/package/jasmine-spec-reporter">jasmine-spec-reporter npm</a> module for better test
+      feedback.
+    </p>
+  </section>
+  </section>
+  <section id="architecture">
+    <!-- review? -->
+    <h2>Architecture</h2>
+    <p>
+      Early on in the planning of the project, a decision to separate the client facing server and database interaction
+      was made. And thus, the
+      concept of the "public" and "private" api's was born. This meant that any environment (local or live) cound target
+      any database, making debugging and testing much easier.
+    </p>
+    <p>
+      Communication between these api's is made through a common set of "contract entities". These are:
+      <ul>
+        <li>"user.js"</li>
+        <li>"project.js"</li>
+        <li>"task.js"</li>
+      </ul>
+    </p>
+    <section id="publicapi">
+      <h3>Public Api</h3>
+      <p>
+        Live link: <a href="https://cristasor-public-win.azurewebsites.net">cristasor-public-win.azurewebsites.net</a>
+      </p>
+      <p>
+        The "public" api is the one designated to face the client and serve the "html pages".
+        Code snippet of the "/auth" action which enables a user to login:
+        <pre><code>
               
 router.post('/auth', async function(request, response) {
     console.log("router.post('/auth'");
@@ -164,46 +181,56 @@ router.post('/auth', async function(request, response) {
     });
 });
             </code></pre>
-          </p>
-          <p>
-            All of these actions are located in the "server-express.js" file. As a security precaution, the only files that the client 
-            can access are the static ones:
-            <pre>
+      </p>
+      <p>
+        All of these actions are located in the "server-express.js" file. As a security precaution, the only files that
+        the client
+        can access are the static ones:
+        <pre>
               <code>
                 app.use(express.static(__dirname + '/src'));
                 app.use('/static', express.static(__dirname + '/views'));
                 app.use(express.static(__dirname + '/pwa'));
               </code>
             </pre>
-          </p>
-          <p>
-            Communication with the <a href="#privateapi">private api</a> is made through a set of services and managers.
-            The server calls the "managers". These "managers" then manipulate the date so that they can call and interpret the "rest-services".
-            These "services" are specialized modules that get,set,delete data via the "contract entities". As such, there is a "rest-service" for each 
-            of these entities. The actual sending and receiving of data is made through a common "http-service.js" module.
-          </p>
-        </section>
-        <section id="privateapi">
-          <h3>Public Api</h3>
-          <p>
-            Live link: <a href="https://cristasor-private-win.azurewebsites.net">cristasor-private-win.azurewebsites.net</a>
-          </p>
-          <p>
-            The "private" api is the one designated to interact with "Azure Tables" that hold data. The API server is hosted via the "server.js" file and
-            route management via the "routes.js" module. This routes module is the one directing requests to each specific controller. Each of these controllers
-             returns a JSON object if the request was completed, or an error if not. 
-          </p>
-          <p>
-            Communication with "Azure Tables" is made through a set repositories.
-            The API facing the <a href="#publicapi">public api</a> presents controllers for each of the 3 entities (users, projects and tasks). 
-            Each controller instantiates a repository that interacts with "Azure Tables" through a common "azureTableRepository.js" class that contains
-            functions for getting/upserting/deleting an entry as well as getting multiple via a "query". If the table does not exist, the table is created on 
-            the spot. The module establishes commnication with "Azure Tables" via a "Connection String" from the process settings "AZURE_STORAGE_CONNECTION_STRING". 
-            All of the controller and repository classes accept dependencies as parameters, as to facilitate "Dependency Injection".
-          </p>
-          <p>
-            This is a snippet for getting an entry from "azureTableRepository.js" class:
-            <pre>
+      </p>
+      <p>
+        Communication with the <a href="#privateapi">private api</a> is made through a set of services and managers.
+        The server calls the "managers". These "managers" then manipulate the date so that they can call and interpret
+        the "rest-services".
+        These "services" are specialized modules that get,set,delete data via the "contract entities". As such, there is
+        a "rest-service" for each
+        of these entities. The actual sending and receiving of data is made through a common "http-service.js" module.
+      </p>
+    </section>
+    <section id="privateapi">
+      <h3>Private Api</h3>
+      <p>
+        Live link: <a href="https://cristasor-private-win.azurewebsites.net">cristasor-private-win.azurewebsites.net</a>
+      </p>
+      <p>
+        The "private" api is the one designated to interact with "Azure Tables" that hold data. The API server is hosted
+        via the "server.js" file and
+        route management via the "routes.js" module. This routes module is the one directing requests to each specific
+        controller. Each of these controllers
+        returns a JSON object if the request was completed, or an error if not.
+      </p>
+      <p>
+        Communication with "Azure Tables" is made through a set repositories.
+        The API facing the <a href="#publicapi">public api</a> presents controllers for each of the 3 entities (users,
+        projects and tasks).
+        Each controller instantiates a repository that interacts with "Azure Tables" through a common
+        "azureTableRepository.js" class that contains
+        functions for getting/upserting/deleting an entry as well as getting multiple via a "query". If the table does
+        not exist, the table is created on
+        the spot. The module establishes commnication with "Azure Tables" via a "Connection String" from the process
+        settings "AZURE_STORAGE_CONNECTION_STRING".
+        All of the controller and repository classes accept dependencies as parameters, as to facilitate "Dependency
+        Injection".
+      </p>
+      <p>
+        This is a snippet for getting an entry from "azureTableRepository.js" class:
+        <pre>
               <code>
       get(partitionKey, rowKey) {
         return new Promise((resolve, reject) => {
@@ -219,39 +246,89 @@ router.post('/auth', async function(request, response) {
     }
               </code>
             </pre>
-          </p>
-        </section>
-      </section>
-      <section id="hosting">
-        <!-- review? -->
-        <h3>Hosting</h3>
-        <p>
-          Hosting is done by using <a href="https://azure.microsoft.com/en-us/">Azure Hosting</a> Services. The two servers (<a href="#privateapi">private</a> 
-          and <a href="#publicapi">public</a> API's) are hosted on "App services", with logging provided "Application Insights".
-        </p>
-      </section>
-      <section id="problems">
-        <!-- review? -->
-        <h3>Problems encountered</h3>
-        <p>
-          As any project, developing the <strong>Cris-Tasor</strong> project has encountered some problems.
-        </p>
-        <p class="issue">
-          One of the issues tackled was the hosting on a live environment. As per "PWA" standard, https support was needed. When moving the project from local
-          to a live environment, some architectural decisions were needed to be done. One of them was the contracts. Before hosting on a live environment, 
-          the two api's were both targeting the same classes (in order to maintain common contracts). However, as NodeJS does not "build" the dependencies 
-          into binary files via references, the classes had to be cloned and moved in each of the api project.
-        </p>
-        <p class="issue">
-          Another issue encountered was the web push api for notification. Although web notifications was easlily implemented, the "subscriptions" part of 
-          the api has presented a very confusing and time-consuming documentation. After a day of analysing the documentation, a choice has presented itself: 
-          either host a third api to manage notifications, or use a "Firebase" message service. Given the time constraint of the project, the "Firebase" option was 
-          used. However, again, the confusing documentation ("what is the notification url?") and lack of practical examples, has forced the development team 
-          to drop this feature. There is still a branch wating for this to finish.
-        </p>
-        <p class="issue">
-          The last, and biggest, issue encountered was the <strong>"css time drain"</strong>. The development team is specialized and experienced in backend technologies (bites, not px).
-        </p>
-      </section>
-  </body>
+      </p>
+    </section>
+  </section>
+  <section id="PWA">
+    <h2>Progressive Web App (PWA)</h2>
+    <p>
+      Progressive Web Apps are , in essence, web applications that meet a set of requirements (such as HTTPS support, fast loads over mobile networks, 
+      a "Service Worker" being register-installed-and used, etc.) which enable them to simulate a <i>"native application"</i> on desktop and mobile devices. This also gives the web app,
+      through the Service worker, access to native functionalities (such as push notifications). 
+    </p>
+    <section id="manifestfile">
+      <h3>The "<code>Manifest.JSON</code>" file</h3>
+      <p>
+        As a bare minimum for a web app to qualify as a PWA, the webapp must support HTTPS (or even better, redirect HTTP trafic to HTTPS - which the live public API does do) as well as present
+        a special file named <code>"manifest.json"</code>. This contains information such as 
+        the orientation of the application once installed (be it portrait or landscape), <code>background</code> and <code>theme_color</code>, as well 
+        as include of list of images (with path and type included) in a variety of dimentions, to be
+        used by the native system.
+      </p>
+      <p>
+        The project contains such a file in the "pwa" directory.
+      </p>
+    </section>
+    <section id="serviceworker">
+      <h3>Service Worker</h3>
+      <p>
+        A "Service worker" is a script program that is run by the Browser in the background. This enables a website to cache files and data, enabling even offline 
+        activity, as well respond to specific events ("install", "activate", "sync", 
+        "message", "push" and "fetch"). In the project, the "Service worker" script file is the "sw.js" file under the "pwa" directory in the public API.
+      </p>
+      <p>
+        By using the "push" event listeners, web notification can be sent, informing the user about 
+        the status change of a created Task ("Accepted", "Aborted" or "Finished") or expiration of an attached one.
+      </p>
+      <p>
+        Later one, by integrating with a <a href="https://firebase.google.com/docs/cloud-messaging">"Firebase Message Management"</a> via 
+        the webpush API, a "Subscription" type notification system can be established (using the webpush api to send notification from the server, and 'push' event listener of the service worker). 
+        Essentially decoupling the server from the notification system. This guarantees 
+        a much bigger degree of extensibility for the notification system.
+      </p>
+  </section>
+  </section>
+  <section id="hosting">
+    <!-- review? -->
+    <h3>Hosting</h3>
+    <p>
+      Hosting is done by using <a href="https://azure.microsoft.com/en-us/">Azure Hosting</a> Services. The two servers
+      (<a href="#privateapi">private</a>
+      and <a href="#publicapi">public</a> API's) are hosted on "App services", with logging provided "Application
+      Insights".
+    </p>
+  </section>
+  <section id="problems">
+    <!-- review? -->
+    <h3>Problems encountered</h3>
+    <p>
+      As any project, developing the <strong>Cris-Tasor</strong> project has encountered some problems.
+    </p>
+    <p class="issue">
+      One of the issues tackled was the hosting on a live environment. As per "PWA" standard, https support was needed.
+      When moving the project from local
+      to a live environment, some architectural decisions were needed to be done. One of them was the contracts. Before
+      hosting on a live environment,
+      the two api's were both targeting the same classes (in order to maintain common contracts). However, as NodeJS
+      does not "build" the dependencies
+      into binary files via references, the classes had to be cloned and moved in each of the api project.
+    </p>
+    <p class="issue">
+      Another issue encountered was the web push api for notification. Although web notifications was easlily
+      implemented, the "subscriptions" part of
+      the api has presented a very confusing and time-consuming documentation. After a day of analysing the
+      documentation, a choice has presented itself:
+      either host a third api to manage notifications, or use a "Firebase" message service. Given the time constraint of
+      the project, the "Firebase" option was
+      used. However, again, the confusing documentation ("what is the notification url?") and lack of practical
+      examples, has forced the development team
+      to drop this feature. There is still a branch wating for this to finish.
+    </p>
+    <p class="issue">
+      The last, and biggest, issue encountered was the <strong>"css time drain"</strong>. The development team is
+      specialized and experienced in backend technologies (bites, not px).
+    </p>
+  </section>
+</body>
+
 </html>

@@ -4,7 +4,7 @@ const http = require('http');
 const rest_api_url = process.env.RESTAPI_URL;
 const rest_api_port = process.env.RESTAPI_PORT;
 
-exports.restapi_get = function(path) {
+exports.restapi_get = function (path) {
     return new Promise((resolve, reject) => {
         const options = {
             hostname: rest_api_url,
@@ -17,7 +17,7 @@ exports.restapi_get = function(path) {
             // },
             agent: new http.Agent({
                 rejectUnauthorized: false,
-              }),
+            }),
         }
 
         const req = http.request(options, (res) => {
@@ -46,7 +46,7 @@ exports.restapi_get = function(path) {
     });
 }
 
-exports.restapi_post = function(path, bodyObject) {
+exports.restapi_post = function (path, bodyObject) {
     return new Promise((resolve, reject) => {
         const data = JSON.stringify(bodyObject);
 
@@ -61,7 +61,7 @@ exports.restapi_post = function(path, bodyObject) {
             },
             agent: new http.Agent({
                 rejectUnauthorized: false,
-              }),
+            }),
         }
         const req = http.request(options, (res) => {
             console.log(`Http-service Post: StatusCode: ${res.statusCode}`);
@@ -73,8 +73,7 @@ exports.restapi_post = function(path, bodyObject) {
 
             res.on('end', () => {
                 console.log('Http-service Post end: Data received: ' + postResponseString);
-                if (typeof( postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1)
-                {
+                if (typeof (postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1) {
                     resolve(JSON.parse(postResponseString));
                 } else {
                     resolve();
@@ -92,7 +91,7 @@ exports.restapi_post = function(path, bodyObject) {
     });
 }
 
-exports.restapi_delete = function(path) {
+exports.restapi_delete = function (path) {
     return new Promise((resolve, reject) => {
 
         const options = {
@@ -102,7 +101,7 @@ exports.restapi_delete = function(path) {
             method: 'DELETE',
             agent: new http.Agent({
                 rejectUnauthorized: false,
-              }),
+            }),
         }
 
         const req = http.request(options, (res) => {
@@ -115,8 +114,7 @@ exports.restapi_delete = function(path) {
 
             res.on('end', () => {
                 console.log('Http-service Delete end: Data received: ' + postResponseString);
-                if (typeof( postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1)
-                {
+                if (typeof (postResponseString) != 'undefined' && postResponseString !== null && postResponseString != '' && postResponseString.undefined != 1) {
                     resolve(JSON.parse(postResponseString));
                 } else {
                     console.log('before simple');
@@ -136,7 +134,7 @@ exports.restapi_delete = function(path) {
     });
 }
 
-exports.restapi_query = function(path, bodyObject) {
+exports.restapi_query = function (path, bodyObject) {
     return new Promise((resolve, reject) => {
         const data = JSON.stringify(bodyObject);
 
@@ -151,7 +149,7 @@ exports.restapi_query = function(path, bodyObject) {
             },
             agent: new http.Agent({
                 rejectUnauthorized: false,
-              }),
+            }),
         }
 
         const req = http.request(options, (res) => {
