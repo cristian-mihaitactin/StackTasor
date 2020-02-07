@@ -4,11 +4,6 @@ function div_show() {
     // var popupContact = document.getElementById('popupContact').style.display = "block";
     document.getElementById('popupContact').style.display = "block";
 
-    // $('#overlay').fadeIn(200, function() {
-    // $('#popupContact').animate({
-    //     'top': '20px'
-    // }, 200);
-    // });
     return false;
 
 }
