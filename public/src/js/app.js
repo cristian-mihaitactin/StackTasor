@@ -50,7 +50,12 @@ function populateProjects(projectList){
         btnClone.getElementsByTagName('strong')[0].innerText = element.name;
         btnClone.style.display = "inline-block";
         btnClone.id = btnClone.id + index;
-        btnClone.href = "/project/" + element.id._;
+        // btnClone.href = "/project/" + element.id._;
+        btnClone.onclick = (e) =>{
+            location.href = "/project/" + element.id._;
+
+        }
+
         projectListEl.insertBefore(btnClone, projectListEl.childNodes[0]);
     });
 

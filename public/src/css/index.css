@@ -7,7 +7,10 @@
 .btn-square {
     width: 100px;
     height: 100px;
-    font-size: 10px;
+    /* font-size: 10px; */
+    font-size: 90%;
+    white-space: normal;
+    border-color: black;
     margin: 10px 10px 10px 10px
   }
   /* 
@@ -26,9 +29,10 @@
   .btn-addproject {
     background-color: white;
     color: blue;
-    font-size: 90%;
+    display: inline-flex;
+
+
   }
 
   .btn-project {
-    white-space: normal;
   }

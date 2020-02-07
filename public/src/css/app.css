@@ -51,7 +51,7 @@ ul.topnav li.right {float: right;}
   margin-bottom: 5%;
   padding-top: 10px;
   padding-bottom: 10px;
-
+  background-color: white;
 }
 
 .card__content, .card__details {
