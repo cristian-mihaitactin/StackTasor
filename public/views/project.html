@@ -2,10 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -19,28 +15,11 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">
-    <img src="/images/icons/app-icon-96x96.png" width="30" height="30" class="d-inline-block align-top" alt="">
-    Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Statistics</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0" action="signout" method="post">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log Out</button>
-    </form>
-  </div>
-</nav>
+<ul class="topnav">
+  <li><a class="active" href="/home">Home</a></li>
+  <li><a href="#">Statistics</a></li>
+  <li class="right"><a href="/signout">Log Out</a></li>
+</ul>
 
 <article class="card">
   
@@ -111,15 +90,17 @@
       <h2>Task Form</h2>
       <hr>
       <a>Name: <i>(Required)</i></a>
-      <input id="name" name="name" placeholder="Name" type="text" required oninvalid="this.setCustomValidity('* Required')"
-      <a>Color (RGB Hex): </a>
-      <input pattern="^#?[a-fA-F0-9]{6}$" id="color" name="color" placeholder="#1e90ff" type="color" required oninvalid="this.setCustomValidity('* Required')">
+      <input id="name" name="name" placeholder="Name" type="text" required oninvalid="this.setCustomValidity(this.willValidate?'':'* Required')">
+      <a> Color (RGB Hex): </a>
+      <input pattern="^#?[a-fA-F0-9]{6}$" id="color" name="color" placeholder="#1e90ff" type="color" required oninvalid="this.setCustomValidity(this.willValidate?'':'* Required')">
+      <br>
+      <br>
       <a>Description: <i>(Required)</i></a>
-      <textarea id="description" name="description" placeholder="Description" type="text" required oninvalid="this.setCustomValidity('* Required')"></textarea>
+      <textarea id="description" name="description" placeholder="Description" type="text" required oninvalid="this.setCustomValidity(this.willValidate?'':'* Required')"></textarea>
       <a>Estimation:  <i>(Required)</i></a>
-      <input pattern="^[0-9]+(\.[0-9]+)?$" id="estimation" name="estimation" placeholder="3 or 5.4" type="text" required oninvalid="this.setCustomValidity('* Required')">
+      <input pattern="^[0-9]+(\.[0-9]+)?$" id="estimation" name="estimation" placeholder="3 or 5.4" type="text" required oninvalid="this.setCustomValidity(this.willValidate?'':'* Required')"></input>
       <a>Task type (dev, design, support, etc.): <i>(Required)</i></a>
-      <input id="taskType" name="taskType" placeholder="(dev, design, support, etc.)" type="text" required oninvalid="this.setCustomValidity('* Required')"></input>
+      <input id="taskType" name="taskType" placeholder="(dev, design, support, etc.)" type="text" required oninvalid="this.setCustomValidity(this.willValidate?'':'* Required')"></input>
       <a>Geographic Zone:</a>
       <input id="geographicZone" name="geographicZone" placeholder="(West Europe, East Asia, Etc.)" type="text">
       <a>Time Zone:</a>

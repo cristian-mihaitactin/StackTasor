@@ -36,7 +36,9 @@ router.get('/', function(request, response) {
      //response.send(mainUrl + '/static/login.html');
 });
 
-router.post('/signout', async function(request, response) {
+// router.post('/signout', async function(request, response) {
+router.get('/signout', async function(request, response) {
+
     console.log("router.post('/signout'");
 
     if (request.session.loggedin) {
