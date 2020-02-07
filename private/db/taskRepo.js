@@ -224,7 +224,8 @@ class TaskRepository {
       Color: entGen.String(model.color),
 
       CreatedDate: entGen.DateTime(model.createdDate),
-      UpdateDate: entGen.DateTime(model.updateDate)
+      UpdateDate: entGen.DateTime(model.updateDate),
+      EndDate: entGen.DateTime(model.endDate)
     };
     return entity;
   }
@@ -253,6 +254,7 @@ class TaskRepository {
 
     model.createdDate = entity.CreatedDate._;
     model.updateDate = entity.UpdateDate._;
+    model.endDate = entity.EndDate._;
 
     return model;
   }
