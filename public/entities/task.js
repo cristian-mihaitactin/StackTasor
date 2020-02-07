@@ -75,11 +75,11 @@ class Task extends Component{
         this._evidence = value;
     }
 
-    get endDate() {
-        return this._endDate;
+    get expiryDate() {
+        return this._expiryDate;
         }
-    set endDate(value) {
-        this._endDate = value;
+    set expiryDate(value) {
+        this._expiryDate = value;
     }
 
     toJSON() {
@@ -94,7 +94,7 @@ class Task extends Component{
         jsonObj.workDomain= this.workDomain;
         jsonObj.attachedAccountId= this.attachedAccountId
         jsonObj.evidence= this._evidence
-        jsonObj.endDate= this._endDate
+        jsonObj.expiryDate= this._expiryDate
 
         return jsonObj;
     }

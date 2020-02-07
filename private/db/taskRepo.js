@@ -225,7 +225,7 @@ class TaskRepository {
 
       CreatedDate: entGen.DateTime(model.createdDate),
       UpdateDate: entGen.DateTime(model.updateDate),
-      EndDate: entGen.DateTime(model.endDate)
+      expiryDate: entGen.DateTime(model.expiryDate)
     };
     return entity;
   }
@@ -254,7 +254,7 @@ class TaskRepository {
 
     model.createdDate = entity.CreatedDate._;
     model.updateDate = entity.UpdateDate._;
-    model.endDate = entity.EndDate._;
+    model.expiryDate = entity.expiryDate._;
 
     return model;
   }
