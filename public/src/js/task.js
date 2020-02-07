@@ -64,6 +64,16 @@ function populateTask(taskitem){
     divClone.getElementsByClassName('span-createdDate')[0].innerText = taskitem.createdDate;
     divClone.getElementsByClassName('span-expiryDate')[0].innerText = taskitem.expiryDate;
 
+    var nowDate = new Date();
+    var expDate = new Date(taskitem.expiryDate);
+    if (expDate > nowDate) {
+      var timeDiff = expDate.getTime() - nowDate.getTime(); 
+      // To calculate the no. of days between two dates 
+      var daysDif = timeDiff / (1000 * 3600 * 24); 
+
+      divClone.getElementsByClassName('span-expiryDays')[0].innerText = Math.floor(daysDif);
+    }
+
     divClone.getElementsByClassName('span-updatedDate')[0].innerText = taskitem.updateDate;
 
     divClone.getElementsByClassName('taskDescription')[0].innerText = taskitem.description;
