@@ -62,6 +62,8 @@ function populateTask(taskitem){
     divClone.id = divClone.id + 0;
     divClone.getElementsByClassName('taskName')[0].innerText = taskitem.name;
     divClone.getElementsByClassName('span-createdDate')[0].innerText = taskitem.createdDate;
+    divClone.getElementsByClassName('span-expiryDate')[0].innerText = taskitem.expiryDate;
+
     divClone.getElementsByClassName('span-updatedDate')[0].innerText = taskitem.updateDate;
 
     divClone.getElementsByClassName('taskDescription')[0].innerText = taskitem.description;

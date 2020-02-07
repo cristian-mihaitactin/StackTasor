@@ -164,7 +164,7 @@ class TaskRepository {
       value.forEach((item, index) => {
         var model = this.entityToModel(item);
         console.log('TaskRepo ENTITY return: ' + JSON.stringify(model));
-
+        console.log("ola")
         modelArray.push(model);
       });
     }).catch(
@@ -225,7 +225,7 @@ class TaskRepository {
 
       CreatedDate: entGen.DateTime(model.createdDate),
       UpdateDate: entGen.DateTime(model.updateDate),
-      expiryDate: entGen.DateTime(model.expiryDate)
+      ExpiryDate: entGen.DateTime(model.expiryDate)
     };
     return entity;
   }
@@ -254,7 +254,7 @@ class TaskRepository {
 
     model.createdDate = entity.CreatedDate._;
     model.updateDate = entity.UpdateDate._;
-    model.expiryDate = entity.expiryDate._;
+    model.expiryDate = entity.ExpiryDate._;
 
     return model;
   }

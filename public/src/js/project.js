@@ -54,6 +54,8 @@ function populateTasks(taskList){
       divClone.style.backgroundColor  = backcolor;
       divClone.getElementsByClassName('taskName')[0].innerText = element.name;
       divClone.getElementsByClassName('span-createdDate')[0].innerText = element.createdDate;
+      divClone.getElementsByClassName('span-expiryDate')[0].innerText = element.expiryDate;
+
       divClone.getElementsByClassName('span-updatedDate')[0].innerText = element.updateDate;
 
       divClone.getElementsByClassName('taskDescription')[0].innerText = element.description;
@@ -88,6 +90,7 @@ function populateTasks(taskList){
       divClone.getElementsByClassName('btn-taskEdit')[0].onclick = () => {
         document.getElementById('name').value = element.name;
         document.getElementById('color').value = element.color;
+        document.getElementById('expiryDate').value = element.expiryDate;
         document.getElementById('description').value = element.description;
         document.getElementById('estimation').value = element.estimation;
         document.getElementById('taskType').value = element.taskType;
