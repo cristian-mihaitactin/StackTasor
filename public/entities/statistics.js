@@ -29,8 +29,8 @@ class Statistic {
             userid: {
                 _: this.userid
             },
-            tasksDoneList = this.tasksDoneList,
-            taskCreatedList = this.taskCreatedList,
+            tasksDoneList : this.tasksDoneList,
+            taskCreatedList : this.taskCreatedList,
         }
       }
 }
