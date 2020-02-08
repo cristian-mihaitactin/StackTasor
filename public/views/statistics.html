@@ -12,21 +12,18 @@
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" href="/css/index.css">
   <link rel="stylesheet" href="/css/popup.css">
-  <script src="/js/app.js"></script>
-  <script src="/js/formPopupManager.js"></script>
-  <script src="/js/formHandling.js"></script>
   <link rel="manifest" href="/manifest.json">
 </head>
 <body>
 <ul class="topnav">
-  <li><a class="active" href="/home">Home</a></li>
-  <li><a href="/statistics">Statistics</a></li>
+  <li><a href="/home">Home</a></li>
+  <li><a class="active" href="/statistics">Statistics</a></li>
   <li class="right"><a href="/signout">Log Out</a></li>
 </ul>
 
 <article class="card" id="pwa">
   <div class="card__content">
-    <h3>Projects:</h3>
+    <h3>Statistics:</h3>
     <div class="row">
         <div id="projectList" class="col-lg-12">
             <button id="btn-projectTemplate" href="#" class="btn-square btn-project" style="display: none;">
@@ -40,26 +37,7 @@
         </div>
 	  </div>
   </div>
-      <span id="error-label" style="display:none;"></span>
-
 </article>
-<!-- Project POP-UP -->
-<div class="overlay" id="overlay" style="display:none;"></div>
-  <div id="popupContact" style="display:none;">
-    <a class="boxclose" id="boxclose" onclick="div_hide()"></a>
-    <form action="project" id="formPop" class="formPop" method="post" name="sendForm">
-      <h2>Project Form</h2>
-      <hr>
-      <a>Name: <i>(Required)</i></a>
-      <input id="name" name="name" placeholder="Name" type="text" required oninvalid="this.setCustomValidity('* Required')">
-      <a>Color (RGB Hex): <i>(Required)</i></a>
-      <input pattern="^#?[a-fA-F0-9]{6}$" id="color" name="color" placeholder="#1e90ff" type="color" required oninvalid="this.setCustomValidity('* Required')">
-      <br>
-      <span id="error-label" style="display:none;"></span>
-      <br>
-      <a id="submitPop"><input type="submit"> </a>
-    </form>
-  </div>
   <script src="/js/general.js"></script>
 </body>
 </html>

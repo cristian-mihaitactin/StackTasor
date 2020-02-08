@@ -29,6 +29,7 @@ self.addEventListener('install', function (event) {
             '/static/project.html',
             '/static/signUp.html',
             '/static/workItem.html',
+            '/static/statistics.html',
 
             'https://fonts.googleapis.com/css?family=Raleway:400,700'
           ]);
