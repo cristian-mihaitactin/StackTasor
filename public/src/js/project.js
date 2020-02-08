@@ -5,6 +5,12 @@ document.addEventListener("DOMContentLoaded", function() {
     projectPathname = location.pathname;
     form.action = projectPathname;
     getTasks();
+
+    var dateNow = new Date();
+    var dateDay = dateNow.getUTCDate() > 9 ? "" + dateNow.getUTCDate()  : '0' + dateNow.getUTCDate();
+    var dateMonth = dateNow.getUTCMonth() > 8 ? "" + dateNow.getUTCMonth() + 1  : '0' + (dateNow.getUTCMonth() + 1);
+    var minDate = dateNow.getUTCFullYear() + "-" + dateMonth + '-' + dateDay;
+    document.getElementById('expiryDate').min = minDate;
   });
 
 function getTasks() {
@@ -99,7 +105,12 @@ function populateTasks(taskList){
       divClone.getElementsByClassName('btn-taskEdit')[0].onclick = () => {
         document.getElementById('name').value = element.name;
         document.getElementById('color').value = element.color;
-        document.getElementById('expiryDate').value = element.expiryDate;
+        var entityExpiryDate = new Date(element.expiryDate);
+        var dateDay = entityExpiryDate.getUTCDate() > 9 ? "" + entityExpiryDate.getUTCDate()  : '0' + entityExpiryDate.getUTCDate();
+        var dateMonth = entityExpiryDate.getUTCMonth() > 8 ? "" + entityExpiryDate.getUTCMonth() + 1  : '0' + (entityExpiryDate.getUTCMonth() + 1);
+        var entityExpiryDateString = entityExpiryDate.getUTCFullYear() + "-" + dateMonth + '-' + dateDay;
+        document.getElementById('expiryDate').value = entityExpiryDateString;
+        
         document.getElementById('description').value = element.description;
         document.getElementById('estimation').value = element.estimation;
         document.getElementById('taskType').value = element.taskType;

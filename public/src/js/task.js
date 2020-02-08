@@ -114,7 +114,7 @@ function manageButtons(taskitem){
     document.getElementById("btn-accept").disabled = true;
   }
 
-  if (taskitem.status == 2) {
+  if (taskitem.status > 1) {
     document.getElementById("btn-finish").disabled = true;
     document.getElementById("btn-abandon").disabled = true;
     document.getElementById("btn-accept").disabled = true;
