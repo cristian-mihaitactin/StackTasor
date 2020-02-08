@@ -1,5 +1,10 @@
 const UserRepository = require('../db/userRepo');
+const ProjectRepository = require('../db/projectRepo');
+const TaskRepository = require('../db/taskRepo');
 const User = require('../entities/user');
+const Project = require('../entities/project');
+const Task = require('../entities/task');
+const Statistic = require('../entities/statistics');
 const tableName = 'Users';
 const uuidv1 = require('uuid/v1');
 
@@ -11,7 +16,47 @@ class UserController {
     } else {
       this._repo = repo;
     }
+
+    this._projectRepo = new ProjectRepository();
+    this._taskRepo = new TaskRepository();
   }
+
+  async getStats(req, res) {
+    var returnStats = new Statistic(req.params.id);
+    var projectCreatedQuery = new Project();
+    projectCreatedQuery.id = "";
+    projectCreatedQuery.accountId = req.params.id;
+
+    // Get "Created" Section
+    await this._projectRepo.getByQuery(projectCreatedQuery).then(async (values) => {
+      //projects created
+      values.forEach(async (val) => {
+        //tasks created
+        var tasksCreatedQuery = new Task();
+        tasksCreatedQuery.id = "";
+        tasksCreatedQuery.projectId = val.id;
+        //get tasks
+        await this._taskRepo.getByQuery(tasksCreatedQuery).then(async (tasks) => {
+          returnStats.taskCreatedList = tasks;
+        }).then(async () => {
+          // Get "Worked on" Section
+          var tasksCreatedQuery = new Task();
+          tasksCreatedQuery.id = "";
+          tasksCreatedQuery.attachedAccountId = req.params.id;
+          //get tasks
+          await this._taskRepo.getByQuery(tasksCreatedQuery).then(async (tasks) => {
+            //tasks worked on
+            returnStats.tasksDoneList = tasks;
+            res.json(returnStats);
+          })
+        })
+      })
+
+    }).catch((e) =>{
+      res.send(e);
+    });
+    
+  };
 
   async get(req, res) {
       await this._repo.get(req.params.id).then((value) => {
