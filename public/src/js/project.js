@@ -5,6 +5,12 @@ document.addEventListener("DOMContentLoaded", function() {
     projectPathname = location.pathname;
     form.action = projectPathname;
     getTasks();
+
+    var dateNow = new Date();
+    var dateDay = dateNow.getUTCDate() > 9 ? "" + dateNow.getUTCDate()  : '0' + dateNow.getUTCDate();
+    var dateMonth = dateNow.getUTCMonth() > 8 ? "" + dateNow.getUTCMonth() + 1  : '0' + (dateNow.getUTCMonth() + 1);
+    var minDate = dateNow.getUTCFullYear() + "-" + dateMonth + '-' + dateDay;
+    document.getElementById('expiryDate').min = minDate;
   });
 
 function getTasks() {
@@ -54,6 +60,17 @@ function populateTasks(taskList){
       divClone.style.backgroundColor  = backcolor;
       divClone.getElementsByClassName('taskName')[0].innerText = element.name;
       divClone.getElementsByClassName('span-createdDate')[0].innerText = element.createdDate;
+      divClone.getElementsByClassName('span-expiryDate')[0].innerText = element.expiryDate;
+
+      var nowDate = new Date();
+      var expDate = new Date(element.expiryDate);
+      if (expDate > nowDate) {
+        var timeDiff = expDate.getTime() - nowDate.getTime(); 
+        // To calculate the no. of days between two dates 
+        var daysDif = timeDiff / (1000 * 3600 * 24); 
+
+        divClone.getElementsByClassName('span-expiryDays')[0].innerText = Math.floor(daysDif);
+      }
       divClone.getElementsByClassName('span-updatedDate')[0].innerText = element.updateDate;
 
       divClone.getElementsByClassName('taskDescription')[0].innerText = element.description;
@@ -88,6 +105,12 @@ function populateTasks(taskList){
       divClone.getElementsByClassName('btn-taskEdit')[0].onclick = () => {
         document.getElementById('name').value = element.name;
         document.getElementById('color').value = element.color;
+        var entityExpiryDate = new Date(element.expiryDate);
+        var dateDay = entityExpiryDate.getUTCDate() > 9 ? "" + entityExpiryDate.getUTCDate()  : '0' + entityExpiryDate.getUTCDate();
+        var dateMonth = entityExpiryDate.getUTCMonth() > 8 ? "" + entityExpiryDate.getUTCMonth() + 1  : '0' + (entityExpiryDate.getUTCMonth() + 1);
+        var entityExpiryDateString = entityExpiryDate.getUTCFullYear() + "-" + dateMonth + '-' + dateDay;
+        document.getElementById('expiryDate').value = entityExpiryDateString;
+        
         document.getElementById('description').value = element.description;
         document.getElementById('estimation').value = element.estimation;
         document.getElementById('taskType').value = element.taskType;

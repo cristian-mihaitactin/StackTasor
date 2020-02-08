@@ -299,6 +299,7 @@ router.post('/project/:projectId', async function(request, response) {
             var workDomain = '' + fields.workDomain;
             var estimation = '' + fields.estimation;
             var evidence = '' + fields.evidence;
+            var expiryDate = '' + fields.expiryDate;
 
             var status = '' + fields.status;
             if (fields.status == undefined ||fields.status == 'undefined' || fields.status == null || fields.status == '') {
@@ -307,7 +308,7 @@ router.post('/project/:projectId', async function(request, response) {
 
             var createdTask = await taskManager.createTask(taskId, taskattachedAccountId, projectId,
                  taskName, taskColor, taskDescription,
-                 taskType, geographicZone,timeZone, workDomain, estimation,status, evidence);
+                 taskType, geographicZone,timeZone, workDomain, estimation,status, evidence, expiryDate);
 
             if (createdTask) {
                 response.status(200).send({

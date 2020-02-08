@@ -15,7 +15,7 @@ exports.getTasksById = async (projectId, taskId) => {
 
 exports.createTask = async (taskId, taskattachedAccountId, projectId,
      name, color, description, taskType,
-      geographicZone,timeZone, workDomain, estimation,status, evidence) => {
+      geographicZone,timeZone, workDomain, estimation,status, evidence, expiryDate) => {
     var taskObj = new Task(taskId);
     taskObj.attachedAccountId = taskattachedAccountId;
     taskObj.projectId = projectId;
@@ -30,6 +30,8 @@ exports.createTask = async (taskId, taskattachedAccountId, projectId,
     taskObj.estimation = estimation;
     taskObj.status = status;
     taskObj.evidence = evidence;
+
+    taskObj.expiryDate = expiryDate;
 
 
     var result = '';

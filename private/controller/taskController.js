@@ -72,6 +72,8 @@ class TaskController {
           taskobj.workDomain = obj.workDomain;
           taskobj.attachedAccountId = obj.attachedAccountId;
           taskobj.evidence = obj.evidence;
+          taskobj.expiryDate = obj.expiryDate;
+
           await this._repo.upsert(taskobj);
           setTimeout(async () => {
             req.params['id'] = taskobj.id;

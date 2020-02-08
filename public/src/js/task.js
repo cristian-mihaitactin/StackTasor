@@ -62,6 +62,18 @@ function populateTask(taskitem){
     divClone.id = divClone.id + 0;
     divClone.getElementsByClassName('taskName')[0].innerText = taskitem.name;
     divClone.getElementsByClassName('span-createdDate')[0].innerText = taskitem.createdDate;
+    divClone.getElementsByClassName('span-expiryDate')[0].innerText = taskitem.expiryDate;
+
+    var nowDate = new Date();
+    var expDate = new Date(taskitem.expiryDate);
+    if (expDate > nowDate) {
+      var timeDiff = expDate.getTime() - nowDate.getTime(); 
+      // To calculate the no. of days between two dates 
+      var daysDif = timeDiff / (1000 * 3600 * 24); 
+
+      divClone.getElementsByClassName('span-expiryDays')[0].innerText = Math.floor(daysDif);
+    }
+
     divClone.getElementsByClassName('span-updatedDate')[0].innerText = taskitem.updateDate;
 
     divClone.getElementsByClassName('taskDescription')[0].innerText = taskitem.description;
@@ -102,7 +114,7 @@ function manageButtons(taskitem){
     document.getElementById("btn-accept").disabled = true;
   }
 
-  if (taskitem.status == 2) {
+  if (taskitem.status > 1) {
     document.getElementById("btn-finish").disabled = true;
     document.getElementById("btn-abandon").disabled = true;
     document.getElementById("btn-accept").disabled = true;

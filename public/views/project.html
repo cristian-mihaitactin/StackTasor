@@ -31,6 +31,12 @@
           <div class="row">
               <p><strong>Created: </strong> <br/> <span class="span-createdDate">Created datetime</span></p>
           </div>
+          <div class="row">
+              <p><strong>Expiry Date: </strong> <br/> <span class="span-expiryDate">-</span></p>
+          </div>
+          <div class="row">
+              <p><strong>Days till expiry: </strong> <br/> <span class="span-expiryDays">-</span></p>
+          </div>
 
           <hr>
 
@@ -96,6 +102,9 @@
       <br>
       <br>
       <a>Description: <i>(Required)</i></a>
+      <!--  <input type="date" name="bday">-->
+      <a> Expiry Date: <i>(Required)</i></a>
+      <input id="expiryDate" name="expiryDate" placeholder="mm/dd/yyyy" type="date" required oninvalid="this.setCustomValidity(this.willValidate?'':'* Required')">
       <textarea id="description" name="description" placeholder="Description" type="text" required oninvalid="this.setCustomValidity(this.willValidate?'':'* Required')"></textarea>
       <a>Estimation:  <i>(Required)</i></a>
       <input pattern="^[0-9]+(\.[0-9]+)?$" id="estimation" name="estimation" placeholder="3 or 5.4" type="text" required oninvalid="this.setCustomValidity(this.willValidate?'':'* Required')"></input>
