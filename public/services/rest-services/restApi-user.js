@@ -2,6 +2,7 @@ const https_serivce = require('./http-service');
 const User = require('../../entities/user');
 
 const rest_api_users_path = '/users';
+const rest_api_users_stats_path = '/stats';
 
 exports.getUserById = async (userId) => {
     var usersPath = rest_api_users_path + '/' + userId;
@@ -11,6 +12,21 @@ exports.getUserById = async (userId) => {
     }).catch(
         (reason) => {
              console.log('RestApi-User.Get rejected promise ('+reason+') here.');
+             throw new Error(reason);
+         }
+    );
+
+    return returnValue;
+}
+
+exports.getUserStats = async (userId) => {
+    var usersPath = rest_api_users_stats_path + '/' + userId;
+    var returnValue = '';
+    await https_serivce.restapi_get(usersPath).then((value) => {
+        returnValue =  value;
+    }).catch(
+        (reason) => {
+             console.log('RestApi-User-Stats.Get rejected promise ('+reason+') here.');
              throw new Error(reason);
          }
     );
