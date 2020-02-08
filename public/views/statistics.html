@@ -24,18 +24,69 @@
 <article class="card" id="pwa">
   <div class="card__content">
     <h3>Statistics:</h3>
+    <br>
     <div class="row">
-        <div id="projectList" class="col-lg-12">
-            <button id="btn-projectTemplate" href="#" class="btn-square btn-project" style="display: none;">
-              <br/>
-              <strong id="projectStrong"></strong>
-            </button>
-            <button href="#" class="btn-square btn-addproject" onclick="div_show()">
-              <br/>
-              <strong >Click to Add Project</strong>
-            </button>
-        </div>
-	  </div>
+      <h2>"Created by" statistics:</h2>
+      <div class="row">
+        <p>
+          Number of Projects: <span id="create-projects">0</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Number of Tasks: <span id="create-tasks">0</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Number of Avg Tasks per Project: <span id="create-avgTasks">0</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Number of "ToDo" Tasks: <span id="create-toDoTasks">0</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Number of "InProgress" Tasks: <span id="create-inProgressTasks" style="color: blue;">0</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Number of "Done" Tasks: <span id="create-doneTasks" style="color: green;">0</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Number of "Expired" Tasks: <span id="create-expiredTasks" style="color: red;">0</span>
+        </p>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <h2>"Working On" statistics:</h2>
+      <div class="row">
+        <p>
+          Number of Tasks: <span id="working-tasks">0</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Number of "InProgress" Tasks: <span id="working-inProgressTasks" style="color: blue;">0</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Number of "Done" Tasks: <span id="working-doneTasks" style="color: green;">0</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>
+          Number of "Expired" Tasks: <span id="working-expiredTasks" style="color: red;">0</span>
+        </p>
+      </div>
+    </div>
   </div>
 </article>
   <script src="/js/general.js"></script>
