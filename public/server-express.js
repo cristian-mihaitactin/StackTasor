@@ -12,6 +12,7 @@ var authManager = require('./services/managers/authManager');
 var projectManager = require('./services/managers/projectManager');
 var taskManager = require('./services/managers/taskManager');
 var userManager = require('./services/managers/userManager');
+var FrontStatistics = require('./entities/front-statistics');
 
 port = process.env.PORT || 3000;
 const mainUrl = process.env.HOSTNAME;
@@ -498,9 +499,15 @@ router.get('/stats', async function(request, response) {
     if (request.session.loggedin) {
         var loggedUserId =  request.session.userId._;
         var stats = await userManager.getUserStats(loggedUserId);
-
+        
         if (stats) {
-            response.status(200).send(stats);
+            var statsLists = new Array();
+            
+            stats.forEach((val) => {
+                statsLists.push(new FrontStatistics(val));
+            });
+
+            response.status(200).send(statsLists);
         } else {
             response.status(500).send( {
                 Message: 'Something went wrong when creating project. Please try again.',
