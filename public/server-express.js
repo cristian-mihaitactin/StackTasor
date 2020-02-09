@@ -42,7 +42,28 @@ router.get('/subscription', function(request, response) {
     response.end();
      //response.send(mainUrl + '/static/login.html');
 });
+
 console.log("Vapid: " + JSON.stringify(vapidKeys));
+
+router.post('/subscription', function(request, response) {
+    console.log("router.post++('/subscription'");
+
+
+	if (request.session.loggedin) {
+        var subscription = request.body;
+
+        // subscription.endpoint
+        //Update Endpoint
+        
+
+	} else {
+        response.status(401).send( {
+            Message: 'Please LogIn!',
+            Error: true
+        });
+    }
+    response.end();
+});
 
 router.get('/', function(request, response) {
     console.log("router.get('/'");

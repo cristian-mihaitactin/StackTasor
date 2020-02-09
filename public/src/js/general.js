@@ -9,16 +9,25 @@ if ('serviceWorker' in navigator) {
           if (sub === null) {
             // Update UI to ask user to register for Push
             // console.log('Not subscribed to push service!');
-            subscribeUser();
             // testing
-            getSubscription('/subscription', (key) => {
-              subscribeUser(key)
+            pokeServer('/subscription', 'GET', null, (key) => {
+              sub = subscribeUser(key)
+              console.log("sub=" + JSON.stringify(sub))
+              //upsert sub
+              pokeServer('/subscription', 'POST', JSON.stringify({endpoint: sub.endpoint}), (response) => {
+                console.log('Subscription updated');
+              });
+
             })
-            /////////////////////
           } else {
             // We have a subscription, update the database
-            console.log('Subscription object: ', sub);
+            console.log('Subscription object: ', JSON.stringify(sub));
+            //upsert sub
+            pokeServer('/subscription', 'POST', JSON.stringify({endpoint: sub.endpoint}), (response) => {
+              console.log('Subscription updated');
+            });
           }
+
         });
         }
     });
@@ -37,7 +46,7 @@ if ('serviceWorker' in navigator) {
           userVisibleOnly: true,
           applicationServerKey: publicKey
         }).then(function(sub) {
-          console.log('Endpoint URL: ', sub.endpoint);
+          return sub;
         }).catch(function(e) {
           if (Notification.permission === 'denied') {
             console.warn('Permission for notifications was denied');
@@ -49,13 +58,17 @@ if ('serviceWorker' in navigator) {
     }
   }
 
-  function getSubscription(url, callback)
+  function pokeServer(url, action, body, callback)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
             callback(xmlHttp.responseText);
     }
-    xmlHttp.open("GET", url, true); // true for asynchronous 
-    xmlHttp.send(null);
+    xmlHttp.open(action, url, true); // true for asynchronous 
+    if (body) {
+      xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    }
+    xmlHttp.send(body);
+    console.log('poke server: ' + body)
 }
