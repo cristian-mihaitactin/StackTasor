@@ -104,7 +104,7 @@ class FrontStatistics {
     
         this._projectsCreated = listProj.length;
         if (this._tasksCreated > 0) {
-            this._tasksCreatedAvg = Math.floor(this._projectsCreated/this._tasksCreated);
+            this._tasksCreatedAvg = Math.floor(this._tasksCreated/this._projectsCreated);
         } else {
             this._tasksCreatedAvg = 0;
         }

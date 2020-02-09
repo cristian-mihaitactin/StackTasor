@@ -33,6 +33,7 @@ class UserController {
       console.log('USERCONTROLLER.PROJECTS!!!: ' + JSON.stringify(values));
       if (values) {
         console.log("IF VALUES");
+        var itemsProcessed = 0;
         values.forEach(async (val) => {
             //tasks created
           var tasksCreatedQuery = new Task();
@@ -45,23 +46,33 @@ class UserController {
             if (tasks) {
               returnStats.taskCreatedList.push(...tasks);
             }
-          }).then(async () => {
-            // Get "Worked on" Section
-            var tasksCreatedQuery = new Task();
-            tasksCreatedQuery.id = "";
-            tasksCreatedQuery.createdDate = "";
-            tasksCreatedQuery.updateDate = "";
-            tasksCreatedQuery.attachedAccountId = req.params.id;
-            //get tasks
-            await this._taskRepo.getByQuery(tasksCreatedQuery).then(async (tasks) => {
-              //tasks worked on
-              if (tasks) {
-                returnStats.tasksDoneList.push(...tasks);
-              }
-            })
+            itemsProcessed++;
           })
+          
+          if(itemsProcessed === values.length) {
+            // Get "Worked on" Section
+            var tasksCWorkedQuery = new Task();
+            tasksCWorkedQuery.id = "";
+            tasksCWorkedQuery.createdDate = "";
+            tasksCWorkedQuery.updateDate = "";
+            // tasksCWorkedQuery.projectId = val.id;
+            tasksCWorkedQuery.attachedAccountId = req.params.id;
+            //get tasks
+            await this._taskRepo.getByQuery(tasksCWorkedQuery).then(async (workingtasks) => {
+            //tasks worked on
+            console.log('Worked tasks: ' + JSON.stringify(workingtasks));
+              if (workingtasks) {
+                returnStats.tasksDoneList.push(...workingtasks);
+              }
+              // Promise.resolve();
+              console.log('Last then: ' + JSON.stringify(returnStats));
+              res.json(returnStats);
+            })
+          }
         })
-      };
+      }else {
+        res.json(returnStats);
+      }
       
       // console.log('Last then: ' + JSON.stringify(returnStats));
       // res.json(returnStats);
@@ -70,8 +81,8 @@ class UserController {
       res.send(e);
     });
     
-    console.log('Last then: ' + JSON.stringify(returnStats));
-    res.json(returnStats)
+    // console.log('Last then: ' + JSON.stringify(returnStats));
+    // res.json(returnStats)
     //console.log('Last then: ' + JSON.stringify(returnStats));
   };
 
