@@ -2,6 +2,7 @@
 class FrontStatistics {
     constructor(statistics){
         this.initCreatedSection(statistics);
+        this.initWorkingSection(statistics);
     }
 
     get projectsCreated() {
@@ -106,6 +107,55 @@ class FrontStatistics {
             this._tasksCreatedAvg = Math.floor(this._projectsCreated/this._tasksCreated);
         } else {
             this._tasksCreatedAvg = 0;
+        }
+    }
+
+    toJSON() {
+        return {
+            
+    projectsCreated :
+    this._projectsCreated
+    ,
+
+    tasksCreated :
+        this._tasksCreated
+    ,
+
+    tasksCreatedAvg :
+        this._tasksCreatedAvg
+    ,
+
+    tasksToDo :
+        this._tasksToDo
+    ,
+
+    tasksInProgress :
+        this._tasksInProgress
+    ,
+
+    tasksDone :
+        this._tasksDone
+    ,
+
+    tasksExpired :
+        this._tasksExpired
+    ,
+
+    workingTasks :
+        this._workingTasks
+    ,
+
+    workingTasksInProgress :
+        this._workingTasksInProgress
+    ,
+
+    workingTasksDone :
+        this._workingTasksDone
+    ,
+
+    workingTasksExpired :
+        this._workingTasksExpired
+    ,
         }
     }
 }

@@ -30,32 +30,49 @@ class UserController {
     // Get "Created" Section
     await this._projectRepo.getByQuery(projectCreatedQuery).then(async (values) => {
       //projects created
-      values.forEach(async (val) => {
-        //tasks created
-        var tasksCreatedQuery = new Task();
-        tasksCreatedQuery.id = "";
-        tasksCreatedQuery.projectId = val.id;
-        //get tasks
-        await this._taskRepo.getByQuery(tasksCreatedQuery).then(async (tasks) => {
-          returnStats.taskCreatedList = tasks;
-        }).then(async () => {
-          // Get "Worked on" Section
+      console.log('USERCONTROLLER.PROJECTS!!!: ' + JSON.stringify(values));
+      if (values) {
+        console.log("IF VALUES");
+        values.forEach(async (val) => {
+            //tasks created
           var tasksCreatedQuery = new Task();
           tasksCreatedQuery.id = "";
-          tasksCreatedQuery.attachedAccountId = req.params.id;
+          tasksCreatedQuery.createdDate = "";
+          tasksCreatedQuery.updateDate = "";
+          tasksCreatedQuery.projectId = val.id;
           //get tasks
           await this._taskRepo.getByQuery(tasksCreatedQuery).then(async (tasks) => {
-            //tasks worked on
-            returnStats.tasksDoneList = tasks;
-            res.json(returnStats);
+            if (tasks) {
+              returnStats.taskCreatedList.push(...tasks);
+            }
+          }).then(async () => {
+            // Get "Worked on" Section
+            var tasksCreatedQuery = new Task();
+            tasksCreatedQuery.id = "";
+            tasksCreatedQuery.createdDate = "";
+            tasksCreatedQuery.updateDate = "";
+            tasksCreatedQuery.attachedAccountId = req.params.id;
+            //get tasks
+            await this._taskRepo.getByQuery(tasksCreatedQuery).then(async (tasks) => {
+              //tasks worked on
+              if (tasks) {
+                returnStats.tasksDoneList.push(...tasks);
+              }
+            })
           })
         })
-      })
-
-    }).catch((e) =>{
+      };
+      
+      // console.log('Last then: ' + JSON.stringify(returnStats));
+      // res.json(returnStats);
+    })//end then project
+    .catch((e) =>{
       res.send(e);
     });
     
+    console.log('Last then: ' + JSON.stringify(returnStats));
+    res.json(returnStats)
+    //console.log('Last then: ' + JSON.stringify(returnStats));
   };
 
   async get(req, res) {

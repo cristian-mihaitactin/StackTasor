@@ -1,6 +1,8 @@
 class Statistic {
     constructor(userid) {
         this._userid = userid;
+        this._taskCreatedList = new Array();
+        this._tasksDoneList = new Array();
     }
 
     get userid() {

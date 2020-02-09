@@ -501,13 +501,13 @@ router.get('/stats', async function(request, response) {
         var stats = await userManager.getUserStats(loggedUserId);
         
         if (stats) {
-            var statsLists = new Array();
-            
-            stats.forEach((val) => {
-                statsLists.push(new FrontStatistics(val));
-            });
+            var frontStats =new FrontStatistics(stats)
+            // console.log('STATS: ' + JSON.stringify(stats));
+            // stats.forEach((val) => {
+            //     statsLists.push(new FrontStatistics(val));
+            // });
 
-            response.status(200).send(statsLists);
+            response.status(200).send(frontStats);
         } else {
             response.status(500).send( {
                 Message: 'Something went wrong when creating project. Please try again.',

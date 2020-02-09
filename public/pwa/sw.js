@@ -23,6 +23,7 @@ self.addEventListener('install', function (event) {
             '/js/general.js',
             '/js/project.js',
             '/js/task.js',
+            '/js/stat.js',
 
             '/static/index.html',
             '/static/login.html',
