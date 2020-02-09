@@ -22,7 +22,7 @@ exports.userGetSubscription = async (userId) => {
         if (value === undefined || value === null){
             throw Error('Could not get sub. userId: ' + userId);
         }else {
-            usr = value.endpoint;
+            usr = value;
         }
     })
     return usr;

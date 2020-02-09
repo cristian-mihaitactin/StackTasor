@@ -14,7 +14,10 @@ var taskManager = require('./services/managers/taskManager');
 var userManager = require('./services/managers/userManager');
 var FrontStatistics = require('./entities/front-statistics');
 const webpush = require('web-push');
-const gcmAPIKey = "AAAAe5XNnaI:APA91bFznn0-NJSeQ-LyyoLBkMGEbg2srDeYVy12xeu-iMoHbit4ePbkiusJ5rAJd2JGlhglEb9tlsVtwIWp7YfKyY1JLjHkdBbE5EAvVoSjurjqGZItsneCPYp3G1w1aBJTXsXxyTKz"
+const gcmAPIKey_Server = "AAAAe5XNnaI:APA91bFznn0-NJSeQ-LyyoLBkMGEbg2srDeYVy12xeu-iMoHbit4ePbkiusJ5rAJd2JGlhglEb9tlsVtwIWp7YfKyY1JLjHkdBbE5EAvVoSjurjqGZItsneCPYp3G1w1aBJTXsXxyTKz"
+
+
+webpush.setGCMAPIKey(gcmAPIKey_Server);
 
 port = process.env.PORT || 3000;
 const mainUrl = process.env.HOSTNAME;
@@ -136,7 +139,13 @@ router.post('/auth', async function(request, response) {
 router.get('/home', function(request, response) {
     console.log("router.get('/home'");
 
+   
+    /////////////////
 	if (request.session.loggedin) {
+         //TODO
+        // TESTING
+        //sendNotification('hello');
+        sendNotification(request.session.userId._, "TESTINGGGGGG");
         response.sendFile(path.join(__dirname + "/views" + '/index.html'));
         //  response.send(mainUrl + '/static/index.html');
         // response.redirect(mainUrl + '/static/index.html');
@@ -558,6 +567,37 @@ router.get('/stats', async function(request, response) {
 	}
 });
 
+function sendNotification(userId,notifBody) {
+    //Get Subs
+    userManager.userGetSubscription(userId).then((subObj) => {
+        console.log('[sendNotification].subObj: ', subObj);
+
+        var pushSubscription = {"endpoint": subObj.endpoint,
+            "keys":{
+                "p256dh":subObj.p256dh, 
+                "auth":subObj.auth
+            }
+        };
+
+        var payload = notifBody;
+
+        var options = {
+            // gcmAPIKey: gcmAPIKey_Server,
+            TTL: 600
+        };
+
+        console.log('[sendNotification]: ', pushSubscription);
+        webpush.sendNotification(
+            pushSubscription,
+            payload,
+            options
+        ).catch((ex) => {
+            console.log('[sendNotification]There was an error: ', ex);
+        });
+    }).catch((ex) => {
+        console.log('There was an error: ', ex);
+    });
+}
 
 app.use(express.static(__dirname + '/src'));
 app.use('/static', express.static(__dirname + '/views'));
