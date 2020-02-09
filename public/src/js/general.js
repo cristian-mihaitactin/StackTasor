@@ -11,22 +11,11 @@ if ('serviceWorker' in navigator) {
             // console.log('Not subscribed to push service!');
             // testing
             pokeServer('/subscription', 'GET', null, (key) => {
-              subscribeUser(key)
-              reg.pushManager.getSubscription().then(function(newsub) {
-                console.log("sub=" + JSON.stringify(sub))
-                //upsert sub
-                pokeServer('/subscription', 'POST', JSON.stringify(sub), (response) => {
-                  console.log('Subscription updated');
-                });
-              });
+              subscribeUser(key,sendEndpoint)
             })
           } else {
             // We have a subscription, update the database
-            console.log('Subscription object: ', JSON.stringify(sub));
-            //upsert sub
-            pokeServer('/subscription', 'POST', JSON.stringify(sub), (response) => {
-              console.log('Subscription updated');
-            });
+            sendEndpoint (sub)
           }
         });
         }
@@ -37,16 +26,22 @@ if ('serviceWorker' in navigator) {
     });
   }
 
-  function subscribeUser(publicKey) {
+function sendEndpoint (subToSend) {
+  var newSubJSON = JSON.stringify(subToSend);
+  console.log("sub=" + newSubJSON)
+  pokeServer('/subscription', 'POST', newSubJSON, (response) => {
+    console.log('Subscription updated');
+  });
+}
+  function subscribeUser(publicKey, callback) {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.ready.then(function(reg) {
-        
         //get vapid keys
         reg.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: publicKey
         }).then(function(sub) {
-          return sub;
+          callback(sub);
         }).catch(function(e) {
           if (Notification.permission === 'denied') {
             console.warn('Permission for notifications was denied');
