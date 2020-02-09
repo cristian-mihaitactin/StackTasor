@@ -13,6 +13,7 @@ var projectManager = require('./services/managers/projectManager');
 var taskManager = require('./services/managers/taskManager');
 var userManager = require('./services/managers/userManager');
 var FrontStatistics = require('./entities/front-statistics');
+const webpush = require('web-push');
 
 port = process.env.PORT || 3000;
 const mainUrl = process.env.HOSTNAME;
@@ -28,9 +29,20 @@ app.use(bodyParser.urlencoded({extended : false}));
 // app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
-
-//add multipart/form-data; support
-// app.use(bodyParser.raw({ type: 'multipart/form-data' }))
+//SET VAPID
+const vapidKeys = !process.env.VAPID_PUBLIC || !process.env.VAPID_PRIVATE ?
+    webpush.generateVAPIDKeys() : 
+    {
+        publicKey : process.env.VAPID_PUBLIC,
+        privateKey : process.env.VAPID_PRIVATE
+    }
+router.get('/subscription', function(request, response) {
+    console.log("router.get('/subscription'");
+    response.status(200).send(vapidKeys.publicKey);
+    response.end();
+     //response.send(mainUrl + '/static/login.html');
+});
+console.log("Vapid: " + JSON.stringify(vapidKeys));
 
 router.get('/', function(request, response) {
     console.log("router.get('/'");
@@ -521,6 +533,8 @@ router.get('/stats', async function(request, response) {
         response.redirect('/');
 	}
 });
+
+
 app.use(express.static(__dirname + '/src'));
 app.use('/static', express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/pwa'));
