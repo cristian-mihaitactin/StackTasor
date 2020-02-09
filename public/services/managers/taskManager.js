@@ -13,12 +13,13 @@ exports.getTasksById = async (projectId, taskId) => {
     return objList;
 }
 
-exports.createTask = async (taskId, taskattachedAccountId, projectId,
+exports.createTask = async (taskId, userId, taskattachedAccountId, projectId,
      name, color, description, taskType,
       geographicZone,timeZone, workDomain, estimation,status, evidence, expiryDate) => {
     var taskObj = new Task(taskId);
     taskObj.attachedAccountId = taskattachedAccountId;
     taskObj.projectId = projectId;
+    taskObj.userId = userId;
     taskObj.name = name;
     taskObj.color = color;
     taskObj.description = description;

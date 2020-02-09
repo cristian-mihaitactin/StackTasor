@@ -139,17 +139,8 @@ router.post('/auth', async function(request, response) {
 router.get('/home', function(request, response) {
     console.log("router.get('/home'");
 
-   
-    /////////////////
-	if (request.session.loggedin) {
-         //TODO
-        // TESTING
-        //sendNotification('hello');
-        sendNotification(request.session.userId._, "TESTINGGGGGG");
+    if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + "/views" + '/index.html'));
-        //  response.send(mainUrl + '/static/index.html');
-        // response.redirect(mainUrl + '/static/index.html');
-
 	} else {
         request.session.fromRedirect = true;
         request.session.fromRedirectUrl = '/home';
@@ -336,6 +327,7 @@ router.post('/project/:projectId', async function(request, response) {
             console.log("post('/project/:projectId'.id=" + JSON.stringify(fields.taskId));
 
             var taskId = '' + fields.taskId;
+            var userId = '' + request.session.userId._;
             var taskattachedAccountId = '' + files.attachedAccountId;
             var taskName = '' + fields.name;
             var taskColor = '' + fields.color;
@@ -353,7 +345,7 @@ router.post('/project/:projectId', async function(request, response) {
                 status = 0;
             }
 
-            var createdTask = await taskManager.createTask(taskId, taskattachedAccountId, projectId,
+            var createdTask = await taskManager.createTask(taskId, userId, taskattachedAccountId, projectId,
                  taskName, taskColor, taskDescription,
                  taskType, geographicZone,timeZone, workDomain, estimation,status, evidence, expiryDate);
 
@@ -492,10 +484,24 @@ async function updateTask(response,taskId,
         taskattachedAccountId, projectId,
         newStatus, evidence);
    if (updatedTasks) {
-   response.status(200).send({
-       RedirectLink: redirectLink,
-       Error: false
-   });
+    //send notif
+    // sendNotification(userId,notifBody)
+    var statusString = "ToDo";
+    if (updatedTasks.status == 1) {
+        statusString = "InProgress";
+    }else if (updatedTasks.status == 2) {
+        statusString = "Done";
+    }else if (updatedTasks.status > 2) {
+        statusString = "Expired";
+    }
+
+    var notifMessage = `Task Status Update! ${updatedTasks.name} updated to ${statusString}`;
+    sendNotification(updatedTasks.userId,notifMessage);
+
+    response.status(200).send({
+        RedirectLink: redirectLink,
+        Error: false
+    });
    } else {
        response.status(500).send( {
            Message: 'Something went wrong when creating user. Please try again.',
@@ -590,7 +596,8 @@ function sendNotification(userId,notifBody) {
             TTL: 600
         };
 
-        console.log('[sendNotification]: ', pushSubscription);
+        console.log('[sendNotification]: pushSubscription', pushSubscription);
+        console.log('[sendNotification]:options ', options);
         webpush.sendNotification(
             pushSubscription,
             payload,

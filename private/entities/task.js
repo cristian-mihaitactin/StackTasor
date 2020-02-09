@@ -12,6 +12,20 @@ class Task extends Component{
         this._projectId = value;
     }
 
+    get userId() {
+        return this._userId;
+    }
+    set userId(value) {
+        this._userId = value;
+    }
+
+    get userId() {
+        return this._userId;
+    }
+    set userId(value) {
+        this._userId = value;
+    }
+
     get description() {
         return this._description;
     }
@@ -85,6 +99,7 @@ class Task extends Component{
     toJSON() {
         var jsonObj = super.toJSON();
         jsonObj.projectId= this.projectId;
+        jsonObj.userId= this.userId;
         jsonObj.description= this.description;
         jsonObj.taskType= this.taskType;
         jsonObj.estimation= this.estimation;

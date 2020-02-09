@@ -112,8 +112,10 @@ exports.userExists = async (username) => {
 exports.getSubscription = async (userId) => {
     var usersPath = rest_api_users_subs_path + '/' + userId;
     var returnValue = '';
+    console.log('exports.getSubscription URL', usersPath);
 
     await https_serivce.restapi_get(usersPath).then((value) => {
+        console.log('exports.getSubscription', value);
         returnValue =  value;
     }).catch(
         (reason) => {

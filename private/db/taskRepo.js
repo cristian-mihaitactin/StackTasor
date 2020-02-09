@@ -210,6 +210,7 @@ class TaskRepository {
       PartitionKey: entGen.Guid(model.projectId),
       RowKey: entGen.Guid(model.id),
       ProjectId: entGen.Guid(model.projectId),
+      UserId: entGen.String(model.userId),
       Description: entGen.String(model.description),
       TaskType: entGen.String(model.taskType),
       Estimation: entGen.Double(model.estimation),
@@ -232,6 +233,7 @@ class TaskRepository {
   entityToModel(entity) {
     var model = new Task(entity.RowKey._);
     model.projectId = entity.ProjectId._;
+    model.userId = entity.UserId._;
     model.description = entity.Description._;
     model.taskType = entity.TaskType._;
     model.estimation = entity.Estimation._;
