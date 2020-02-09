@@ -14,6 +14,7 @@ var taskManager = require('./services/managers/taskManager');
 var userManager = require('./services/managers/userManager');
 var FrontStatistics = require('./entities/front-statistics');
 const webpush = require('web-push');
+const gcmAPIKey = "AAAAe5XNnaI:APA91bFznn0-NJSeQ-LyyoLBkMGEbg2srDeYVy12xeu-iMoHbit4ePbkiusJ5rAJd2JGlhglEb9tlsVtwIWp7YfKyY1JLjHkdBbE5EAvVoSjurjqGZItsneCPYp3G1w1aBJTXsXxyTKz"
 
 port = process.env.PORT || 3000;
 const mainUrl = process.env.HOSTNAME;
@@ -55,7 +56,7 @@ router.post('/subscription', function(request, response) {
         // subscription.endpoint
         //Update Endpoint
         console.log("router.post++('/subscription.endpoint: ",subscription );
-        var subUrl = userManager.userPostSubscription(request.session.userId._, subscription.endpoint);
+        var subUrl = userManager.userPostSubscription(request.session.userId._, subscription);
         response.status(200).send(subUrl);
 
 	} else {

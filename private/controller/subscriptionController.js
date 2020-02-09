@@ -21,7 +21,7 @@ class SubscriptionController {
     };
     
   async upsert(req, res) {
-    console.log('UserControler error: ', req.body);
+    console.log('SubscriptionController error: ', req.body);
 
     try{
       var usr = this.jsonToObject(req.body);
@@ -33,7 +33,7 @@ class SubscriptionController {
         await this.get(req, res);
           }, 1000);
     } catch (e) {
-      console.log('UserControler error: ' + e);
+      console.log('SubscriptionController error: ' + e);
       res.send(e);
     }
   };
@@ -49,7 +49,10 @@ class SubscriptionController {
   jsonToObject(obj){
     var model = {
       userId: obj.userId,
-      endpoint: obj.endpoint
+      endpoint: obj.endpoint,
+
+      p256dh: obj.keys.p256dh,
+      auth: obj.keys.auth
     }
 
     return model;

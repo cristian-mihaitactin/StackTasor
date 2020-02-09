@@ -28,9 +28,9 @@ exports.userGetSubscription = async (userId) => {
     return usr;
 }
 
-exports.userPostSubscription = async (userId, endpoint) => {
+exports.userPostSubscription = async (userId, sub) => {
     var usr = '';
-    await restapi_users.postSubscription(userId, endpoint).then((value) => {
+    await restapi_users.postSubscription(userId, sub).then((value) => {
         if (value === undefined || value === null){
             throw Error('Could not get sub. userId: ' + userId);
         }else {

@@ -64,14 +64,20 @@ class SubscriptionRepository {
     var entity = {
       PartitionKey: entGen.String(latestVersion),
       RowKey: entGen.Guid(model.userId),
-      Endpoint: entGen.String(model.endpoint)
+      Endpoint: entGen.String(model.endpoint),
+      P256dh: entGen.String(model.p256dh),
+      Auth: entGen.String(model.auth)
+
     };
     return entity;
   }
   entityToModel(entity) {
     var model = {
       userId : entity.RowKey._,
-      endpoint: entity.Endpoint._
+      endpoint: entity.Endpoint._,
+      p256dh : entity.P256dh._,
+      auth : entity.Auth._
+
     }
 
     return model;

@@ -124,12 +124,10 @@ exports.getSubscription = async (userId) => {
     return returnValue;
 }
 
-exports.postSubscription = async (userId, endpoint) => {
+exports.postSubscription = async (userId, sub) => {
     var usersPath = rest_api_users_subs_path;
-    var body = {
-        userId : userId,
-        endpoint: endpoint
-    }
+    var body = sub;
+    body.userId = userId;
     var returnValue = '';
 
     await https_serivce.restapi_post(usersPath, body).then((value) => {

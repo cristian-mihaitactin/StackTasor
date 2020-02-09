@@ -11,24 +11,23 @@ if ('serviceWorker' in navigator) {
             // console.log('Not subscribed to push service!');
             // testing
             pokeServer('/subscription', 'GET', null, (key) => {
-              sub = subscribeUser(key)
-              console.log("sub=" + JSON.stringify(sub))
-              //upsert sub
-              pokeServer('/subscription', 'POST', JSON.stringify({endpoint: sub.endpoint}), (response) => {
-                console.log('Subscription updated');
+              subscribeUser(key)
+              reg.pushManager.getSubscription().then(function(newsub) {
+                console.log("sub=" + JSON.stringify(sub))
+                //upsert sub
+                pokeServer('/subscription', 'POST', JSON.stringify(sub), (response) => {
+                  console.log('Subscription updated');
+                });
               });
-
             })
           } else {
             // We have a subscription, update the database
             console.log('Subscription object: ', JSON.stringify(sub));
-            console.log('Subscription url: ', sub.endpoint);
             //upsert sub
-            pokeServer('/subscription', 'POST', JSON.stringify({endpoint: sub.endpoint}), (response) => {
+            pokeServer('/subscription', 'POST', JSON.stringify(sub), (response) => {
               console.log('Subscription updated');
             });
           }
-
         });
         }
     });
