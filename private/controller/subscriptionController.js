@@ -21,19 +21,15 @@ class SubscriptionController {
     };
     
   async upsert(req, res) {
+    console.log('UserControler error: ', req.body);
+
     try{
       var usr = this.jsonToObject(req.body);
-
-      if (usr.id == '') {
-        usr = uuidv1();
-      } else {
-        usr.id = usr.id._;
-      }
 
       await this._repo.upsert(usr);
 
       setTimeout(async () => {
-        req.params['id'] = usr.id;
+        req.params['id'] = usr.userId;
         await this.get(req, res);
           }, 1000);
     } catch (e) {
@@ -49,6 +45,15 @@ class SubscriptionController {
       res.send(e);
     });
   };
+
+  jsonToObject(obj){
+    var model = {
+      userId: obj.userId,
+      endpoint: obj.endpoint
+    }
+
+    return model;
+  }
 }
 
 module.exports = SubscriptionController;

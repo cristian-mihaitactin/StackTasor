@@ -54,7 +54,9 @@ router.post('/subscription', function(request, response) {
 
         // subscription.endpoint
         //Update Endpoint
-        
+        console.log("router.post++('/subscription.endpoint: ",subscription );
+        var subUrl = userManager.userPostSubscription(request.session.userId._, subscription.endpoint);
+        response.status(200).send(subUrl);
 
 	} else {
         response.status(401).send( {

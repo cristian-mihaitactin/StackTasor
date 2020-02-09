@@ -37,9 +37,14 @@ class SubscriptionRepository {
     return model;
   }
   async upsert(model) {
+    console.log('upsert(model)= ',model);
+
     var entity = this.modelToEntity(model);
-    this._azureRepository.upsert(entity).then((value) => {
-      this.entityToModel(value);
+    this._azureRepository.upsert(entity).then(async (value) => {
+      await this._azureRepository.get(latestVersion, model.userId).then((value) => {
+        console.log('Get value = ' + value)
+        model = this.entityToModel(value);
+      });
     }).catch((e) => {
       console.log('Upsert handle rejected promise ('+e+') here.');
       throw new Error(e);

@@ -22,6 +22,7 @@ if ('serviceWorker' in navigator) {
           } else {
             // We have a subscription, update the database
             console.log('Subscription object: ', JSON.stringify(sub));
+            console.log('Subscription url: ', sub.endpoint);
             //upsert sub
             pokeServer('/subscription', 'POST', JSON.stringify({endpoint: sub.endpoint}), (response) => {
               console.log('Subscription updated');
