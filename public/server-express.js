@@ -582,7 +582,11 @@ function sendNotification(userId,notifBody) {
         var payload = notifBody;
 
         var options = {
-            // gcmAPIKey: gcmAPIKey_Server,
+            vapidDetails: {
+                subject: 'mailto:example_email@example.com',
+                publicKey: vapidKeys.publicKey,
+                privateKey: vapidKeys.privateKey
+              },
             TTL: 600
         };
 
