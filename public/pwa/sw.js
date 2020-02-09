@@ -23,12 +23,14 @@ self.addEventListener('install', function (event) {
             '/js/general.js',
             '/js/project.js',
             '/js/task.js',
+            '/js/stat.js',
 
             '/static/index.html',
             '/static/login.html',
             '/static/project.html',
             '/static/signUp.html',
             '/static/workItem.html',
+            '/static/statistics.html',
 
             'https://fonts.googleapis.com/css?family=Raleway:400,700'
           ]);

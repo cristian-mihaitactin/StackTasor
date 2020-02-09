@@ -143,9 +143,9 @@ class TaskRepository {
     if ((queryObject.attachedAccountId != undefined || queryObject.attachedAccountId != null ) && queryObject.attachedAccountId != emptyString) {
       console.log('8here');
       if (whereUsed) {
-        query.and('AttachedAccountId eq ?', queryObject.attachedAccountId);
+        query.and('AttachedAccountId eq guid?', queryObject.attachedAccountId);
       } else {
-        query.where('AttachedAccountId eq ?', queryObject.attachedAccountId);
+        query.where('AttachedAccountId eq guid?', queryObject.attachedAccountId);
         whereUsed = true;
       }
     }

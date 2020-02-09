@@ -26,6 +26,11 @@ module.exports = function(app) {
         _userController.remove(req, res);
       });
 
+      app.route('/stats/:id')
+      .get((req, res) => {
+        _userController.getStats(req, res);
+      })
+
   // Project section
     const ProjectController = require('./controller/projectController');
     var _projectController = new ProjectController();

@@ -11,6 +11,8 @@ const router = express.Router();
 var authManager = require('./services/managers/authManager');
 var projectManager = require('./services/managers/projectManager');
 var taskManager = require('./services/managers/taskManager');
+var userManager = require('./services/managers/userManager');
+var FrontStatistics = require('./entities/front-statistics');
 
 port = process.env.PORT || 3000;
 const mainUrl = process.env.HOSTNAME;
@@ -477,6 +479,46 @@ router.delete('/project/:projectId/tasks/:taskId', async function(request, respo
             RedirectLink: '/',
             Error: false
         });
+	}
+});
+
+router.get('/statistics', async function(request, response) {
+
+    if (request.session.loggedin) {
+        response.sendFile(path.join(__dirname + "/views" + '/statistics.html'));
+        // response.send('/project.html');
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirectUrl = '/statistics';
+        response.redirect('/');
+	}
+});
+
+router.get('/stats', async function(request, response) {
+
+    if (request.session.loggedin) {
+        var loggedUserId =  request.session.userId._;
+        var stats = await userManager.getUserStats(loggedUserId);
+        
+        if (stats) {
+            var frontStats =new FrontStatistics(stats)
+            // console.log('STATS: ' + JSON.stringify(stats));
+            // stats.forEach((val) => {
+            //     statsLists.push(new FrontStatistics(val));
+            // });
+
+            response.status(200).send(frontStats);
+        } else {
+            response.status(500).send( {
+                Message: 'Something went wrong when creating project. Please try again.',
+                Error: true
+            });
+            response.end();
+        }
+	} else {
+        request.session.fromRedirect = true;
+        request.session.fromRedirect = '/statistics';
+        response.redirect('/');
 	}
 });
 app.use(express.static(__dirname + '/src'));
