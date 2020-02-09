@@ -15,3 +15,27 @@ exports.getUserStats = async (accountId) => {
     })
     return statsObj;
 }
+
+exports.userGetSubscription = async (userId) => {
+    var usr = '';
+    await restapi_users.getSubscription(userId).then((value) => {
+        if (value === undefined || value === null){
+            throw Error('Could not get sub. userId: ' + userId);
+        }else {
+            usr = value;
+        }
+    })
+    return usr;
+}
+
+exports.userPostSubscription = async (userId, sub) => {
+    var usr = '';
+    await restapi_users.postSubscription(userId, sub).then((value) => {
+        if (value === undefined || value === null){
+            throw Error('Could not get sub. userId: ' + userId);
+        }else {
+            usr = value.endpoint;
+        }
+    })
+    return usr;
+}

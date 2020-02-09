@@ -62,6 +62,7 @@ class TaskController {
           taskobj.color = obj.color;
 
           taskobj.projectId = req.params.projectid;
+          taskobj.userId = obj.userId;
 
           taskobj.description = obj.description;
           taskobj.taskType = obj.taskType;

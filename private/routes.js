@@ -77,4 +77,18 @@ module.exports = function(app) {
       .delete((req, res) => {
         _taskController.remove(req, res);
       });
+
+      const SubscriptionController = require('./controller/subscriptionController');
+
+      const _subscriptionController = new SubscriptionController();
+
+      app.route('/subscription/:id')
+      .get((req, res) => {
+        _subscriptionController.get(req, res);
+      })
+
+      app.route('/subscription')
+      .post((req, res) => {
+        _subscriptionController.upsert(req, res);
+      })
   };

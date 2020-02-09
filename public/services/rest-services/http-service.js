@@ -49,7 +49,7 @@ exports.restapi_get = function (path) {
 exports.restapi_post = function (path, bodyObject) {
     return new Promise((resolve, reject) => {
         const data = JSON.stringify(bodyObject);
-
+        console.log('TESTING =>restapi_post=' + data);
         const options = {
             hostname: rest_api_url,
             port: rest_api_port,

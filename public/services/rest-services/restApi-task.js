@@ -36,6 +36,7 @@ exports.getTaskByProjectId = async (loggedUserId, projectId) => {
 }
 
 exports.upsertTask = async (taskObj, projectId) => {
+    console.log("upsertTask: ", taskObj);
     var tasksPath = rest_api_projects_path + '/' + projectId + rest_api_tasks_path;
     var returnValue = '';
     await https_serivce.restapi_post(tasksPath, taskObj).then((value) => {

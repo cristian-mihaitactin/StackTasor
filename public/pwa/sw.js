@@ -46,9 +46,7 @@ self.addEventListener('install', function (event) {
   self.addEventListener('sync', function (event) {
     console.log('SW sync'+ JSON.stringify(event));
   });
-  self.addEventListener('push', function (event) {
-    console.log('SW push'+ JSON.stringify(event));
-  });
+
   self.addEventListener('message', function (event) {
     console.log('SW message'+ JSON.stringify(event));
   });
@@ -64,5 +62,34 @@ self.addEventListener('install', function (event) {
             return fetch(event.request);
           }
         })
+    );
+  });
+
+  self.addEventListener('push', function(e) {
+    var body;
+  
+    if (e.data) {
+      body = e.data.text();
+    } else {
+      body = 'Push message no payload';
+    }
+    console.log('notif!!!!!!!!!!!!', e);
+    var options = {
+      body: body,
+      icon: 'images/notification-flat.png',
+      vibrate: [100, 50, 100],
+      data: {
+        dateOfArrival: Date.now(),
+        primaryKey: 1
+      },
+      actions: [
+        {action: 'explore', title: 'Explore this new world',
+          icon: 'images/checkmark.png'},
+        {action: 'close', title: 'I don\'t want any of this',
+          icon: 'images/xmark.png'},
+      ]
+    };
+    e.waitUntil(
+      self.registration.showNotification('Push Notification', options)
     );
   });

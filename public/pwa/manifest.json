@@ -1,5 +1,5 @@
 {
-  "name": "A basic Progressive Web App",
+  "name": "CRIS-TASOR",
   "short_name": "Basic PWA",
   "start_url": ".",
   "display": "standalone",
@@ -27,5 +27,6 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "gcm_sender_id" : "530794257826"
 }

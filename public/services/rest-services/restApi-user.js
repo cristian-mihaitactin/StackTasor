@@ -3,6 +3,7 @@ const User = require('../../entities/user');
 
 const rest_api_users_path = '/users';
 const rest_api_users_stats_path = '/stats';
+const rest_api_users_subs_path = '/subscription';
 
 exports.getUserById = async (userId) => {
     var usersPath = rest_api_users_path + '/' + userId;
@@ -102,6 +103,40 @@ exports.userExists = async (username) => {
     }).catch(
         (reason) => {
              console.log('RestApi-User.GetQuery rejected promise ('+reason+') here.');
+             throw new Error(reason);
+         }
+    );
+    return returnValue;
+}
+
+exports.getSubscription = async (userId) => {
+    var usersPath = rest_api_users_subs_path + '/' + userId;
+    var returnValue = '';
+    console.log('exports.getSubscription URL', usersPath);
+
+    await https_serivce.restapi_get(usersPath).then((value) => {
+        console.log('exports.getSubscription', value);
+        returnValue =  value;
+    }).catch(
+        (reason) => {
+             console.log('RestApi-User.GetSub rejected promise ('+reason+') here.');
+             throw new Error(reason);
+         }
+    );
+    return returnValue;
+}
+
+exports.postSubscription = async (userId, sub) => {
+    var usersPath = rest_api_users_subs_path;
+    var body = sub;
+    body.userId = userId;
+    var returnValue = '';
+
+    await https_serivce.restapi_post(usersPath, body).then((value) => {
+        returnValue =  value;
+    }).catch(
+        (reason) => {
+             console.log('RestApi-User.PostSub rejected promise ('+reason+') here.');
              throw new Error(reason);
          }
     );
