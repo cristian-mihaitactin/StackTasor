@@ -18,7 +18,7 @@
   "license": "MIT",
   "devDependencies": {
     "dotenv": "^8.2.0",
-    "http-server": "^0.10.0"
+    "http-server": "^14.1.1"
   },
   "dependencies": {
     "azure-storage": "^2.10.3",
