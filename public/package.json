@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "azure-storage": "^2.10.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.0",
     "jasmine": "^3.5.0",
     "jasmine-spec-reporter": "^4.2.1",
